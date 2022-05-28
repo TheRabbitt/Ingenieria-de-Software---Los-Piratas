@@ -19,6 +19,10 @@ jobs:
           name: Check for CMake
           command: 
             ls 'C:\Program Files\CMake\bin'
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
   build: # name of your job
     executor:
       name: win/default # executor type
@@ -33,6 +37,10 @@ jobs:
             $env:PATH += ";C:\Program Files\CMake\bin"
             cmake -S .\PacMan\ -B .\PacMAn\out
             cmake --build .\PacMan\out --target ALL_BUILD --config Debug
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
   run: # name of your job
     executor:
       name: win/default # executor type
