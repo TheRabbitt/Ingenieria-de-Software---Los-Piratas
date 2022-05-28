@@ -25,6 +25,10 @@ jobs:
             $env:PATH += ";C:\Program Files\CMake\bin"
             cmake -S .\PacMan\ -B .\PacMAn\out
             cmake --build .\PacMan\out --target ALL_BUILD --config Debug
+      - run:
+          name: run PacMan
+          command: |
+            & C:\Users\circleci\project\PacMan\out\Debug\PacMan.exe
             
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
