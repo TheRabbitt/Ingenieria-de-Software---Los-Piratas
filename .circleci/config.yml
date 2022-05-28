@@ -22,7 +22,7 @@ jobs:
       - persist_to_workspace:
           root: .
           paths:
-            - .
+            - C:\Program Files\CMake\bin
   build: # name of your job
     executor:
       name: win/default # executor type
@@ -40,7 +40,7 @@ jobs:
       - persist_to_workspace:
           root: .
           paths:
-            - .
+            - C:\Users\circleci\project\PacMan\out\Debug\
   run: # name of your job
     executor:
       name: win/default # executor type
