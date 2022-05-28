@@ -18,16 +18,13 @@ jobs:
       - run:
           name: Add Cmake to path
           command: 
-            $env:PATH += ";C:\Program Files\CMake\bin"
-      - run:
-          name: Add Cmake to path
-          command: 
             ls 'C:\Program Files\CMake\bin'
       - run:
-          name: build test
+          name: Add Cmake to path
           command: |
-            C:\Program Files\CMake\bin\cmake.exe -S .\PacMan\ -B .\PacMAn\out
-   
+            $env:PATH += ";C:\Program Files\CMake\bin"
+            cmake -S .\PacMan\ -B .\PacMAn\out
+            
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
