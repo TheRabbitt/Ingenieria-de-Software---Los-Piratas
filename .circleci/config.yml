@@ -18,7 +18,7 @@ jobs:
       - run:
           name: Add Cmake to path
           command: 
-            $env:PATH+=";$Env:ProgramFiles\CMake\bin"
+            $env:PATH += ";C:\ProgramFiles\CMake\bin"
       - run:
           name: Add Cmake to path
           command: 
