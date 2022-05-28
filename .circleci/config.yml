@@ -4,11 +4,10 @@ orbs:
   win: circleci/windows@4.1 # The Windows orb give you everything you need to start using the Windows executor.
 
 jobs:
-  build: # name of your job
+  cmake-install: # name of your job
     executor:
       name: win/default # executor type
       #size: "medium" # resource class, can be "medium", "large", "xlarge", "2xlarge", defaults to "medium" if not specified
-
     steps:
       # Commands are run in a Windows virtual machine environment
       - checkout
@@ -20,9 +19,23 @@ jobs:
           name: Add Cmake to path
           command: 
             $env:Path+=";$Env:ProgramFiles\CMake\bin";
+
+  build: # name of your job
+    executor:
+      name: win/default # executor type
+      #size: "medium" # resource class, can be "medium", "large", "xlarge", "2xlarge", defaults to "medium" if not specified
+    steps:
+      # Commands are run in a Windows virtual machine environment
+      - checkout
+      - run:
+          name: build test
+          command: |
+            cmake -S .\PacMan\ -B .\PacMAn\out
+      
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
   test-workflow:
     jobs:
+      - cmake-install
       - build
