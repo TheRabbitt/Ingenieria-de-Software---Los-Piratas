@@ -7,12 +7,18 @@ jobs:
   build: # name of your job
     executor:
       name: win/default # executor type
-      size: "medium" # resource class, can be "medium", "large", "xlarge", "2xlarge", defaults to "medium" if not specified
+      #size: "medium" # resource class, can be "medium", "large", "xlarge", "2xlarge", defaults to "medium" if not specified
 
     steps:
       # Commands are run in a Windows virtual machine environment
       - checkout
-      - run: Write-Host 'Hello, Windows'
+      - run:
+          name: Download CMake
+          command: |
+            $ProgressPreference = "SilentlyContinue"
+            Invoke-WebRequest -URI https://github.com/Kitware/CMake/releases/download/v3.16.4/cmake-3.16.4-win64-x64.zip -OutFile $Env:HOMEPATH\cmake-3.16.4-win64-x64.zip
+            Expand-Archive $Env:HOMEPATH\cmake-3.16.4-win64-x64.zip -DestinationPath "$Env:ProgramFiles"
+            Rename-Item "$Env:ProgramFiles\cmake-3.16.4-win64-x64" -NewName CMake
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
