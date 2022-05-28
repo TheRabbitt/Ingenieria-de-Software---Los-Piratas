@@ -29,6 +29,7 @@ jobs:
       - run:
           name: run cmake
           command: |
+            ls 'C:\Program Files\CMake\bin'
             $env:PATH += ";C:\Program Files\CMake\bin"
             cmake -S .\PacMan\ -B .\PacMAn\out
             cmake --build .\PacMan\out --target ALL_BUILD --config Debug
