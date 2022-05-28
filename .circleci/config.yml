@@ -16,14 +16,15 @@ jobs:
           command: |
             choco install cmake -y
       - run:
-          name: Add Cmake to path
+          name: Check for cmake
           command: 
             ls 'C:\Program Files\CMake\bin'
       - run:
-          name: Add Cmake to path
+          name: run cmake
           command: |
             $env:PATH += ";C:\Program Files\CMake\bin"
             cmake -S .\PacMan\ -B .\PacMAn\out
+            cmake --build .\PacMan\out --target ALL_BUILD --config Debug
             
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
