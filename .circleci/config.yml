@@ -4,7 +4,7 @@ orbs:
   win: circleci/windows@4.1 # The Windows orb give you everything you need to start using the Windows executor.
 
 jobs:
-  cmake-install: # name of your job
+  CMake install: # name of your job
     executor:
       name: win/default # executor type
       #size: "medium" # resource class, can be "medium", "large", "xlarge", "2xlarge", defaults to "medium" if not specified
@@ -16,15 +16,29 @@ jobs:
           command: |
             choco install cmake -y
       - run:
-          name: Check for cmake
+          name: Check for CMake
           command: 
             ls 'C:\Program Files\CMake\bin'
+  build: # name of your job
+    executor:
+      name: win/default # executor type
+      #size: "medium" # resource class, can be "medium", "large", "xlarge", "2xlarge", defaults to "medium" if not specified
+    steps:
+      # Commands are run in a Windows virtual machine environment
+      - checkout
       - run:
           name: run cmake
           command: |
             $env:PATH += ";C:\Program Files\CMake\bin"
             cmake -S .\PacMan\ -B .\PacMAn\out
             cmake --build .\PacMan\out --target ALL_BUILD --config Debug
+  run: # name of your job
+    executor:
+      name: win/default # executor type
+      #size: "medium" # resource class, can be "medium", "large", "xlarge", "2xlarge", defaults to "medium" if not specified
+    steps:
+      # Commands are run in a Windows virtual machine environment
+      - checkout
       - run:
           name: run PacMan
           command: |
@@ -35,4 +49,10 @@ jobs:
 workflows:
   test-workflow:
     jobs:
-      - cmake-install
+      - CMake install
+      - build:
+          requires:
+            - CMake install
+      - run:
+          requires:
+            - build
