@@ -16,9 +16,14 @@ jobs:
           command: |
             choco install cmake -y
       - run:
+          name: Copy CMake
+          command: |
+            New-Item -Path ".\" -Name "CMake" -ItemType "directory"
+            Copy-Item -Path "C:\Program Files\CMake\*" -Destination ".\CMake" -Recurse      
+      - run:
           name: Check for CMake
           command: 
-            ls 'C:\Program Files\CMake\bin'
+            ls '.\CMake\bin'
       - persist_to_workspace:
           root: .
           paths:
@@ -35,8 +40,8 @@ jobs:
       - run:
           name: run cmake
           command: |
-            ls 'C:\Program Files\CMake\bin'
-            $env:PATH += ";C:\Program Files\CMake\bin"
+            ls '.\CMake\bin'
+            $env:PATH += ";.\CMake\bin"
             cmake -S .\PacMan\ -B .\PacMAn\out
             cmake --build .\PacMan\out --target ALL_BUILD --config Debug
       - persist_to_workspace:
