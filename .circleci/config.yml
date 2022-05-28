@@ -16,6 +16,9 @@ jobs:
           name: Download CMake
           command: |
             choco install cmake -y
+      - run:
+          name: Add Cmake to path
+          command: 
             $env:Path+=";$Env:ProgramFiles\CMake\bin";
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
