@@ -22,7 +22,7 @@ jobs:
       - persist_to_workspace:
           root: .
           paths:
-            - C:\Program Files\
+            - .
   build: # name of your job
     executor:
       name: win/default # executor type
@@ -30,7 +30,7 @@ jobs:
     steps:
       # Commands are run in a Windows virtual machine environment
       - attach_workspace:
-          at: C:\Program Files\
+          at: .
       - checkout
       - run:
           name: run cmake
