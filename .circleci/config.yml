@@ -20,6 +20,10 @@ jobs:
           command: 
             $env:Path+=";$Env:ProgramFiles\CMake\bin";
       - run:
+          name: Add Cmake to path
+          command: 
+            ls 'C:\Program Files\CMake\bin'
+      - run:
           name: build test
           command: |
             cmake -S .\PacMan\ -B .\PacMAn\out
