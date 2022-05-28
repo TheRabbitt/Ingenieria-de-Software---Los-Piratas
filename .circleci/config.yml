@@ -22,13 +22,15 @@ jobs:
       - persist_to_workspace:
           root: .
           paths:
-            - C:\Program Files\CMake\bin
+            - C:\Program Files\
   build: # name of your job
     executor:
       name: win/default # executor type
       #size: "medium" # resource class, can be "medium", "large", "xlarge", "2xlarge", defaults to "medium" if not specified
     steps:
       # Commands are run in a Windows virtual machine environment
+      - attach_workspace:
+          at: C:\Program Files\
       - checkout
       - run:
           name: run cmake
@@ -40,12 +42,14 @@ jobs:
       - persist_to_workspace:
           root: .
           paths:
-            - C:\Users\circleci\project\PacMan\out\Debug\
+            - .
   run: # name of your job
     executor:
       name: win/default # executor type
       #size: "medium" # resource class, can be "medium", "large", "xlarge", "2xlarge", defaults to "medium" if not specified
     steps:
+      - attach_workspace:
+          at: .
       # Commands are run in a Windows virtual machine environment
       - checkout
       - run:
