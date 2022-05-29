@@ -29,7 +29,7 @@ void Game::processEvents()
 void Game::render()
 {
 	mWindow.clear();
-	mWindow.draw(*pacman.getSprite());
+	mWindow.draw(pacman.getSprite());
 	mWindow.display();
 }
 

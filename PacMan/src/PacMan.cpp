@@ -7,7 +7,7 @@ PacMan::PacMan(float s, const std::string& filename)
         throw std::runtime_error("Failed to load Image" + filename);
     setSpeed(s);
     sf::Vector2f scale(2.f, 2.f);
-    getSprite()->setScale(scale);
+    setSpriteScale(scale);
 }
 
 void PacMan::move(sf::Time deltaTime)
@@ -33,7 +33,7 @@ void PacMan::move(sf::Time deltaTime)
         setVelocity(getSpeed(),0);
     }
     sf::Vector2f v = getVelocity();
-    getSprite()->move(getVelocity() * deltaTime.asSeconds());
+    moveSprite(getVelocity() * deltaTime.asSeconds());
     setVelocity(0.f, 0.f);
 }
 
@@ -50,15 +50,15 @@ int PacMan::getDirection()
 bool PacMan::refreshImage()
 {
     if (direction == DOWN)
-        setTextureImage(*getImage(), imageCoord, 48, 16, 16);
+        setTextureImage(getImage(), imageCoord, 48, 16, 16);
     if (direction == LEFT)
-        setTextureImage(*getImage(), imageCoord, 32, 16, 16);
+        setTextureImage(getImage(), imageCoord, 32, 16, 16);
     if (direction == RIGHT)
-        setTextureImage(*getImage(), imageCoord, 0, 16, 16);
+        setTextureImage(getImage(), imageCoord, 0, 16, 16);
     if (direction == UP)
-        setTextureImage(*getImage(), imageCoord, 16, 16, 16);
+        setTextureImage(getImage(), imageCoord, 16, 16, 16);
     updateImageCoord();
-    getSprite()->setTexture(*getTexture());
+    getSprite().setTexture(getTexture());
     return true;
 }
 

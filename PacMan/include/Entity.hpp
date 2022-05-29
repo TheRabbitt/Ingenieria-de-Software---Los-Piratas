@@ -10,19 +10,21 @@ class Entity
         void setVelocity(sf::Vector2f velocity);
         void setVelocity(float vx, float vy);
         void setSpeed(float);
+        void setSpriteScale(sf::Vector2f);
         void setTextureImage(sf::Image, int, int, int, int);
         sf::Vector2f getVelocity();
         float getSpeed();
-        sf::Image* getImage();
-        sf::Sprite* getSprite();
-        sf::Texture* getTexture();
+        sf::Image getImage();
+        sf::Sprite getSprite();
+        sf::Texture getTexture();
+        void moveSprite(sf::Vector2f);
         bool loadImage(const std::string&);
     private:
         sf::Vector2f mVelocity;
         float speed;
-        sf::Image* mImage;
-        sf::Sprite* mSprite;
-        sf::Texture* mTexture;
+        sf::Image mImage;
+        sf::Sprite mSprite;
+        sf::Texture mTexture;
 
 };
 #endif /* INCLUDE_ENTITY_ */
