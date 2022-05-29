@@ -42,8 +42,8 @@ jobs:
           command: |
             ls '.\CMake\bin'
             $env:PATH += ";.\CMake\bin"
-            cmake -S .\PacMan\ -B .\PacMAn\out
-            cmake --build .\PacMan\out --target ALL_BUILD --config Debug
+            cmake -D CMAKE_BUILD_TYPE=Debug -S .\PacMan\ -B .\PacMAn\out\build\x64-debug
+            cmake --build .\PacMan\out\build\x64-debug\
       - persist_to_workspace:
           root: .
           paths:
@@ -60,8 +60,8 @@ jobs:
       - run:
           name: run PacMan
           command: |
-            & C:\Users\circleci\project\PacMan\out\Debug\PacMan.exe
-            
+            & C:\Users\circleci\project\PacMan\out\build\x64-debug\PacMan.exe
+       
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
