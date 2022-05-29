@@ -48,7 +48,7 @@ jobs:
           root: .
           paths:
             - .
-  run: # name of your job
+  check build directory: # name of your job
     executor:
       name: win/default # executor type
       #size: "medium" # resource class, can be "medium", "large", "xlarge", "2xlarge", defaults to "medium" if not specified
@@ -60,7 +60,9 @@ jobs:
       - run:
           name: run PacMan
           command: |
-            & C:\Users\circleci\project\PacMan\out\build\x64-debug\PacMan.exe
+          ls "C:\Users\circleci\project\PacMan\out\build\x64-debug\"
+          ls "C:\Users\circleci\project\PacMan\out\build\x64-debug\media"
+       
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
