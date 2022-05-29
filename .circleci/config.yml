@@ -58,10 +58,11 @@ jobs:
       # Commands are run in a Windows virtual machine environment
       - checkout
       - run:
-          name: run PacMan
+          name: check directories
           command: |
             ls "C:\Users\circleci\project\PacMan\out\build\x64-debug\"
             ls "C:\Users\circleci\project\PacMan\out\build\x64-debug\media"
+            ls "C:\Users\circleci\project\PacMan\out\build\x64-debug\media\images"
        
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
