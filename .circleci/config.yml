@@ -48,7 +48,7 @@ jobs:
           root: .
           paths:
             - .
-  check build directory: # name of your job
+  check build: # name of your job
     executor:
       name: win/default # executor type
       #size: "medium" # resource class, can be "medium", "large", "xlarge", "2xlarge", defaults to "medium" if not specified
@@ -72,6 +72,6 @@ workflows:
       - build:
           requires:
             - CMake install
-      - run:
+      - check build:
           requires:
             - build
