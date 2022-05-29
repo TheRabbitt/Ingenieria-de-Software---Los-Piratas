@@ -1,0 +1,78 @@
+version: 2.1 # Use version 2.1 to enable orb usage.
+
+orbs:
+  win: circleci/windows@4.1 # The Windows orb give you everything you need to start using the Windows executor.
+
+jobs:
+  CMake install: # name of your job
+    executor:
+      name: win/default # executor type
+      #size: "medium" # resource class, can be "medium", "large", "xlarge", "2xlarge", defaults to "medium" if not specified
+    steps:
+      # Commands are run in a Windows virtual machine environment
+      - checkout
+      - run:
+          name: Download CMake
+          command: |
+            choco install cmake -y
+      - run:
+          name: Copy CMake
+          command: |
+            New-Item -Path ".\" -Name "CMake" -ItemType "directory"
+            Copy-Item -Path "C:\Program Files\CMake\*" -Destination ".\CMake" -Recurse      
+      - run:
+          name: Check for CMake
+          command: 
+            ls '.\CMake\bin'
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
+  build: # name of your job
+    executor:
+      name: win/default # executor type
+      #size: "medium" # resource class, can be "medium", "large", "xlarge", "2xlarge", defaults to "medium" if not specified
+    steps:
+      # Commands are run in a Windows virtual machine environment
+      - attach_workspace:
+          at: .
+      - checkout
+      - run:
+          name: run cmake
+          command: |
+            ls '.\CMake\bin'
+            $env:PATH += ";.\CMake\bin"
+            cmake -D CMAKE_BUILD_TYPE=Debug -S .\PacMan\ -B .\PacMAn\out\build\x64-debug
+            cmake --build .\PacMan\out\build\x64-debug\
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
+  check build: # name of your job
+    executor:
+      name: win/default # executor type
+      #size: "medium" # resource class, can be "medium", "large", "xlarge", "2xlarge", defaults to "medium" if not specified
+    steps:
+      - attach_workspace:
+          at: .
+      # Commands are run in a Windows virtual machine environment
+      - checkout
+      - run:
+          name: check directories
+          command: |
+            ls "C:\Users\circleci\project\PacMan\out\build\x64-debug\"
+            ls "C:\Users\circleci\project\PacMan\out\build\x64-debug\media"
+            ls "C:\Users\circleci\project\PacMan\out\build\x64-debug\media\images"
+       
+# Invoke jobs via workflows
+# See: https://circleci.com/docs/2.0/configuration-reference/#workflows
+workflows:
+  test-workflow:
+    jobs:
+      - CMake install
+      - build:
+          requires:
+            - CMake install
+      - check build:
+          requires:
+            - build
