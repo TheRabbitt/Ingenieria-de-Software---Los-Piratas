@@ -29,8 +29,7 @@ void Game::processEvents()
 void Game::render()
 {
 	mWindow.clear();
-	pacman.refreshImage();
-	mWindow.draw(pacman.getSprite());
+	mWindow.draw(*pacman.getSprite());
 	mWindow.display();
 }
 
@@ -53,5 +52,6 @@ void Game::run()
 
 void Game::update(sf::Time deltaTime)
 {
+	pacman.refreshImage();
 	pacman.move(deltaTime);
 }
