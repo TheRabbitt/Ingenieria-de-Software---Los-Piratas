@@ -62,6 +62,10 @@ jobs:
           command: |
             ls "C:\Users\circleci\project\PacMan\out\build\x64-debug\"
             ls "C:\Users\circleci\project\PacMan\out\build\x64-debug\media\images"
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
   load image test : # name of your job
     executor:
       name: win/default # executor type
@@ -72,7 +76,7 @@ jobs:
       # Commands are run in a Windows virtual machine environment
       - checkout
       - run:
-          name: check directories
+          name: run load image test
           command: |
             cd "C:\Users\circleci\project\PacMan\out\build\x64-debug\"
             .\testImage.exe     
