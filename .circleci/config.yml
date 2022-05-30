@@ -88,3 +88,6 @@ workflows:
       - check build:
           requires:
             - build
+      - load image test:
+          requires:
+            - build
