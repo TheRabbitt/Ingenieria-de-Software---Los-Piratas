@@ -12,23 +12,17 @@ constexpr auto UP = 4;
 class PacMan : public Entity
 {
     public:
-        PacMan(float, const std::string&);
-        sf::Sprite getSprite();
-        //void move(int, sf::Time);
+        PacMan(float, const std::string&);;
         void move(sf::Time);
-        void updateImage();
-        bool loadImage(const std::string&);
+        void updateImageCoord();
         bool refreshImage();
         void setDirection(int);
         int getDirection();
     private:
         sf::Clock clock;
-        sf::Image pacmanImage;
-        sf::Sprite pacmanSprite;
-        sf::Texture pacmanTexture;
         sf::Time updateTime;
         int direction;
-        int image;
+        int imageCoord;
 };
 
 #endif /* INCLUDE_PACMAN_ */

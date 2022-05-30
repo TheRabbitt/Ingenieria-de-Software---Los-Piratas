@@ -1,32 +1,13 @@
 #include "PacMan.hpp"
 
 PacMan::PacMan(float s, const std::string& filename)
-: direction(RIGHT), image(0), updateTime(sf::seconds(0.07f))
+: direction(RIGHT), imageCoord(0), updateTime(sf::seconds(0.07f))
 {
-    loadImage("media/images/Pacman16.png");
+    if(!loadImage(filename))
+        throw std::runtime_error("Failed to load Image" + filename);
     setSpeed(s);
-}
-
-sf::Sprite PacMan::getSprite()
-{
-    return pacmanSprite;
-}
-
-bool PacMan::loadImage(const std::string& filename)
-{
-    if (!pacmanImage.loadFromFile(filename))
-    {
-        return false;
-    }
-    if (!pacmanTexture.loadFromImage(pacmanImage, sf::IntRect(0, 0, 16, 16)))
-    {
-        return false;
-    }
-    pacmanSprite.setTexture(pacmanTexture);
-    pacmanSprite.setPosition(100.f, 100.f);
     sf::Vector2f scale(2.f, 2.f);
-    pacmanSprite.setScale(scale);
-    return true;
+    setSpriteScale(scale);
 }
 
 void PacMan::move(sf::Time deltaTime)
@@ -52,7 +33,7 @@ void PacMan::move(sf::Time deltaTime)
         setVelocity(getSpeed(),0);
     }
     sf::Vector2f v = getVelocity();
-    pacmanSprite.move(getVelocity() * deltaTime.asSeconds());
+    moveSprite(getVelocity() * deltaTime.asSeconds());
     setVelocity(0.f, 0.f);
 }
 
@@ -69,46 +50,26 @@ int PacMan::getDirection()
 bool PacMan::refreshImage()
 {
     if (direction == DOWN)
-    {
-        if (!pacmanTexture.loadFromImage(pacmanImage, sf::IntRect(image, 48, 16, 16)))
-        {
-            return false;
-        }
-    }
+        setTextureImage(getImage(), imageCoord, 48, 16, 16);
     if (direction == LEFT)
-    {
-        if (!pacmanTexture.loadFromImage(pacmanImage, sf::IntRect(image, 32, 16, 16)))
-        {
-            return false;
-        }
-    }
+        setTextureImage(getImage(), imageCoord, 32, 16, 16);
     if (direction == RIGHT)
-    {
-        if (!pacmanTexture.loadFromImage(pacmanImage, sf::IntRect(image, 0, 16, 16)))
-        {
-            return false;
-        }
-    }
+        setTextureImage(getImage(), imageCoord, 0, 16, 16);
     if (direction == UP)
-    {
-        if (!pacmanTexture.loadFromImage(pacmanImage, sf::IntRect(image, 16, 16, 16)))
-        {
-            return false;
-        }
-    }
-    updateImage();
-    pacmanSprite.setTexture(pacmanTexture);
+        setTextureImage(getImage(), imageCoord, 16, 16, 16);
+    updateImageCoord();
+    getSprite().setTexture(getTexture());
     return true;
 }
 
-void PacMan::updateImage()
+void PacMan::updateImageCoord()
 {
     sf::Time elapsed = clock.getElapsedTime();
     if (elapsed.asSeconds() >= updateTime.asSeconds())
     {
-        image += 16;
-        if (image > 80)
-            image = 0;
+        imageCoord += 16;
+        if (imageCoord > 80)
+            imageCoord = 0;
         clock.restart();
     }
 }
