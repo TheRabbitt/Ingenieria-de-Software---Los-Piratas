@@ -14,13 +14,13 @@ set(presetName "x64-debug")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG ${CMAKE_SOURCE_DIR}/out/build/${presetName})
 
 # Archivos .cpp con los que se construye el binario ejecutable
-add_executable (PacMan "src/main.cpp" "src/Game.cpp" "src/PacMan.cpp" "src/Entity.cpp"    )
+add_executable (PacMan "src/main.cpp" "src/Entity.cpp" "src/PacMan.cpp" "src/Game.cpp" )
 
 # Directorio de la libreria
 add_subdirectory (SFML)
 
 # No abre una consola al ejecutar la aplicacion
-set_property(TARGET PacMan PROPERTY WIN32_EXECUTABLE true)
+#set_property(TARGET PacMan PROPERTY WIN32_EXECUTABLE true)
 
 # Librerias a incluir
 target_link_libraries(PacMan sfml-audio sfml-graphics sfml-main
@@ -47,4 +47,10 @@ add_custom_command(TARGET PacMan POST_BUILD
 #                  $<TARGET_FILE_DIR:PacMan> COMMAND_EXPAND_LISTS
 #                  )
 
-# TODO: Add tests and install targets if needed.
+# TESTS
+add_executable (testImage "src/Entity.cpp" "src/PacMan.cpp" "tests/PacManLoadImage.cpp" )
+
+target_link_libraries(testImage sfml-graphics sfml-main
+                      sfml-system sfml-window)
+
+
