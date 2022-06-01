@@ -1,7 +1,7 @@
 #include "Entity.hpp"
 
 Entity::Entity()
-	: speed(0), mImage(), mSprite(), mTexture()
+	: speed(0), mImage(), mSprite(), mTexture(), tileSize(16)
 {
 }
 
@@ -32,6 +32,11 @@ void Entity::setTextureImage(sf::Image img, int left, int top , int width, int h
 		throw std::runtime_error("Texture failed to load Image");
 }
 
+void Entity::setTileSize(int size)
+{
+	tileSize = size;
+}
+
 sf::Vector2f Entity::getVelocity()
 {
 	return mVelocity;
@@ -57,6 +62,11 @@ float Entity::getSpeed()
 	return speed;
 }
 
+int Entity::getTileSize()
+{
+	return tileSize;
+}
+
 void Entity::moveSprite(sf::Vector2f d)
 {
 	mSprite.move(d);
@@ -66,8 +76,7 @@ bool Entity::loadImage(const std::string& filename)
 {
 	if (!mImage.loadFromFile(filename))
 		throw std::runtime_error("Failed to load Image" + filename);
-
-	if (!mTexture.loadFromImage(mImage, sf::IntRect(0, 0, 16, 16)))
+	if (!mTexture.loadFromImage(mImage, sf::IntRect(0, 0, tileSize, tileSize)))
 		throw std::runtime_error("Texture failed to load Image");
 	mSprite.setTexture(mTexture);
 	mSprite.setPosition(100.f, 100.f);

@@ -2,8 +2,9 @@
 
 int main()
 {
-	Game game;
+	Game game(16,16);
 	game.run();
+
 }
 
 

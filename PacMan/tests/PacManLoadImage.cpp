@@ -9,7 +9,7 @@ int main()
 	sf::RenderWindow mWindow(sf::VideoMode(640, 680), "Test");
 	std::cout << "Window Creation succeded\n";
 	std::cout << "Creating PacMan\n";
-	PacMan pacman(100, "media/images/Pacman16.png");
+	PacMan pacman(32, "media/images/Pacman", 100);
 	std::cout << "PacMan Creation succeded\n";
 	int i = 3;
 	while (i > 0)

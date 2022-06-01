@@ -12,7 +12,7 @@ constexpr auto UP = 4;
 class PacMan : public Entity
 {
     public:
-        PacMan(float, const std::string&);;
+        PacMan(int, const std::string&, float);;
         void move(sf::Time);
         void updateImageCoord();
         bool refreshImage();

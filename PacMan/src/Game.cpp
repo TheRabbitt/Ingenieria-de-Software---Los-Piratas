@@ -1,7 +1,8 @@
 #include "Game.hpp"
 
-Game::Game()
-: mWindow(sf::VideoMode(640, 680), "PacMan") , pacman(100, "media/images/Pacman16.png"),
+Game::Game(int entityTileSize, int mapTileSize)
+: mWindow(sf::VideoMode(28 * mapTileSize, 36 * mapTileSize), "PacMan"), pacman(entityTileSize, "media/images/Pacman", 100),
+  map("media/images/Map", sf::Vector2u(mapTileSize, mapTileSize), 28, 36),
   TimePerFrame(sf::seconds(1.f / 60.f))
 {
 }
@@ -29,6 +30,7 @@ void Game::processEvents()
 void Game::render()
 {
 	mWindow.clear();
+	mWindow.draw(map);
 	mWindow.draw(pacman.getSprite());
 	mWindow.display();
 }

@@ -12,19 +12,22 @@ class Entity
         void setSpeed(float);
         void setSpriteScale(sf::Vector2f);
         void setTextureImage(sf::Image, int, int, int, int);
+        void setTileSize(int);
         sf::Vector2f getVelocity();
         float getSpeed();
         sf::Image getImage();
         sf::Sprite getSprite();
         sf::Texture getTexture();
+        int getTileSize();
         void moveSprite(sf::Vector2f);
         bool loadImage(const std::string&);
     private:
-        sf::Vector2f mVelocity;
+        int tileSize;
         float speed;
         sf::Image mImage;
         sf::Sprite mSprite;
         sf::Texture mTexture;
+        sf::Vector2f mVelocity;
 
 };
 #endif /* INCLUDE_ENTITY_ */
