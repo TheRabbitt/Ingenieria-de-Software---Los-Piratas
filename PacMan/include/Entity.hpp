@@ -3,31 +3,30 @@
 
 #include "SFML/Graphics.hpp"
 
-class Entity
+class Entity : public sf::Drawable, public sf::Transformable
 {
     public:
         Entity();
-        void setVelocity(sf::Vector2f velocity);
-        void setVelocity(float vx, float vy);
+        void setVelocity(sf::Vector2f);
+        void setVelocity(float, float);
+        void setQuadCoords(float, float);
         void setSpeed(float);
-        void setSpriteScale(sf::Vector2f);
-        void setTextureImage(sf::Image, int, int, int, int);
         void setTileSize(int);
         sf::Vector2f getVelocity();
         float getSpeed();
         sf::Image getImage();
-        sf::Sprite getSprite();
         sf::Texture getTexture();
         int getTileSize();
-        void moveSprite(sf::Vector2f);
+        void move(sf::Vector2f);
         bool loadImage(const std::string&);
+        void draw(sf::RenderTarget&, sf::RenderStates) const;
     private:
         int tileSize;
         float speed;
         sf::Image mImage;
-        sf::Sprite mSprite;
         sf::Texture mTexture;
         sf::Vector2f mVelocity;
+        sf::VertexArray quad;
 
 };
 #endif /* INCLUDE_ENTITY_ */

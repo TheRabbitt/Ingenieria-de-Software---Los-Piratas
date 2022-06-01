@@ -7,11 +7,10 @@ PacMan::PacMan(int tileSize, const std::string& filename, float s)
     if(!loadImage(filename + std::to_string(tileSize) + ".png"))
         throw std::runtime_error("Failed to load Image " + filename);
     setSpeed(s);
-    sf::Vector2f scale(1.f, 1.f);
-    setSpriteScale(scale);
+    //sf::Vector2f scale(1.f, 1.f);
 }
 
-void PacMan::move(sf::Time deltaTime)
+void PacMan::movePacman(sf::Time deltaTime)
 {
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
     {
@@ -33,8 +32,8 @@ void PacMan::move(sf::Time deltaTime)
         setDirection(RIGHT);
         setVelocity(getSpeed(),0);
     }
-    sf::Vector2f v = getVelocity();
-    moveSprite(getVelocity() * deltaTime.asSeconds());
+    sf::Vector2f d = getVelocity();
+    move(getVelocity()*deltaTime.asSeconds());
     setVelocity(0.f, 0.f);
 }
 
@@ -51,15 +50,14 @@ int PacMan::getDirection()
 bool PacMan::refreshImage()
 {
     if (direction == DOWN)
-        setTextureImage(getImage(), imageCoord, getTileSize()*3, getTileSize(), getTileSize());
+        setQuadCoords((float)imageCoord, (float)getTileSize()*3);
     if (direction == LEFT)
-        setTextureImage(getImage(), imageCoord, getTileSize() *2, getTileSize(), getTileSize());
+        setQuadCoords((float)imageCoord, (float)getTileSize()*2);
     if (direction == RIGHT)
-        setTextureImage(getImage(), imageCoord, getTileSize() *0, getTileSize(), getTileSize());
+        setQuadCoords((float)imageCoord, (float)getTileSize()*0);
     if (direction == UP)
-        setTextureImage(getImage(), imageCoord, getTileSize() *1, getTileSize(), getTileSize());
+        setQuadCoords((float)imageCoord, (float)getTileSize()*1);
     updateImageCoord();
-    getSprite().setTexture(getTexture());
     return true;
 }
 

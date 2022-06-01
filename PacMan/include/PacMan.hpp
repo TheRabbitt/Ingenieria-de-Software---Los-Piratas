@@ -13,7 +13,7 @@ class PacMan : public Entity
 {
     public:
         PacMan(int, const std::string&, float);;
-        void move(sf::Time);
+        void movePacman(sf::Time);
         void updateImageCoord();
         bool refreshImage();
         void setDirection(int);
