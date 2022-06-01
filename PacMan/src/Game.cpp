@@ -31,7 +31,7 @@ void Game::render()
 {
 	mWindow.clear();
 	mWindow.draw(map);
-	mWindow.draw(pacman.getSprite());
+	mWindow.draw(pacman);
 	mWindow.display();
 }
 
@@ -55,5 +55,5 @@ void Game::run()
 void Game::update(sf::Time deltaTime)
 {
 	pacman.refreshImage();
-	pacman.move(deltaTime);
+	pacman.movePacman(deltaTime);
 }

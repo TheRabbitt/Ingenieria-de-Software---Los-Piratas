@@ -17,7 +17,7 @@ int main()
 		sf::Event event;
 		mWindow.pollEvent(event);
 		mWindow.clear();
-		mWindow.draw(pacman.getSprite());
+		mWindow.draw(pacman);
 		mWindow.display();
 		std::this_thread::sleep_for(std::chrono::seconds(1));
 		i--;

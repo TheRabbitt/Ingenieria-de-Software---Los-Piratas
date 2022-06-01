@@ -10,8 +10,8 @@ project ("PacMan")
 include_directories(include ${CMAKE_SOURCE_DIR}/SFML/include)
 
 # Configura el directorio donde construir en configuracion "debug"
-set(presetName "x64-debug")
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG ${CMAKE_SOURCE_DIR}/out/build/${presetName})
+set(debugName "x64-debug")
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG ${CMAKE_SOURCE_DIR}/out/build/${debugName})
 
 # Archivos .cpp con los que se construye el binario ejecutable
 add_executable (PacMan "src/main.cpp" "src/Entity.cpp" "src/PacMan.cpp" "src/Game.cpp"  "src/Map.cpp")
@@ -19,8 +19,8 @@ add_executable (PacMan "src/main.cpp" "src/Entity.cpp" "src/PacMan.cpp" "src/Gam
 # Directorio de la libreria
 add_subdirectory (SFML)
 
-# No abre una consola al ejecutar la aplicacion
-#set_property(TARGET PacMan PROPERTY WIN32_EXECUTABLE true)
+# Ejecuta la aplicacion sin abrir una consola
+set_property(TARGET PacMan PROPERTY WIN32_EXECUTABLE true)
 
 # Librerias a incluir
 target_link_libraries(PacMan sfml-audio sfml-graphics sfml-main
