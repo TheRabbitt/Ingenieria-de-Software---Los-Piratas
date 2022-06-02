@@ -1,8 +1,9 @@
 #include "Game.hpp"
 
 Game::Game(int entityTileSize, int mapTileSize)
-: mWindow(sf::VideoMode(28 * mapTileSize, 36 * mapTileSize), "PacMan"), pacman(entityTileSize, "media/images/Pacman", 100),
+: mWindow(sf::VideoMode(28 * mapTileSize, 36 * mapTileSize), "PacMan"),
   map("media/images/Map", sf::Vector2u(mapTileSize, mapTileSize), 28, 36),
+  pacman(entityTileSize, "media/images/Pacman", 100, &map),
   TimePerFrame(sf::seconds(1.f / 60.f))
 {
 }
