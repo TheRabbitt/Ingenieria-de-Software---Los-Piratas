@@ -1,13 +1,13 @@
 #include "PacMan.hpp"
 
-PacMan::PacMan(int tileSize, const std::string& filename, float s)
-: direction(RIGHT), imageCoord(0), updateTime(sf::seconds(0.07f))
+PacMan::PacMan(int tileSize, const std::string& filename, float s, Map* m)
+ : direction(RIGHT), imageCoord(0), updateTime(sf::seconds(0.07f)), map(m)
 {
     setTileSize(tileSize);
     if(!loadImage(filename + std::to_string(tileSize) + ".png"))
         throw std::runtime_error("Failed to load Image " + filename);
+    setPosition(50.f, 65.f);
     setSpeed(s);
-    //sf::Vector2f scale(1.f, 1.f);
 }
 
 void PacMan::movePacman(sf::Time deltaTime)
@@ -33,7 +33,15 @@ void PacMan::movePacman(sf::Time deltaTime)
         setVelocity(getSpeed(),0);
     }
     sf::Vector2f d = getVelocity();
-    move(getVelocity()*deltaTime.asSeconds());
+    move(getVelocity() * deltaTime.asSeconds());
+    // Detecta colision con paredes
+    if (map->detectCollision(getPosition()[0].position.x, getPosition()[0].position.y))
+        move(-getVelocity() * deltaTime.asSeconds());
+    // Vuelve por el otro lado al cruzar el tunel
+    if (getPosition()[1].position.x <= -16)
+        setPosition(448.f, getPosition()[0].position.y);
+    if (getPosition()[0].position.x > 448)
+        setPosition(0.f, getPosition()[0].position.y);
     setVelocity(0.f, 0.f);
 }
 
@@ -50,13 +58,13 @@ int PacMan::getDirection()
 bool PacMan::refreshImage()
 {
     if (direction == DOWN)
-        setQuadCoords((float)imageCoord, (float)getTileSize()*3);
+        setQuadTextureCoords((float)imageCoord, (float)getTileSize()*3);
     if (direction == LEFT)
-        setQuadCoords((float)imageCoord, (float)getTileSize()*2);
+        setQuadTextureCoords((float)imageCoord, (float)getTileSize()*2);
     if (direction == RIGHT)
-        setQuadCoords((float)imageCoord, (float)getTileSize()*0);
+        setQuadTextureCoords((float)imageCoord, (float)getTileSize()*0);
     if (direction == UP)
-        setQuadCoords((float)imageCoord, (float)getTileSize()*1);
+        setQuadTextureCoords((float)imageCoord, (float)getTileSize()*1);
     updateImageCoord();
     return true;
 }
