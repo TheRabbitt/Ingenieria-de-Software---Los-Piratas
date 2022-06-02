@@ -1,7 +1,7 @@
 #include "Entity.hpp"
 
 Entity::Entity()
-	: speed(0), mImage(), mSprite(), mTexture()
+	:quad(sf::Quads, 4), speed(0), mImage(), mTexture(), tileSize(16)
 {
 }
 
@@ -21,15 +21,17 @@ void Entity::setSpeed(float s)
 	speed = s;
 }
 
-void Entity::setSpriteScale(sf::Vector2f scale)
+void Entity::setTileSize(int size)
 {
-	mSprite.setScale(scale);
+	tileSize = size;
 }
 
-void Entity::setTextureImage(sf::Image img, int left, int top , int width, int height)
+void Entity::setQuadCoords(float dx, float dy)
 {
-	if (!mTexture.loadFromImage(img, sf::IntRect(left, top, width, height)))
-		throw std::runtime_error("Texture failed to load Image");
+	quad[0].texCoords = sf::Vector2f(dx, dy);
+	quad[1].texCoords = sf::Vector2f(dx+(float)tileSize, dy);
+	quad[2].texCoords = sf::Vector2f(dx+(float)tileSize, dy+(float)tileSize);
+	quad[3].texCoords = sf::Vector2f(dx, dy+(float)tileSize);
 }
 
 sf::Vector2f Entity::getVelocity()
@@ -42,10 +44,6 @@ sf::Image Entity::getImage()
 	return mImage;
 }
 
-sf::Sprite Entity::getSprite()
-{
-	return mSprite;
-}
 
 sf::Texture Entity::getTexture()
 {
@@ -57,19 +55,45 @@ float Entity::getSpeed()
 	return speed;
 }
 
-void Entity::moveSprite(sf::Vector2f d)
+int Entity::getTileSize()
 {
-	mSprite.move(d);
+	return tileSize;
+}
+
+void Entity::move(sf::Vector2f d)
+{
+	quad[0].position.x += d.x;
+	quad[0].position.y += d.y;
+	quad[1].position.x += d.x;
+	quad[1].position.y += d.y;
+	quad[2].position.x += d.x;
+	quad[2].position.y += d.y;
+	quad[3].position.x += d.x;
+	quad[3].position.y += d.y;
 }
 
 bool Entity::loadImage(const std::string& filename)
 {
-	if (!mImage.loadFromFile(filename))
-		throw std::runtime_error("Failed to load Image" + filename);
-
-	if (!mTexture.loadFromImage(mImage, sf::IntRect(0, 0, 16, 16)))
+	if (!mTexture.loadFromFile(filename))
 		throw std::runtime_error("Texture failed to load Image");
-	mSprite.setTexture(mTexture);
-	mSprite.setPosition(100.f, 100.f);
+	// Posicion de la textura en el mapa
+	quad[0].position = sf::Vector2f(100.f, 100.f);
+	quad[1].position = sf::Vector2f((float)(100 + tileSize), 100.f);
+	quad[2].position = sf::Vector2f((float)(100+tileSize), (float)(100+tileSize));
+	quad[3].position = sf::Vector2f(100.f, (float)(100 + tileSize));
+	// Coordenadas de la textura en el textureSet
+	quad[0].texCoords = sf::Vector2f(0.f, 0.f);
+	quad[1].texCoords = sf::Vector2f((float)tileSize, 0.f);
+	quad[2].texCoords = sf::Vector2f((float)tileSize, (float)tileSize);
+	quad[3].texCoords = sf::Vector2f(0.f, (float)tileSize);
 	return true;
+}
+
+void Entity::draw(sf::RenderTarget& target, sf::RenderStates states) const
+{
+	states.transform *= getTransform();
+	// Aplica la textura a dibujar
+	states.texture = &mTexture;
+	// Dibuja la textura en el quad
+	target.draw(quad, states);
 }

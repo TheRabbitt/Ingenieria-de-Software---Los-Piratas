@@ -3,11 +3,12 @@
 
 #include "SFML/Graphics.hpp"
 #include "PacMan.hpp"
+#include "Map.hpp"
 
 class Game
 {
     public:
-	    Game();
+	    Game(int, int);
 	    void run();
     private:
 		void handlePlayerInput(sf::Keyboard::Key, bool);
@@ -19,5 +20,6 @@ class Game
 		sf::Clock clock;
 		sf::Time TimePerFrame;
 		PacMan pacman;
+		Map map;
 };
 #endif /* INCLUDE_GAME_ */
