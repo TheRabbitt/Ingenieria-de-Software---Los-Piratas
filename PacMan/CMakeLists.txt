@@ -36,14 +36,14 @@ add_custom_command(TARGET PacMan POST_BUILD
 file(COPY "${CMAKE_SOURCE_DIR}/media" DESTINATION "${CMAKE_CURRENT_BINARY_DIR}")
 
 # TESTS
-add_executable (testImage "src/Entity.cpp" "src/PacMan.cpp" "tests/PacManLoadImage.cpp" )
+add_executable (PacManImageTest "src/Entity.cpp" "src/PacMan.cpp" "src/Map.cpp" "tests/PacManImageTest.cpp" )
 
-target_link_libraries(testImage sfml-graphics sfml-main
+target_link_libraries(PacManImageTest sfml-graphics sfml-main
                       sfml-system sfml-window)
 
-add_executable (mapTest "tests/mapTest.cpp" )
+add_executable (mapImageTest "src/Map.cpp" "tests/mapImageTest.cpp" )
 
-target_link_libraries(testImage sfml-graphics sfml-main
+target_link_libraries(mapImageTest sfml-graphics sfml-main
                       sfml-system sfml-window)
 
 

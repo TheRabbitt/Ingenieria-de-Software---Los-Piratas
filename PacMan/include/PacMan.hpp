@@ -3,6 +3,7 @@
 
 #include "SFML/Graphics.hpp"
 #include "Entity.hpp"
+#include "Map.hpp"
 
 constexpr auto DOWN = 1;
 constexpr auto LEFT = 2;
@@ -12,7 +13,7 @@ constexpr auto UP = 4;
 class PacMan : public Entity
 {
     public:
-        PacMan(int, const std::string&, float);;
+        PacMan(int, const std::string&, float, Map*);;
         void movePacman(sf::Time);
         void updateImageCoord();
         bool refreshImage();
@@ -23,6 +24,7 @@ class PacMan : public Entity
         sf::Time updateTime;
         int direction;
         int imageCoord;
+        Map* map;
 };
 
 #endif /* INCLUDE_PACMAN_ */

@@ -4,7 +4,6 @@ int main()
 {
 	Game game(16,16);
 	game.run();
-
 }
 
 
