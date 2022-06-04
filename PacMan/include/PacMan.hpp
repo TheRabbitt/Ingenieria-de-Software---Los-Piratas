@@ -16,7 +16,7 @@ public:
     PacMan(int, const std::string&, float, Map*);;
     void movePacman(sf::Time);
     void updateImageCoord();
-    bool refreshImage();
+    void refreshImage();
     void setDirection(int);
     int getDirection();
 private:

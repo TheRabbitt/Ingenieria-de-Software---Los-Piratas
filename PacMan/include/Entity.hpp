@@ -20,6 +20,7 @@ public:
     int getTileSize();
     sf::Vector2f getVelocity();
     void move(sf::Vector2f);
+    void move(float, float);
     bool loadImage(const std::string&);
     void draw(sf::RenderTarget&, sf::RenderStates) const;
     //void printPosition(); //debug

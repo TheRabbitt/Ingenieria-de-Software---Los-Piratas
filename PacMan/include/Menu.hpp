@@ -4,6 +4,7 @@
 #include "SFML/Graphics.hpp"
 #include "GameController.hpp"
 #include "State.hpp"
+#include "Entity.hpp"
 
 class Menu : public State
 {
@@ -14,12 +15,18 @@ public:
     bool Menu::loadMenuFont(const std::string&);
     bool loadTitleFont(const std::string&);
 private:
-    void update(sf::Time) override;
     Menu(GameController*, sf::RenderWindow*);
+    void refreshImage();
     void render() override;
+    void update(sf::Time) override;
+    void updateImageCoord();
 private:
     static Menu* menu_;
     int selection;
+    int imageCoord;
+    Entity pacmanImage;
+    sf::Clock clock;
+    sf::Time imageUpdateTime;
     sf::Font titleFont;
     sf::Font menuFont;
     sf::Text titleText;

@@ -55,7 +55,7 @@ int PacMan::getDirection()
     return direction;
 }
 
-bool PacMan::refreshImage()
+void PacMan::refreshImage()
 {
     if (direction == DOWN)
         setQuadTextureCoords((float)imageCoord, (float)getTileSize()*3);
@@ -66,7 +66,6 @@ bool PacMan::refreshImage()
     if (direction == UP)
         setQuadTextureCoords((float)imageCoord, (float)getTileSize()*1);
     updateImageCoord();
-    return true;
 }
 
 void PacMan::updateImageCoord()
