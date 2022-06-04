@@ -100,9 +100,9 @@ void Menu::update(sf::Time deltaTime)
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) || sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
 	{
 		pacmanImage.move(0.f, -40.f);
-		selection++;
-		if (selection > 3)
-			selection = 0;
+		selection--;
+		if (selection < 0)
+			selection = 2;
 		if (pacmanImage.getPosition()[0].position.y < 220.f)
 			pacmanImage.setPosition(120.f, 300.f);
 		std::cout << "down pressed - selection = " << selection << std::endl;
@@ -110,9 +110,9 @@ void Menu::update(sf::Time deltaTime)
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S) || sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
 	{
 		pacmanImage.move(0.f, 40.f);
-		selection--;
-		if (selection < 0)
-			selection = 3;
+		selection++;
+		if (selection > 2)
+			selection = 0;
 		if (pacmanImage.getPosition()[0].position.y > 300.f)
 			pacmanImage.setPosition(120.f, 220.f);
 		std::cout << "up pressed - selection = " << selection << std::endl;
