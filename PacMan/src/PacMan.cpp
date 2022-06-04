@@ -12,22 +12,22 @@ PacMan::PacMan(int tileSize, const std::string& filename, float s, Map* m)
 
 void PacMan::movePacman(sf::Time deltaTime)
 {
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) || sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
     {
         setDirection(UP);
         setVelocity(0,-getSpeed());
     }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::S) || sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
     {
         setDirection(DOWN);
         setVelocity(0,getSpeed());
     }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) || sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
     {
         setDirection(LEFT);
         setVelocity(-getSpeed(),0);
     }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::D) || sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
     {
         setDirection(RIGHT);
         setVelocity(getSpeed(),0);
@@ -55,7 +55,7 @@ int PacMan::getDirection()
     return direction;
 }
 
-bool PacMan::refreshImage()
+void PacMan::refreshImage()
 {
     if (direction == DOWN)
         setQuadTextureCoords((float)imageCoord, (float)getTileSize()*3);
@@ -66,7 +66,6 @@ bool PacMan::refreshImage()
     if (direction == UP)
         setQuadTextureCoords((float)imageCoord, (float)getTileSize()*1);
     updateImageCoord();
-    return true;
 }
 
 void PacMan::updateImageCoord()

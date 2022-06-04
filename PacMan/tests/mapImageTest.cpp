@@ -6,7 +6,7 @@
 int main()
 {
 	std::cout << "Creating Window\n";
-	sf::RenderWindow mWindow(sf::VideoMode(640, 680), "Test");
+	sf::RenderWindow mWindow(sf::VideoMode(448, 608), "Test");
 	std::cout << "Window Creation succeded\n";
 	std::cout << "Creating map\n";
 	Map map("media/images/Map", sf::Vector2u(16, 16), 28, 36);

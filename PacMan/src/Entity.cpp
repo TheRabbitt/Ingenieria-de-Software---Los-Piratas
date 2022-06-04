@@ -91,6 +91,18 @@ void Entity::move(sf::Vector2f d)
 	quad[3].position.y += d.y;
 }
 
+void Entity::move(float x, float y)
+{
+	quad[0].position.x += x;
+	quad[0].position.y += y;
+	quad[1].position.x += x;
+	quad[1].position.y += y;
+	quad[2].position.x += x;
+	quad[2].position.y += y;
+	quad[3].position.x += x;
+	quad[3].position.y += y;
+}
+
 // Para implementar sf::Drawable. Permite que el objeto (cada Entity instanciada) sea dibujado en la ventana.
 void Entity::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
