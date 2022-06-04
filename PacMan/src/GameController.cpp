@@ -3,6 +3,7 @@
 
 GameController* GameController::gameController_{ nullptr };
 
+//Constructor privado
 GameController::GameController(int entityTileSize, int mapTileSize)
 	: entityTileSize(entityTileSize), mapTileSize(mapTileSize),
 	  mWindow(sf::VideoMode(28 * mapTileSize, 36 * mapTileSize), "PacMan"),
@@ -11,6 +12,7 @@ GameController::GameController(int entityTileSize, int mapTileSize)
 	state = Menu::createMenu(this, &mWindow);
 }
 
+//Constructor public
 GameController* GameController::createGameController(int entityTileSize, int mapTileSize)
 {
 	if (gameController_ == nullptr)

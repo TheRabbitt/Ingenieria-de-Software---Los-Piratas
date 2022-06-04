@@ -3,8 +3,10 @@
 
 int main()
 {
-	int mapTileSize = 16;
+	int mapTileSize = 16;			//Tamaño del personaje
 	int entityTileSize = 16;
+
+	//Controla si se va a cargar le menu o el juego
 	GameController* controller = GameController::createGameController(mapTileSize, entityTileSize);
 	controller->init();
 	controller->run();
