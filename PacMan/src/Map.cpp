@@ -68,20 +68,20 @@ bool Map::load(const std::string& filename, sf::Vector2u textureSize, const int*
 		i++;
 	}
 
-	// Ajusta el tamaño vertex array de acuerdo al numero de texturas con las que se dinuja mapa
+	// Ajusta el tamaño vertex array de acuerdo al numero de texturas con las que se dibuja el mapa
 	mVertices.setPrimitiveType(sf::Quads);
 	mVertices.resize((long long)validTiles * 4);
 
 	// Numero de texturas en el textureSet (en la imagen)
 	int numTextures = textureSet.getSize().x / textureSize.x;
 
-    int ty = 0; // Posicion horizontal de cada textura textureSet. Las texturas se ordenan en fila, asi que 0.
+    int ty = 0; // Posicion horizontal de cada textura textureSet. Las texturas se ordenan en una fila, asi que 0.
 
 	// Define la posicion de cada textura en la ventana
 	for (i = 0; i < width; ++i)
 		for (j = 0; j < height; ++j)
 		{
-			// Obtiene el numero valor almacenado en el array
+			// Obtiene el valor almacenado en el array
 			int tNumber = tiles[i + j * width];
 
 			// Posicion vertical de la textura a cargar en el textureSet
@@ -111,8 +111,9 @@ bool Map::load(const std::string& filename, sf::Vector2u textureSize, const int*
 
 bool Map::detectCollision(float px, float py)
 {
-	int i;
-	for (i = 0; i < mVertices.getVertexCount()/4; i++)
+	long long i;
+	long long numWalls = mVertices.getVertexCount() / 4;
+	for (i = 0; i < numWalls; i++)
 	{
 		sf::Vertex* quad = &mVertices[(long long)(i*4)];
 		if (px < quad[0].position.x + 11 &&
