@@ -1,60 +1,42 @@
 #include "Game.hpp"
+#include <iostream>
 
-Game::Game(int entityTileSize, int mapTileSize)
-: mWindow(sf::VideoMode(28 * mapTileSize, 36 * mapTileSize), "PacMan"),
-  map("media/images/Map", sf::Vector2u(mapTileSize, mapTileSize), 28, 36),
-  pacman(entityTileSize, "media/images/Pacman", 100, &map),
-  TimePerFrame(sf::seconds(1.f / 60.f))
+Game* Game::game_{ nullptr };
+
+Game::Game(GameController* controller, sf::RenderWindow* mWindow, int entityTileSize, int mapTileSize)
+: map("media/images/Map", sf::Vector2u(mapTileSize, mapTileSize), 28, 36),
+  pacman(entityTileSize, "media/images/Pacman", 100, &map)
+  //TimePerFrame(sf::seconds(1.f / 60.f))
 {
+	setController(controller);
+	setWindow(mWindow);
 }
 
-void Game::handlePlayerInput(sf::Keyboard::Key key, bool isPressed)
-{
-}
 
-void Game::processEvents()
+Game* Game::createGame(GameController* controller, sf::RenderWindow* mWindow, int entityTileSize, int mapTileSize)
 {
-	sf::Event event;
-	while (mWindow.pollEvent(event))
+	if (game_ == nullptr)
 	{
-		switch (event.type)
-		{
-			case sf::Event::Closed:
-				mWindow.close();
-				break;
-			default:
-				break;
-		}
+		std::cout << "creating game" << std::endl;
+		game_ = new Game(controller, mWindow, entityTileSize, mapTileSize);
 	}
+	return game_;
 }
 
 void Game::render()
 {
-	mWindow.clear();
-	mWindow.draw(map);
-	mWindow.draw(pacman);
-	mWindow.display();
-}
-
-void Game::run()
-{
-	sf::Time timeSinceLastUpdate = sf::Time::Zero;
-	while (mWindow.isOpen())
-	{
-		processEvents();
-		timeSinceLastUpdate += clock.restart();
-		while (timeSinceLastUpdate > TimePerFrame)
-		{
-			timeSinceLastUpdate -= TimePerFrame;
-			processEvents();
-			update(TimePerFrame);
-		}
-		render();
-	}
+	getWindow()->clear();
+	getWindow()->draw(map);
+	getWindow()->draw(pacman);
+	getWindow()->display();
 }
 
 void Game::update(sf::Time deltaTime)
 {
 	pacman.refreshImage();
 	pacman.movePacman(deltaTime);
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+	{
+	    getController()->standBy();
+	}
 }
