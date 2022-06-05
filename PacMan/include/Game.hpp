@@ -5,6 +5,7 @@
 #include "GameController.hpp"
 #include "State.hpp"
 #include "PacMan.hpp"
+#include "Ghost.hpp"
 #include "Map.hpp"
 
 class Game : public State
@@ -20,7 +21,9 @@ private:
 private:
 	static Game* game_;
 	PacMan pacman;
+	Ghost ghost;
 	Map map;
+	
 };
 
 

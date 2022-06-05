@@ -76,7 +76,7 @@ bool Entity::loadImage(const std::string& filename)
 {
 	if (!mTexture.loadFromFile(filename))
 		throw std::runtime_error("Texture failed to load Image");
-	return true;
+		return true;
 }
 
 void Entity::move(sf::Vector2f d)

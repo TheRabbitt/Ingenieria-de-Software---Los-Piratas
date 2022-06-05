@@ -21,7 +21,7 @@ public:
     sf::Vector2f getVelocity();
     void move(sf::Vector2f);
     void move(float, float);
-    bool loadImage(const std::string&);
+    virtual bool loadImage(const std::string&);
     void draw(sf::RenderTarget&, sf::RenderStates) const;
     //void printPosition(); //debug
 private:
@@ -31,5 +31,6 @@ private:
     sf::Texture mTexture;
     sf::Vector2f mVelocity;
     sf::VertexArray quad;
+
 };
 #endif /* INCLUDE_ENTITY_ */

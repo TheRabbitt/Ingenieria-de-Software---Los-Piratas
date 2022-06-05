@@ -4,9 +4,10 @@
 Menu* Menu::menu_{nullptr};
 
 Menu::Menu(GameController* controller, sf::RenderWindow* mWindow)
-	: pacmanImage(), imageUpdateTime(sf::seconds(0.07f)), selection(0),
-	  imageCoord(0) //, TimePerFrame(sf::seconds(1.f / 60.f))
+	: pacmanImage(), imageUpdateTime(sf::seconds(0.07f)), selection(0),imageCoord(0) //, TimePerFrame(sf::seconds(1.f / 60.f))
 {
+	
+
 	// Carga las fuentes
 	if (!loadTitleFont("media/font/pac-font.ttf"))
 		throw std::runtime_error("Failed to load font pac-font.ttf");
@@ -19,11 +20,12 @@ Menu::Menu(GameController* controller, sf::RenderWindow* mWindow)
 
 	// Carga la imagen pacman de seleccion y la posiciona
 	pacmanImage.setTileSize(16);
-	
+		
 	if (!pacmanImage.loadImage("media/images/Pacman16.png"))
 		throw std::runtime_error("Failed to load Image ");
 	pacmanImage.setPosition(120.f, 220.f);
 
+	
 	// Configura y posiciona el titulo
 	titleText.setFont(titleFont);
 	titleText.setString("PAC MAN");
