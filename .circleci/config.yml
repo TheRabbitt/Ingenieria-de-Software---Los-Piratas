@@ -93,7 +93,7 @@ jobs:
           name: run map image test
           command: |
             cd "C:\Users\circleci\project\PacMan\out\build\x64-debug\"
-            .\mapImageTest.exe         
+            .\mapImageTest.exe             
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:

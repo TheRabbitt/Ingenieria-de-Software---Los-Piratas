@@ -7,6 +7,7 @@
 #include "PacMan.hpp"
 #include "Ghost.hpp"
 #include "Map.hpp"
+#include "Dots.hpp"
 
 class Game : public State
 {
@@ -23,6 +24,7 @@ private:
 	PacMan pacman;
 	Ghost ghost;
 	Map map;
+	Dots dots;
 	
 };
 
