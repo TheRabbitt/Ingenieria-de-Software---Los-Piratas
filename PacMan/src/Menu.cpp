@@ -137,3 +137,29 @@ void Menu::updateImageCoord()
 		clock.restart();
 	}
 }
+
+//Metodos exclusivos para testing, quitar para el release
+sf::Text Menu::getTitleText() 
+{
+	return titleText;
+}
+
+sf::Text Menu::getOpt1()
+{
+	return opt1;
+}
+
+sf::Text Menu::getOpt2()
+{
+	return opt2;
+}
+
+sf::Text Menu::getOpt3()
+{
+	return opt3;
+}
+
+Entity Menu::getPacmanImage()
+{
+	return pacmanImage;
+}

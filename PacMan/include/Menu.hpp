@@ -14,12 +14,19 @@ public:
     static Menu* createMenu(GameController*, sf::RenderWindow*); // Llama al constructor si no hay instancia. Garantiza singleton.
     bool Menu::loadMenuFont(const std::string&);
     bool loadTitleFont(const std::string&);
+    sf::Text getTitleText();
+    sf::Text getOpt1();
+    sf::Text getOpt2();
+    sf::Text getOpt3();
+    Entity getPacmanImage();
+
 private:
     Menu(GameController*, sf::RenderWindow*);
     void refreshImage();
     void render() override;
     void update(sf::Time) override;
     void updateImageCoord();
+
 private:
     static Menu* menu_;
     int selection;
