@@ -79,3 +79,4 @@ void PacMan::updateImageCoord()
         clock.restart();
     }
 }
+    

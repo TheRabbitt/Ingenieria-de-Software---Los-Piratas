@@ -34,6 +34,7 @@ private:
     sf::Text opt1;
     sf::Text opt2;
     std::vector<sf::Text> scores;
+
 };
 
 #endif /* INCLUDE_MENU_ */
