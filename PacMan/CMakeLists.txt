@@ -41,12 +41,12 @@ add_executable (PacManImageTest "src/Entity.cpp" "src/PacMan.cpp" "src/Map.cpp" 
 target_link_libraries(PacManImageTest sfml-graphics sfml-main
                       sfml-system sfml-window)
 
-add_executable (mapImageTest "src/Map.cpp" "tests/mapImageTest.cpp" )
+add_executable (mapImageTest "src/Map.cpp" "tests/mapImageTest.cpp" "src/Dots.cpp")
 
 target_link_libraries(mapImageTest sfml-graphics sfml-main
                       sfml-system sfml-window)
 
-add_executable (menuImageTest "src/Map.cpp" "src/PacMan.cpp" "src/Game.cpp" "src/Entity.cpp" "src/Menu.cpp" "src/GameController.cpp" "tests/MenuImageTest.cpp" "src/State.cpp")
+add_executable (menuImageTest "src/Map.cpp" "src/PacMan.cpp" "src/Game.cpp" "src/Entity.cpp" "src/Menu.cpp" "src/GameController.cpp" "tests/MenuImageTest.cpp" "src/State.cpp" "src/Dots.cpp")
 
 target_link_libraries(menuImageTest sfml-graphics sfml-main
                         sfml-system sfml-window)
