@@ -12,7 +12,6 @@ public:
     Menu(Menu& other) = delete;                 // Singleton no es clonable
     void operator=(const Menu&) = delete;       // Singleton no es asignable
     static Menu* createMenu(GameController*, sf::RenderWindow*); // Llama al constructor si no hay instancia. Garantiza singleton.
-    
 private:
     Menu(GameController*, sf::RenderWindow*);
     void loadScores();
@@ -35,7 +34,6 @@ private:
     sf::Text opt1;
     sf::Text opt2;
     std::vector<sf::Text> scores;
-
 };
 
 #endif /* INCLUDE_MENU_ */
