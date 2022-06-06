@@ -5,7 +5,9 @@
 #include "GameController.hpp"
 #include "State.hpp"
 #include "PacMan.hpp"
+#include "Ghost.hpp"
 #include "Map.hpp"
+#include "Dots.hpp"
 
 class Game : public State
 {
@@ -15,12 +17,23 @@ public:
 	static Game* createGame(GameController*, sf::RenderWindow*, int, int); // Llama al constructor si no hay instancia. Garantiza singleton.
 private:
 	Game(GameController*, sf::RenderWindow*, int, int);
+	void processScores();
 	void render() override;
+	void resetGame();
 	void update(sf::Time) override;
 private:
 	static Game* game_;
 	PacMan pacman;
+	Ghost ghost;
 	Map map;
+	Dots dots;
+	int actScore;
+	int hScore;
+	int dotsLeft;
+	bool gameWon;
+	sf::Text highScore;
+	sf::Text winText;
+	sf::Text actualScore;
 };
 
 

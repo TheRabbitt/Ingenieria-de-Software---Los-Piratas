@@ -1,58 +1,62 @@
 #include "Menu.hpp"
 #include <iostream>
+#include <fstream>
+#include <string>
 
 Menu* Menu::menu_{nullptr};
 
 Menu::Menu(GameController* controller, sf::RenderWindow* mWindow)
-	: pacmanImage(), imageUpdateTime(sf::seconds(0.07f)), selection(0),
-	  imageCoord(0) //, TimePerFrame(sf::seconds(1.f / 60.f))
+	: pacmanImage(), imageUpdateTime(sf::seconds(0.07f)), 
+	  selection(0),imageCoord(0), numWindow(0), numScores(3) //, TimePerFrame(sf::seconds(1.f / 60.f))
 {
-	// Carga las fuentes
-	if (!loadTitleFont("media/font/pac-font.ttf"))
-		throw std::runtime_error("Failed to load font pac-font.ttf");
-	if (!loadMenuFont("media/font/namco.ttf"))
-		throw std::runtime_error("Failed to load font namco.ttf");
-
 	// Setea el gameController y la ventana
 	setController(controller);
 	setWindow(mWindow);
+	loadScores();
 
 	// Carga la imagen pacman de seleccion y la posiciona
 	pacmanImage.setTileSize(16);
-	
 	if (!pacmanImage.loadImage("media/images/Pacman16.png"))
 		throw std::runtime_error("Failed to load Image ");
 	pacmanImage.setPosition(120.f, 220.f);
 
-	// Configura y posiciona el titulo
-	titleText.setFont(titleFont);
+	// Configura y posiciona el titulo menu principal
+	titleText.setFont(*getTitleFont());
 	titleText.setString("PAC MAN");
 	titleText.setCharacterSize(50);
 	titleText.setPosition(sf::Vector2f(70.f,100.f));
 	titleText.setFillColor(sf::Color::Yellow);
 	titleText.setStyle(sf::Text::Bold);
 
+	// Configura y posiciona el titulo tabla scores
+	scoreText.setFont(*getTitleFont());
+	scoreText.setString("HIGH SCORES");
+	scoreText.setCharacterSize(40);
+	scoreText.setPosition(sf::Vector2f(45.f, 100.f));
+	scoreText.setFillColor(sf::Color::Yellow);
+	scoreText.setStyle(sf::Text::Bold);
+
 	// Configura y posiciona opcion 1
-	opt1.setFont(menuFont);
-	opt1.setString("new game");
-	opt1.setCharacterSize(15);
-	opt1.setPosition(sf::Vector2f(150.f, 220.f));
-	opt1.setFillColor(sf::Color::Yellow);
-	opt1.setStyle(sf::Text::Bold);
+	opt0.setFont(*getMenuFont());
+	opt0.setString("new game");
+	opt0.setCharacterSize(15);
+	opt0.setPosition(sf::Vector2f(150.f, 220.f));
+	opt0.setFillColor(sf::Color::Yellow);
+	opt0.setStyle(sf::Text::Bold);
 
 	// Configura y posiciona opcion 2
-	opt2.setFont(menuFont);
-	opt2.setString("scores");
-	opt2.setCharacterSize(15);
-	opt2.setPosition(sf::Vector2f(150.f, 260.f));
-	opt2.setFillColor(sf::Color::Yellow);
+	opt1.setFont(*getMenuFont());
+	opt1.setString("scores");
+	opt1.setCharacterSize(15);
+	opt1.setPosition(sf::Vector2f(150.f, 260.f));
+	opt1.setFillColor(sf::Color::Yellow);
 
 	// Configura y posiciona opcion 3
-	opt3.setFont(menuFont);
-	opt3.setString("config");
-	opt3.setCharacterSize(15);
-	opt3.setPosition(sf::Vector2f(150.f, 300.f));
-	opt3.setFillColor(sf::Color::Yellow);
+	opt2.setFont(*getMenuFont());
+	opt2.setString("config");
+	opt2.setCharacterSize(15);
+	opt2.setPosition(sf::Vector2f(150.f, 300.f));
+	opt2.setFillColor(sf::Color::Yellow);
 }
 
 Menu* Menu::createMenu(GameController* controller, sf::RenderWindow* mWindow)
@@ -65,18 +69,26 @@ Menu* Menu::createMenu(GameController* controller, sf::RenderWindow* mWindow)
 	return menu_;
 }
 
-bool Menu::loadMenuFont(const std::string& filename)
+void Menu::loadScores()
 {
-	if (!menuFont.loadFromFile(filename))
-		throw std::runtime_error("Failed to load menu font");
-	return true;
-}
-
-bool Menu::loadTitleFont(const std::string& filename)
-{
-	if (!titleFont.loadFromFile(filename))
-		throw std::runtime_error("Failed to load title font");
-	return true;
+	// Carga los 3 Top Scores
+	std::fstream file;
+	std::string name;
+	std::string score;
+	file.open("scores.txt", std::fstream::in | std::fstream::out | std::fstream::app);
+	int i = 0;
+	while (file >> name >> score)
+	{
+		//std::getline(file, line);
+		scores.push_back(sf::Text());
+		scores[i].setFont(*getMenuFont());
+		scores[i].setString(name + " " + score);
+		scores[i].setCharacterSize(10);
+		scores[i].setPosition(sf::Vector2f(150.f, 220.f + i * 40.f));
+		scores[i].setFillColor(sf::Color::Yellow);
+		i++;
+	}
+	file.close();
 }
 
 void Menu::refreshImage()
@@ -85,45 +97,76 @@ void Menu::refreshImage()
 }
 void Menu::render()
 {
-	getWindow()->clear();
-	getWindow()->draw(pacmanImage);
-	getWindow()->draw(titleText);
-	getWindow()->draw(opt1);
-	getWindow()->draw(opt2);
-	getWindow()->draw(opt3);
-	getWindow()->display();
+	if (numWindow == 0)
+	{
+		getWindow()->clear();
+		getWindow()->draw(pacmanImage);
+		getWindow()->draw(titleText);
+		getWindow()->draw(opt0);
+		getWindow()->draw(opt1);
+		getWindow()->draw(opt2);
+		getWindow()->display();
+	}
+	else if ((numWindow == 1))
+	{
+		getWindow()->clear();
+		getWindow()->draw(scoreText);
+		for (sf::Text i : scores)
+		{
+			getWindow()->draw(i);
+		}
+		getWindow()->display();
+	}
 }
 
 void Menu::update(sf::Time deltaTime)
 {
-	refreshImage();
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) || sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+	if (numWindow == 0)
 	{
-		pacmanImage.move(0.f, -40.f);
-		selection--;
-		if (selection < 0)
-			selection = 2;
-		if (pacmanImage.getPosition()[0].position.y < 220.f)
-			pacmanImage.setPosition(120.f, 300.f);
-		std::cout << "down pressed - selection = " << selection << std::endl;
+		refreshImage();
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) || sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+		{
+			pacmanImage.move(0.f, -40.f);
+			selection--;
+			if (selection < 0)
+				selection = 2;
+			if (pacmanImage.getPosition()[0].position.y < 220.f)
+				pacmanImage.setPosition(120.f, 300.f);
+			std::cout << "down pressed - selection = " << selection << std::endl;
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::S) || sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+		{
+			pacmanImage.move(0.f, 40.f);
+			selection++;
+			if (selection > 2)
+				selection = 0;
+			if (pacmanImage.getPosition()[0].position.y > 300.f)
+				pacmanImage.setPosition(120.f, 220.f);
+			std::cout << "up pressed - selection = " << selection << std::endl;
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
+		{
+			std::cout << "enter pressed - selection = " << selection << std::endl;
+			if (selection == 0)
+				getController()->standBy();
+			if (selection == 1)
+			{
+				numWindow = 1;
+				loadScores();
+			}
+		}
+		updateImageCoord();
 	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S) || sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+	else if ((numWindow == 1))
 	{
-		pacmanImage.move(0.f, 40.f);
-		selection++;
-		if (selection > 2)
-			selection = 0;
-		if (pacmanImage.getPosition()[0].position.y > 300.f)
-			pacmanImage.setPosition(120.f, 220.f);
-		std::cout << "up pressed - selection = " << selection << std::endl;
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) ||
+			sf::Keyboard::isKeyPressed(sf::Keyboard::Escape) ||
+			sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+		{
+		    numWindow = 0;
+		}
 	}
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
-	{
-		std::cout << "enter pressed - selection = " << selection << std::endl;
-		if (selection == 0)
-		getController()->standBy();
-	}
-	updateImageCoord();
+
 }
 
 void Menu::updateImageCoord()
@@ -138,10 +181,16 @@ void Menu::updateImageCoord()
 	}
 }
 
+
 //Metodos exclusivos para testing, quitar para el release
 sf::Text Menu::getTitleText() 
 {
 	return titleText;
+}
+
+sf::Text Menu::getOpt0()
+{
+	return opt0;
 }
 
 sf::Text Menu::getOpt1()
@@ -152,11 +201,6 @@ sf::Text Menu::getOpt1()
 sf::Text Menu::getOpt2()
 {
 	return opt2;
-}
-
-sf::Text Menu::getOpt3()
-{
-	return opt3;
 }
 
 Entity Menu::getPacmanImage()

@@ -6,7 +6,7 @@
 
 int main()
 {
-	int mapTileSize = 16;			//Tamaño del personaje
+	int mapTileSize = 16;			//Tamaï¿½o del personaje
 	int entityTileSize = 16;
 
 	std::cout << "Creating Window\n";
@@ -30,9 +30,9 @@ int main()
 		menu->getWindow()->clear();
 		menu->getWindow()->draw(pacmanImage);
 		menu->getWindow()->draw(menu->getTitleText());
+		menu->getWindow()->draw(menu->getOpt0());
 		menu->getWindow()->draw(menu->getOpt1());
 		menu->getWindow()->draw(menu->getOpt2());
-		menu->getWindow()->draw(menu->getOpt3());
 		menu->getWindow()->display();
 		
 		std::this_thread::sleep_for(std::chrono::seconds(1));
@@ -44,3 +44,4 @@ int main()
 	std::cout << "Test Passed\n";
 	std::this_thread::sleep_for(std::chrono::seconds(2));
 }
+

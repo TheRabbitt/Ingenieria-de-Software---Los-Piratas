@@ -31,5 +31,6 @@ private:
     sf::Texture mTexture;
     sf::Vector2f mVelocity;
     sf::VertexArray quad;
+
 };
 #endif /* INCLUDE_ENTITY_ */
