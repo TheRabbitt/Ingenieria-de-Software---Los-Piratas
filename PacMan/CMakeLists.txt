@@ -54,5 +54,6 @@ target_link_libraries(menuImageTest sfml-graphics sfml-main
 #add_executable (test "src/State.cpp" "src/Menu.cpp" "tests/test.cpp" )
 
 #target_link_libraries(test sfml-graphics sfml-main
-#   
+#                      sfml-system sfml-window)
+
 

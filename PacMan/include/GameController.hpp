@@ -11,8 +11,10 @@ public:
 	GameController(GameController& other) = delete;        // Singleton no es clonable
 	void operator=(const GameController&) = delete;        // Singleton no es asignable
 	static GameController* createGameController(int, int); // Llama al constructor si no hay instancia. Garantiza singleton.
-	void init();
+	void setPlayer(std::string);
 	void setState(State*);
+	std::string getPlayer();
+	void init();
 	void standBy();
 	void run();
 private:
@@ -26,6 +28,7 @@ private:
 	sf::Time timePerFrame;
 	int entityTileSize;
 	int mapTileSize;
+	std::string player{""};
 };
 
 #endif /* INCLUDE_GAMECONTROLLER_ */

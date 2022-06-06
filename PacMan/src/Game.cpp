@@ -86,27 +86,33 @@ void Game::processScores()
 	file.close();
 	if (empty)
 	{
-		names[0] = "nn";
+		if (!getController()->getPlayer().empty())
+			names[0] = getController()->getPlayer();
+		else
+			names[0] = "";
 		scores[0] = actScore;
 	}
 	else
 	{
 		if (numScores == 5)
 		{
-			if (actScore > scores[numScores - 1])
+			if (actScore >= scores[numScores - 1])
 			{
-				names[numScores - 1] = "nn";
+				if (!getController()->getPlayer().empty())
+					names[numScores - 1] = getController()->getPlayer();
+				else
+				    names[numScores - 1] = "";
 				scores[numScores - 1] = actScore;
 			}
 		}
 		else
 		{
-			if (actScore != scores[numScores - 1])
-			{
-				names[numScores] = "nn";
-				scores[numScores] = actScore;
-				numScores++;
-			}
+			if (!getController()->getPlayer().empty())
+				names[numScores] = getController()->getPlayer();
+			else
+				names[numScores] = "";
+			scores[numScores] = actScore;
+			numScores++;
 		}
 	}
 	for (i = 0; i < numScores - 1; i++) {
@@ -170,6 +176,7 @@ void Game::resetGame()
 	dots.resetDotsPtr();
 	actScore = 0;
 	dotsLeft = dots.getNumDots();
+	getController()->setPlayer("");
 }
 
 void Game::update(sf::Time deltaTime)

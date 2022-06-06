@@ -6,7 +6,7 @@
 
 int main()
 {
-	int mapTileSize = 16;			//Tama�o del personaje
+	int mapTileSize = 16;
 	int entityTileSize = 16;
 
 	std::cout << "Creating Window\n";
@@ -17,7 +17,6 @@ int main()
 	GameController* controller = GameController::createGameController(mapTileSize, entityTileSize);
 	Menu* menu = Menu::createMenu(controller, &mWindow);
 
-	
 	int i = 3;
 	while (i > 0)
 	{
@@ -29,12 +28,12 @@ int main()
 
 		menu->getWindow()->clear();
 		menu->getWindow()->draw(pacmanImage);
-		menu->getWindow()->draw(menu->getTitleText());
-		menu->getWindow()->draw(menu->getOpt0());
-		menu->getWindow()->draw(menu->getOpt1());
-		menu->getWindow()->draw(menu->getOpt2());
+		menu->getWindow()->draw(menu->getTitle(0));
+		menu->getWindow()->draw(menu->getOpt(0));
+		menu->getWindow()->draw(menu->getOpt(1));
+		menu->getWindow()->draw(menu->getOpt(2));
 		menu->getWindow()->display();
-		
+
 		std::this_thread::sleep_for(std::chrono::seconds(1));
 		i--;
 	}
@@ -44,4 +43,3 @@ int main()
 	std::cout << "Test Passed\n";
 	std::this_thread::sleep_for(std::chrono::seconds(2));
 }
-
