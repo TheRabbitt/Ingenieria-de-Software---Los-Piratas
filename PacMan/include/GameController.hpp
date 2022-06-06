@@ -17,12 +17,13 @@ public:
 	void run();
 private:
 	GameController(int, int);
+	void setTimePerFrame(float t);
 private:
 	static GameController* gameController_;
 	State* state;
 	sf::RenderWindow mWindow;
 	sf::Clock clock;
-	sf::Time TimePerFrame;
+	sf::Time timePerFrame;
 	int entityTileSize;
 	int mapTileSize;
 };

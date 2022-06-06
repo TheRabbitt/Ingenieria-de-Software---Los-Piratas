@@ -12,10 +12,10 @@ public:
     Menu(Menu& other) = delete;                 // Singleton no es clonable
     void operator=(const Menu&) = delete;       // Singleton no es asignable
     static Menu* createMenu(GameController*, sf::RenderWindow*); // Llama al constructor si no hay instancia. Garantiza singleton.
-    bool Menu::loadMenuFont(const std::string&);
-    bool loadTitleFont(const std::string&);
+    
 private:
     Menu(GameController*, sf::RenderWindow*);
+    void loadScores();
     void refreshImage();
     void render() override;
     void update(sf::Time) override;
@@ -23,18 +23,19 @@ private:
 private:
     static Menu* menu_;
     int selection;
+    int numWindow;
+    int numScores;
     int imageCoord;
     Entity pacmanImage;
     sf::Clock clock;
     sf::Time imageUpdateTime;
-    sf::Font titleFont;
-    sf::Font menuFont;
     sf::Text titleText;
+    sf::Text scoreText;
+    sf::Text opt0;
     sf::Text opt1;
     sf::Text opt2;
-    sf::Text opt3;
-    sf::Text opt4;
-    sf::Text opt5;
+    std::vector<sf::Text> scores;
+
 };
 
 #endif /* INCLUDE_MENU_ */

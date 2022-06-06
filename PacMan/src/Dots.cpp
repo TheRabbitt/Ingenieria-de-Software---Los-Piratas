@@ -3,7 +3,7 @@
 Dots::Dots(const int* level, int width, int height)
 {
 	int i;
-	for (i = 0; i < 240; i++)
+	for (i = 0; i < numDots; i++)
 	{
 		dots[i] = sf::CircleShape(2.f);
 		dots[i].setFillColor(sf::Color(255, 255, 0));
@@ -16,7 +16,7 @@ void Dots::setDots(const int* level, int width, int height)
 {
 	int i, j, k;
 	k = 0;
-	// Define la posicion de cada textura en la ventana
+	// Posicion de cada dot en la ventana
 	for (i = 0; i < width; ++i)
 		for (j = 0; j < height; ++j)
 		{
@@ -25,10 +25,10 @@ void Dots::setDots(const int* level, int width, int height)
 
 			if (tNumber == 99)
 			{
-				// Posicion de la textura en el mapa (coordenadas en el mapa).
+				// Coordenadas del dot en el mapa
 				dots[k].setPosition(sf::Vector2f((float)(i * 16 + 8), (float)(j * 16 + 8)));
 				k++;
-				if (k >= 240)
+				if (k >= numDots)
 					return;
 			}
 		}
@@ -39,7 +39,21 @@ sf::CircleShape** Dots::getDotsPtr()
 	return dotsPtr;
 }
 
+int Dots::getNumDots()
+{
+	return numDots;
+}
+
 void Dots::nullDotPtr(int i)
 {
 	dotsPtr[i] = nullptr;
+}
+
+void Dots::resetDotsPtr()
+{
+	int i;
+	for (i = 0; i < numDots; i++)
+	{
+		dotsPtr[i] = &dots[i];
+	}
 }

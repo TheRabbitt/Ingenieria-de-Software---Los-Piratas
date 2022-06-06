@@ -6,7 +6,7 @@ GameController* GameController::gameController_{ nullptr };
 GameController::GameController(int entityTileSize, int mapTileSize)
 	: entityTileSize(entityTileSize), mapTileSize(mapTileSize),
 	  mWindow(sf::VideoMode(28 * mapTileSize, 36 * mapTileSize), "PacMan"),
-	  TimePerFrame(sf::seconds(1.f / 60.f))
+	  timePerFrame(sf::seconds(1.f / 60.f))
 {
 	state = Menu::createMenu(this, &mWindow);
 }
@@ -25,6 +25,7 @@ void GameController::setState(State* s)
 
 void GameController::init()
 {
+	setTimePerFrame(5.f);
 	state = Menu::createMenu(this, &mWindow);
 }
 
@@ -33,9 +34,15 @@ void GameController::standBy()
 {
 	std::cout << "in standby()" << std::endl;
 	if (typeid(Menu).hash_code() == typeid(*state).hash_code())
+	{
+		setTimePerFrame(1.f);
 		state = Game::createGame(this, &mWindow, entityTileSize, mapTileSize);
+	}
 	else if (typeid(Game).hash_code() == typeid(*state).hash_code())
+	{
+		setTimePerFrame(4.f);
 		state = Menu::createMenu(this, &mWindow);
+	}
 }
 
 void GameController::run()
@@ -45,12 +52,17 @@ void GameController::run()
 	{
 		state->processEvents();
 		timeSinceLastUpdate += clock.restart();
-		while (timeSinceLastUpdate > TimePerFrame)
+		while (timeSinceLastUpdate > timePerFrame)
 		{
-			timeSinceLastUpdate -= TimePerFrame;
+			timeSinceLastUpdate -= timePerFrame;
 			state->processEvents();
-			state->update(TimePerFrame);
+			state->update(timePerFrame);
 		}
 		state->render();
 	}
+}
+
+void GameController::setTimePerFrame(float t)
+{
+	timePerFrame = sf::seconds(t / 60.f);
 }
