@@ -18,9 +18,19 @@ GameController* GameController::createGameController(int entityTileSize, int map
 	return gameController_;
 }
 
+void GameController::setPlayer(std::string p)
+{
+	player = p;
+}
+
 void GameController::setState(State* s)
 {
 	state = s;
+}
+
+std::string GameController::getPlayer()
+{
+	return player;
 }
 
 void GameController::init()

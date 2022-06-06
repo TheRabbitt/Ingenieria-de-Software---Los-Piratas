@@ -34,7 +34,6 @@ sf::Font* State::getTitleFont()
 	return &titleFont;
 }
 
-
 sf::RenderWindow* State::getWindow()
 {
 	return mWindow;
