@@ -1,18 +1,19 @@
-#include "Menu.hpp"
 #include <iostream>
 #include <fstream>
 #include <string>
 #include <chrono>
 #include <thread>
+#include "Menu.hpp"
 
 Menu* Menu::menu_{nullptr};
 
-Menu::Menu(GameController* controller, sf::RenderWindow* mWindow)
+Menu::Menu(GameController* controller, Publisher* publisher, sf::RenderWindow* mWindow)
 	: pacmanImage(), imageUpdateTime(sf::seconds(0.07f)), 
 	  selection(0),imageCoord(0), numWindow(0), numScores(3) //, TimePerFrame(sf::seconds(1.f / 60.f))
 {
 	// Setea el gameController y la ventana
 	setController(controller);
+	setPublisher(publisher);
 	setWindow(mWindow);
 	setTitles();
 	setOptions();
@@ -25,12 +26,12 @@ Menu::Menu(GameController* controller, sf::RenderWindow* mWindow)
 	pacmanImage.setPosition(120.f, 220.f);
 }
 
-Menu* Menu::createMenu(GameController* controller, sf::RenderWindow* mWindow)
+Menu* Menu::createMenu(GameController* controller, Publisher* publisher, sf::RenderWindow* mWindow)
 {
 	if (menu_ == nullptr)
 	{
 		std::cout << "creating menu" << std::endl;
-		menu_ = new Menu(controller, mWindow);
+		menu_ = new Menu(controller, publisher, mWindow);
 	}
 	return menu_;
 }
@@ -109,8 +110,9 @@ void Menu::processLoginEvents(sf::String* playerInput, sf::Text* playerText)
 			else if (event.text.unicode == '\r')
 			{
 				getController()->setPlayer(*playerInput);
-				std::this_thread::sleep_for(std::chrono::milliseconds(65));
+				std::this_thread::sleep_for(std::chrono::milliseconds(75));
 				logWindow.close();
+				getPublisher()->notify(*playerInput);
 			}
 			else
 			{

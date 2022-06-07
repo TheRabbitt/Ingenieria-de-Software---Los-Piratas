@@ -2,7 +2,7 @@
 #define INCLUDE_STATE_
 
 #include "SFML/Graphics.hpp"
-//#include "GameController.hpp"
+#include "Publisher.hpp"
 
 class GameController;
 
@@ -12,8 +12,10 @@ public:
     State();
     void setWindow(sf::RenderWindow*);
     void setController(GameController*);
+    void setPublisher(Publisher*);
     GameController* getController();
     sf::Font* getMenuFont();
+    Publisher* getPublisher();
     sf::Font* getTitleFont();
     sf::RenderWindow* getWindow();
     bool loadMenuFont(const std::string&);
@@ -23,6 +25,7 @@ public:
     virtual void update(sf::Time);
 private:
     GameController* controller;
+    Publisher* publisher;
     sf::RenderWindow* mWindow;
     sf::Font titleFont;
     sf::Font menuFont;

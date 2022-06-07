@@ -8,7 +8,8 @@ GameController::GameController(int entityTileSize, int mapTileSize)
 	  mWindow(sf::VideoMode(28 * mapTileSize, 36 * mapTileSize), "PacMan"),
 	  timePerFrame(sf::seconds(1.f / 60.f))
 {
-	state = Menu::createMenu(this, &mWindow);
+	publisher = Publisher::createPublisher();
+	//state = Menu::createMenu(this, publisher, &mWindow);
 }
 
 GameController* GameController::createGameController(int entityTileSize, int mapTileSize)
@@ -36,7 +37,7 @@ std::string GameController::getPlayer()
 void GameController::init()
 {
 	setTimePerFrame(5.f);
-	state = Menu::createMenu(this, &mWindow);
+	state = Menu::createMenu(this, publisher ,&mWindow);
 }
 
 
@@ -46,12 +47,12 @@ void GameController::standBy()
 	if (typeid(Menu).hash_code() == typeid(*state).hash_code())
 	{
 		setTimePerFrame(1.f);
-		state = Game::createGame(this, &mWindow, entityTileSize, mapTileSize);
+		state = Game::createGame(this, publisher, &mWindow, entityTileSize, mapTileSize);
 	}
 	else if (typeid(Game).hash_code() == typeid(*state).hash_code())
 	{
-		setTimePerFrame(4.f);
-		state = Menu::createMenu(this, &mWindow);
+		setTimePerFrame(5.f);
+		state = Menu::createMenu(this, publisher, &mWindow);
 	}
 }
 

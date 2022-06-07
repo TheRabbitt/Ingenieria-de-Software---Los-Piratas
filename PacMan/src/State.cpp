@@ -9,14 +9,19 @@ State::State()
 		throw std::runtime_error("Failed to load font namco.ttf");
 }
 
-void State::setWindow(sf::RenderWindow* w)
-{
-	mWindow = w;
-}
-
 void State::setController(GameController* c)
 {
 	controller = c;
+}
+
+void State::setPublisher(Publisher* p)
+{
+	publisher = p;
+}
+
+void State::setWindow(sf::RenderWindow* w)
+{
+	mWindow = w;
 }
 
 GameController* State::getController()
@@ -27,6 +32,11 @@ GameController* State::getController()
 sf::Font* State::getMenuFont()
 {
 	return &menuFont;
+}
+
+Publisher* State::getPublisher()
+{
+	return publisher;
 }
 
 sf::Font* State::getTitleFont()
