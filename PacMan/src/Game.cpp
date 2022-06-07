@@ -7,7 +7,7 @@
 
 Game* Game::game_{ nullptr };
 
-Game::Game(GameController* controller, sf::RenderWindow* mWindow, int entityTileSize, int mapTileSize)
+Game::Game(GameController* controller, Publisher* publisher, sf::RenderWindow* mWindow, int entityTileSize, int mapTileSize)
 	: map("media/images/Map", sf::Vector2u(mapTileSize, mapTileSize), 28, 36),
 	dots(level, 28, 36),
 	pacman(entityTileSize, "media/images/Pacman", 100, &map),
@@ -15,6 +15,7 @@ Game::Game(GameController* controller, sf::RenderWindow* mWindow, int entityTile
 	actScore(0), dotsLeft(dots.getNumDots()), gameWon(false)
 {
 	setController(controller);
+	setPublisher(publisher);
 	setWindow(mWindow);
 
 	std::fstream file;
@@ -43,12 +44,12 @@ Game::Game(GameController* controller, sf::RenderWindow* mWindow, int entityTile
 	actualScore.setFillColor(sf::Color::Yellow);
 }
 
-Game* Game::createGame(GameController* controller, sf::RenderWindow* mWindow, int entityTileSize, int mapTileSize)
+Game* Game::createGame(GameController* controller, Publisher* publisher, sf::RenderWindow* mWindow, int entityTileSize, int mapTileSize)
 {
 	if (game_ == nullptr)
 	{
 		std::cout << "creating game" << std::endl;
-		game_ = new Game(controller, mWindow, entityTileSize, mapTileSize);
+		game_ = new Game(controller, publisher, mWindow, entityTileSize, mapTileSize);
 	}
 	return game_;
 }
@@ -66,22 +67,20 @@ void Game::processScores()
 	i = 0;
 	while(file >> name >> score)
 	{
+		empty = false;
+		numScores++;
 		if (!name.empty())
-		{
-			empty = false;
-			numScores++;
-			names[i] = name;
-			try {
-				s = std::stoi(score);
-				scores[i] = s;
-			}
-			catch (const std::exception& e)
-			{
-				(void)e;
-				s = 0;
-			}
+		    names[i] = name;
+		try {
+			s = std::stoi(score);
+			scores[i] = s;
 		}
-		i++;
+		catch (const std::exception& e)
+		{
+			(void)e;
+			s = 0;
+		}
+	i++;
 	}
 	file.close();
 	if (empty)
@@ -89,31 +88,30 @@ void Game::processScores()
 		if (!getController()->getPlayer().empty())
 			names[0] = getController()->getPlayer();
 		else
-			names[0] = "";
+			names[0] = "pacman";
 		scores[0] = actScore;
+	}
+	else if (numScores == 5)
+	{
+		if (actScore >= scores[numScores - 1])
+		{
+			if (names[numScores - 1].compare("pacman") && names[numScores - 1].compare(getController()->getPlayer()))
+				getPublisher()->addSubscriber(names[numScores - 1]);
+			if (!getController()->getPlayer().empty())
+				names[numScores - 1] = getController()->getPlayer();
+			else
+				names[numScores - 1] = "pacman";
+			scores[numScores - 1] = actScore;
+		}
 	}
 	else
 	{
-		if (numScores == 5)
-		{
-			if (actScore >= scores[numScores - 1])
-			{
-				if (!getController()->getPlayer().empty())
-					names[numScores - 1] = getController()->getPlayer();
-				else
-				    names[numScores - 1] = "";
-				scores[numScores - 1] = actScore;
-			}
-		}
+		if (!getController()->getPlayer().empty())
+			names[numScores] = getController()->getPlayer();
 		else
-		{
-			if (!getController()->getPlayer().empty())
-				names[numScores] = getController()->getPlayer();
-			else
-				names[numScores] = "";
-			scores[numScores] = actScore;
-			numScores++;
-		}
+			names[numScores] = "pacman";
+		scores[numScores] = actScore;
+		numScores++;
 	}
 	for (i = 0; i < numScores - 1; i++) {
 		for (j = 0; j < numScores - i - 1; j++) {
@@ -131,9 +129,7 @@ void Game::processScores()
 	for (i = 0; i < 5; i++)
 	{
 		if (!names[i].empty() && scores[i] != 0)
-		{
-			file << names[i] << " " << scores[i] << "\n";
-		}
+		    file << names[i] << " " << scores[i] << "\n";
 	}
 	file.close();
 }

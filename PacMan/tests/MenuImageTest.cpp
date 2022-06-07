@@ -1,8 +1,11 @@
-#include "Menu.hpp"
-#include "GameController.hpp"
 #include <iostream>
 #include <chrono>
 #include <thread>
+#include "GameController.hpp"
+#include "Menu.hpp"
+#include "Publisher.hpp"
+
+
 
 int main()
 {
@@ -15,8 +18,9 @@ int main()
 	std::cout << "Creating GameController\n";
 
 	GameController* controller = GameController::createGameController(mapTileSize, entityTileSize);
-	Menu* menu = Menu::createMenu(controller, &mWindow);
-
+	Publisher* publisher = Publisher::createPublisher();
+	Menu* menu = Menu::createMenu(controller, publisher, &mWindow);
+	
 	int i = 3;
 	while (i > 0)
 	{

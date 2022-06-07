@@ -1,9 +1,10 @@
 #ifndef INCLUDE_GAMECONTROLLER_ // guarda
 #define INCLUDE_GAMECONTROLLER_
 
-#include "State.hpp"
 #include "Game.hpp"
 #include "Menu.hpp"
+#include "Publisher.hpp"
+#include "State.hpp"
 
 class GameController
 {
@@ -22,6 +23,7 @@ private:
 	void setTimePerFrame(float t);
 private:
 	static GameController* gameController_;
+	Publisher* publisher;
 	State* state;
 	sf::RenderWindow mWindow;
 	sf::Clock clock;

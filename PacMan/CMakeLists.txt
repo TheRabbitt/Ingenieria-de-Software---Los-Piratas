@@ -14,7 +14,7 @@ set(debugName "x64-debug")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG ${CMAKE_SOURCE_DIR}/out/build/${debugName})
 
 # Archivos .cpp con los que se construye el binario ejecutable
-add_executable (PacMan "src/main.cpp" "src/Entity.cpp" "src/PacMan.cpp" "src/Ghost.cpp" "src/GameController.cpp" "src/State.cpp" "src/Game.cpp" "src/Menu.cpp" "src/Map.cpp" "src/Dots.cpp")
+add_executable (PacMan "src/main.cpp" "src/Entity.cpp" "src/PacMan.cpp" "src/Ghost.cpp" "src/GameController.cpp" "src/State.cpp" "src/Game.cpp" "src/Menu.cpp" "src/Map.cpp" "src/Dots.cpp" "src/Publisher.cpp")
 
 # Directorio de la libreria
 add_subdirectory (SFML)
@@ -46,7 +46,7 @@ add_executable (mapImageTest "src/Map.cpp" "tests/mapImageTest.cpp" "src/Dots.cp
 target_link_libraries(mapImageTest sfml-graphics sfml-main
                       sfml-system sfml-window)
 
-add_executable (menuImageTest "src/Map.cpp" "src/PacMan.cpp" "src/Game.cpp" "src/Entity.cpp" "src/Ghost.cpp" "src/Menu.cpp" "src/GameController.cpp" "tests/MenuImageTest.cpp" "src/State.cpp" "src/Dots.cpp")
+add_executable (menuImageTest "src/Map.cpp" "src/PacMan.cpp" "src/Game.cpp" "src/Entity.cpp" "src/Ghost.cpp" "src/Menu.cpp" "src/GameController.cpp" "tests/MenuImageTest.cpp" "src/State.cpp" "src/Dots.cpp" "src/Publisher.cpp")
 
 target_link_libraries(menuImageTest sfml-graphics sfml-main
                         sfml-system sfml-window)
