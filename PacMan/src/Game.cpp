@@ -11,13 +11,35 @@ Game::Game(GameController* controller, Publisher* publisher, sf::RenderWindow* m
 	: map("media/images/Map", sf::Vector2u(mapTileSize, mapTileSize), 28, 36),
 	dots(level, 28, 36),
 	pacman(entityTileSize, "media/images/Pacman", 100, &map),
-	ghost(entityTileSize, "media/images/Ghost", 100, &map),
-	actScore(0), dotsLeft(dots.getNumDots()), gameWon(false)
+	blinky(GhostName::Blinky, entityTileSize, "media/images/Ghost", 100, &pacman, &map),
+	pinky(GhostName::Pinky, entityTileSize, "media/images/Ghost", 100, &pacman, &map),
+	inky(GhostName::Inky, entityTileSize, "media/images/Ghost", 100, &pacman, &map),
+	clyde(GhostName::Clyde, entityTileSize, "media/images/Ghost", 100, &pacman, &map),
+	actScore(0), dotsLeft(dots.getNumDots()), gameWon(false), restart(true)
 {
 	setController(controller);
 	setPublisher(publisher);
 	setWindow(mWindow);
+	loadHighScore();
 
+	actualScore.setFont(*getMenuFont());
+	actualScore.setCharacterSize(8);
+	actualScore.setPosition(sf::Vector2f(250.f, 30.f));
+	actualScore.setFillColor(sf::Color::Yellow);
+}
+
+Game* Game::createGame(GameController* controller, Publisher* publisher, sf::RenderWindow* mWindow, int entityTileSize, int mapTileSize)
+{
+	if (game_ == nullptr)
+	{
+		std::cout << "creating game" << std::endl;
+		game_ = new Game(controller, publisher, mWindow, entityTileSize, mapTileSize);
+	}
+	return game_;
+}
+
+void Game::loadHighScore()
+{
 	std::fstream file;
 	std::string name;
 	std::string score;
@@ -37,21 +59,6 @@ Game::Game(GameController* controller, Publisher* publisher, sf::RenderWindow* m
 		hScore = 0;
 	}
 	file.close();
-
-	actualScore.setFont(*getMenuFont());
-	actualScore.setCharacterSize(8);
-	actualScore.setPosition(sf::Vector2f(250.f, 30.f));
-	actualScore.setFillColor(sf::Color::Yellow);
-}
-
-Game* Game::createGame(GameController* controller, Publisher* publisher, sf::RenderWindow* mWindow, int entityTileSize, int mapTileSize)
-{
-	if (game_ == nullptr)
-	{
-		std::cout << "creating game" << std::endl;
-		game_ = new Game(controller, publisher, mWindow, entityTileSize, mapTileSize);
-	}
-	return game_;
 }
 
 void Game::processScores()
@@ -150,7 +157,10 @@ void Game::render()
 				getWindow()->draw(*dots.getDotsPtr()[i]);
 		}
 		getWindow()->draw(pacman);
-		getWindow()->draw(ghost);
+		getWindow()->draw(blinky);
+		getWindow()->draw(pinky);
+		getWindow()->draw(inky);
+		getWindow()->draw(clyde);
 		getWindow()->display();
 	}
 	if (gameWon)
@@ -160,7 +170,10 @@ void Game::render()
 		getWindow()->draw(highScore);
 		getWindow()->draw(actualScore);
 		getWindow()->draw(pacman);
-		getWindow()->draw(ghost);
+		getWindow()->draw(blinky);
+		getWindow()->draw(pinky);
+		getWindow()->draw(inky);
+		getWindow()->draw(clyde);
 		getWindow()->display();
 	}
 }
@@ -173,17 +186,50 @@ void Game::resetGame()
 	actScore = 0;
 	dotsLeft = dots.getNumDots();
 	getController()->setPlayer("");
+
+	blinky.setPosition(180.f, 270.f);
+	pinky.setPosition(200.f, 270.f);
+	inky.setPosition(230.f, 270.f);
+	clyde.setPosition(250.f, 270.f);
+
+	loadHighScore();
+	restart = true;
+	
+
 }
 
 void Game::update(sf::Time deltaTime)
 {
+	if (restart)
+	{
+		restart = false;
+		clock.restart();
+	}
 	if (!gameWon)
 	{
-		int i;
+		sf::Time elapsed = clock.getElapsedTime();
+		if (elapsed.asMilliseconds() < 350)
+		{
+			blinky.update(0, deltaTime);
+			blinky.move(sf::Vector2f(100.f,0) * deltaTime.asSeconds());
+		}
+		else if (elapsed.asMilliseconds() >= 350 && elapsed.asMilliseconds() < 800)
+		{
+			blinky.update(0, deltaTime);
+			blinky.move(sf::Vector2f(0.f, -100.f) * deltaTime.asSeconds());
+		}
+		else
+		    blinky.getStrategy()->act(deltaTime);
+
+
+
+		pinky.update(0, deltaTime);
+		inky.update(0, deltaTime);
+		clyde.update(0, deltaTime);
+		
 		pacman.refreshImage();
-		ghost.refreshImage();
-		ghost.updateImageCoord();
 		pacman.movePacman(deltaTime);
+		int i;
 		int numDots = dots.getNumDots();
 		for (i = 0; i < numDots; i++)
 		{

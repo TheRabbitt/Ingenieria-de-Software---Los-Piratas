@@ -14,7 +14,7 @@ public:
     void nullDotPtr(int);
     void resetDotsPtr();
 private:
-    static const int numDots{ 1 }; //288
+    static const int numDots{ 288 }; //288
     sf::CircleShape dots[numDots];
     sf::CircleShape* dotsPtr[numDots]{nullptr};
 };

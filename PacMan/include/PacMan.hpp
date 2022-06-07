@@ -5,10 +5,10 @@
 #include "Entity.hpp"
 #include "Map.hpp"
 
-constexpr auto DOWN = 1;
-constexpr auto LEFT = 2;
-constexpr auto RIGHT = 3;
-constexpr auto UP = 4;
+constexpr auto DOWN = 0;
+constexpr auto LEFT = 1;
+constexpr auto RIGHT = 2;
+constexpr auto UP = 3;
 
 class PacMan : public Entity
 {

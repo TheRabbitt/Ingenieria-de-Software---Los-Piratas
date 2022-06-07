@@ -32,7 +32,6 @@ void PacMan::movePacman(sf::Time deltaTime)
         setDirection(RIGHT);
         setVelocity(getSpeed(),0);
     }
-    sf::Vector2f d = getVelocity();
     move(getVelocity() * deltaTime.asSeconds());
     // Detecta colision con paredes
     if (map->detectCollision(getPosition()[0].position.x, getPosition()[0].position.y))

@@ -18,6 +18,7 @@ public:
 	static Game* createGame(GameController*, Publisher*,sf::RenderWindow*, int, int); // Llama al constructor si no hay instancia. Garantiza singleton.
 private:
 	Game(GameController*, Publisher*, sf::RenderWindow*, int, int);
+	void loadHighScore();
 	void processScores();
 	void render() override;
 	void resetGame();
@@ -25,13 +26,18 @@ private:
 private:
 	static Game* game_;
 	PacMan pacman;
-	Ghost ghost;
+	Ghost blinky;
+	Ghost pinky;
+	Ghost inky;
+	Ghost clyde;
 	Map map;
 	Dots dots;
 	int actScore;
 	int hScore;
 	int dotsLeft;
 	bool gameWon;
+	bool restart;
+	sf::Clock clock;
 	sf::Text highScore;
 	sf::Text winText;
 	sf::Text actualScore;
