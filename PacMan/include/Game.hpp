@@ -3,11 +3,13 @@
 
 #include "SFML/Graphics.hpp"
 #include "Dots.hpp"
+#include "Frightened.hpp"
 #include "GameController.hpp"
 #include "Ghost.hpp"
 #include "Map.hpp"
 #include "PacMan.hpp"
 #include "Publisher.hpp"
+#include "Scatter.hpp"
 #include "State.hpp"
 
 class Game : public State
@@ -35,9 +37,17 @@ private:
 	int actScore;
 	int hScore;
 	int dotsLeft;
+	int energizersLeft;
+	int scatterLeft;
+	int lifes;
 	bool gameWon;
+	bool gameLost;
 	bool restart;
+	bool onFrighten;
+	bool onScatter;
 	sf::Clock clock;
+	sf::Clock frightenClock;
+	sf::Clock scatterClock;
 	sf::Text highScore;
 	sf::Text winText;
 	sf::Text actualScore;

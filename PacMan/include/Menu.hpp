@@ -14,7 +14,7 @@ class Menu : public State
 public:
     Menu(Menu& other) = delete;                                               // Singleton no es clonable
     void operator=(const Menu&) = delete;                                     // Singleton no es asignable
-    static Menu* createMenu(GameController*, Publisher* , sf::RenderWindow*); // Llama al constructor si no hay instancia. Garantiza singleton.
+    static Menu* createMenu(GameController*, Publisher*, sf::RenderWindow*); // Llama al constructor si no hay instancia. Garantiza singleton.
     sf::Text getTitle(int);
     sf::Text getOpt(int);
     Entity getPacmanImage();

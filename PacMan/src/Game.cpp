@@ -1,9 +1,8 @@
-#include "Game.hpp"
 #include <array>
 #include <chrono>
 #include <fstream>
-#include <iostream>
 #include <thread>
+#include "Game.hpp"
 
 Game* Game::game_{ nullptr };
 
@@ -11,28 +10,29 @@ Game::Game(GameController* controller, Publisher* publisher, sf::RenderWindow* m
 	: map("media/images/Map", sf::Vector2u(mapTileSize, mapTileSize), 28, 36),
 	dots(level, 28, 36),
 	pacman(entityTileSize, "media/images/Pacman", 100, &map),
-	blinky(GhostName::Blinky, entityTileSize, "media/images/Ghost", 100, &pacman, &map),
+	blinky(GhostName::Blinky, entityTileSize, "media/images/Ghost", 190, &pacman, &map),
 	pinky(GhostName::Pinky, entityTileSize, "media/images/Ghost", 100, &pacman, &map),
 	inky(GhostName::Inky, entityTileSize, "media/images/Ghost", 100, &pacman, &map),
 	clyde(GhostName::Clyde, entityTileSize, "media/images/Ghost", 100, &pacman, &map),
-	actScore(0), dotsLeft(dots.getNumDots()), gameWon(false), restart(true)
+	actScore(0), dotsLeft(dots.getNumDots()), energizersLeft(dots.getNumEnergizers()),
+	gameWon(false), gameLost(false), restart(true), scatterLeft(4), onFrighten(false),
+	onScatter(false), lifes(3)
 {
 	setController(controller);
 	setPublisher(publisher);
 	setWindow(mWindow);
 	loadHighScore();
-
 	actualScore.setFont(*getMenuFont());
 	actualScore.setCharacterSize(8);
 	actualScore.setPosition(sf::Vector2f(250.f, 30.f));
 	actualScore.setFillColor(sf::Color::Yellow);
+	 
 }
 
 Game* Game::createGame(GameController* controller, Publisher* publisher, sf::RenderWindow* mWindow, int entityTileSize, int mapTileSize)
 {
 	if (game_ == nullptr)
 	{
-		std::cout << "creating game" << std::endl;
 		game_ = new Game(controller, publisher, mWindow, entityTileSize, mapTileSize);
 	}
 	return game_;
@@ -156,6 +156,12 @@ void Game::render()
 			if (dots.getDotsPtr()[i] != nullptr)
 				getWindow()->draw(*dots.getDotsPtr()[i]);
 		}
+		int numEnergizers = dots.getNumEnergizers();
+		for (i = 0; i < numEnergizers; i++)
+		{
+			if (dots.getEnergizersPtr()[i] != nullptr)
+				getWindow()->draw(*dots.getEnergizersPtr()[i]);
+		}
 		getWindow()->draw(pacman);
 		getWindow()->draw(blinky);
 		getWindow()->draw(pinky);
@@ -182,9 +188,12 @@ void Game::resetGame()
 {
 	gameWon = false;
 	pacman.setPosition(50.f, 65.f);
-	dots.resetDotsPtr();
+	dots.resetPtrs();
 	actScore = 0;
+	scatterLeft = 4;
+	lifes = 3;
 	dotsLeft = dots.getNumDots();
+	energizersLeft = dots.getNumEnergizers();
 	getController()->setPlayer("");
 
 	blinky.setPosition(180.f, 270.f);
@@ -192,10 +201,17 @@ void Game::resetGame()
 	inky.setPosition(230.f, 270.f);
 	clyde.setPosition(250.f, 270.f);
 
+	if (blinky.isEaten())
+		blinky.setEaten();
+	if (pinky.isEaten())
+		pinky.setEaten();
+	if (inky.isEaten())
+		inky.setEaten();
+	if (clyde.isEaten())
+		clyde.setEaten();
+
 	loadHighScore();
 	restart = true;
-	
-
 }
 
 void Game::update(sf::Time deltaTime)
@@ -212,43 +228,194 @@ void Game::update(sf::Time deltaTime)
 		{
 			blinky.update(0, deltaTime);
 			blinky.move(sf::Vector2f(100.f,0) * deltaTime.asSeconds());
+			pinky.update(0, deltaTime);
+			pinky.move(sf::Vector2f(50.f, 0) * deltaTime.asSeconds());
+			inky.update(0, deltaTime);
+			inky.move(sf::Vector2f(-50.f, 0) * deltaTime.asSeconds());
+			clyde.update(0, deltaTime);
+			clyde.move(sf::Vector2f(-100.f, 0) * deltaTime.asSeconds());
 		}
 		else if (elapsed.asMilliseconds() >= 350 && elapsed.asMilliseconds() < 800)
 		{
 			blinky.update(0, deltaTime);
 			blinky.move(sf::Vector2f(0.f, -100.f) * deltaTime.asSeconds());
+			pinky.update(0, deltaTime);
+			pinky.move(sf::Vector2f(0.f, -100.f) * deltaTime.asSeconds());
+			inky.update(0, deltaTime);
+			inky.move(sf::Vector2f(0.f, -100.f) * deltaTime.asSeconds());
+			clyde.update(0, deltaTime);
+			clyde.move(sf::Vector2f(0.f, -100.f) * deltaTime.asSeconds());
 		}
-		else
-		    blinky.getStrategy()->act(deltaTime);
-
-
-
-		pinky.update(0, deltaTime);
-		inky.update(0, deltaTime);
-		clyde.update(0, deltaTime);
 		
-		pacman.refreshImage();
-		pacman.movePacman(deltaTime);
-		int i;
-		int numDots = dots.getNumDots();
-		for (i = 0; i < numDots; i++)
+		else
 		{
-			if (dots.getDotsPtr()[i] != nullptr)
+			blinky.getStrategy()->act(deltaTime);
+			pinky.getStrategy()->act(deltaTime);
+			clyde.getStrategy()->act(deltaTime);
+			inky.getStrategy()->act(deltaTime);
+		}
+
+		if (scatterLeft > 0 && !onFrighten)
+		{
+			sf::Time elapsed = scatterClock.getElapsedTime();
+			if (elapsed.asSeconds() > 20)
 			{
-				if (pacman.getPosition()[0].position.x < dots.getDotsPtr()[i]->getPosition().x + 10 &&
-					pacman.getPosition()[0].position.x + 10 > dots.getDotsPtr()[i]->getPosition().x &&
-					pacman.getPosition()[0].position.y < dots.getDotsPtr()[i]->getPosition().y + 10 &&
-					pacman.getPosition()[0].position.y + 10 > dots.getDotsPtr()[i]->getPosition().y)
+				if (!onScatter)
 				{
-					dots.nullDotPtr(i);
-					actScore += 10;
-					dotsLeft--;
-					if (dotsLeft <= 0)
-						gameWon = true;
-					actualScore.setString("score: " + std::to_string(actScore));
+					blinky.setStrategy(new Scatter(&blinky, &map));
+					pinky.setStrategy(new Scatter(&pinky, &map));
+					inky.setStrategy(new Scatter(&inky, &map));
+					clyde.setStrategy(new Scatter(&clyde, &map));
+					onScatter = true;
+				}
+				else
+				{
+					if (elapsed.asSeconds() > 24)
+					{
+						blinky.setStrategy(new Chase(&blinky, &pacman, &map));
+						pinky.setStrategy(new Chase(&pinky, &pacman, &map));
+						inky.setStrategy(new Chase(&inky, &pacman, &map));
+						clyde.setStrategy(new Chase(&clyde, &pacman, &map));
+						scatterLeft--;
+						onScatter = false;
+						scatterClock.restart();
+					}
 				}
 			}
 		}
+
+		if (onFrighten)
+		{
+			sf::Time frightenTime = frightenClock.getElapsedTime();
+			if (frightenTime.asSeconds() > 5)
+			{
+				blinky.setStrategy(new Chase(&blinky, &pacman, &map));
+				pinky.setStrategy(new Chase(&pinky, &pacman, &map));
+				inky.setStrategy(new Chase(&inky, &pacman, &map));
+				clyde.setStrategy(new Chase(&clyde, &pacman, &map));
+				if (blinky.isEaten())
+					blinky.setEaten();
+				if (pinky.isEaten())
+					pinky.setEaten();
+				if (inky.isEaten())
+					inky.setEaten();
+				if (clyde.isEaten())
+					clyde.setEaten();
+				onFrighten = false;
+				frightenClock.restart();
+			}
+		}
+		
+		pacman.refreshImage();
+		pacman.movePacman(deltaTime);
+		//pacman.printPosition(); //debug
+		int i;
+		int numDots = dots.getNumDots();
+		if (dotsLeft > 0)
+		{
+			for (i = 0; i < numDots; i++)
+			{
+				if (dots.getDotsPtr()[i] != nullptr)
+				{
+					if (pacman.getPosition()[0].position.x < dots.getDotsPtr()[i]->getPosition().x + 10 &&
+						pacman.getPosition()[0].position.x + 10 > dots.getDotsPtr()[i]->getPosition().x &&
+						pacman.getPosition()[0].position.y < dots.getDotsPtr()[i]->getPosition().y + 10 &&
+						pacman.getPosition()[0].position.y + 10 > dots.getDotsPtr()[i]->getPosition().y)
+					{
+						dots.nullDotPtr(i);
+						actScore += 10;
+						dotsLeft--;
+						if (dotsLeft <= 0)
+							break;
+					}
+				}
+			}
+		}
+
+		int numEnergizers = dots.getNumEnergizers();
+		if (energizersLeft > 0)
+		{
+			for (i = 0; i < numEnergizers; i++)
+			{
+				if (dots.getEnergizersPtr()[i] != nullptr)
+				{
+					if (pacman.getPosition()[0].position.x < dots.getEnergizersPtr()[i]->getPosition().x + 10 &&
+						pacman.getPosition()[0].position.x + 10 > dots.getEnergizersPtr()[i]->getPosition().x &&
+						pacman.getPosition()[0].position.y < dots.getEnergizersPtr()[i]->getPosition().y + 10 &&
+						pacman.getPosition()[0].position.y + 10 > dots.getEnergizersPtr()[i]->getPosition().y)
+					{
+						dots.nullEnergizerPtr(i);
+						actScore += 50;
+						energizersLeft--;
+						frightenClock.restart();
+						onFrighten = true;
+						blinky.setStrategy(new Frightened(&blinky, &map));
+						pinky.setStrategy(new Frightened(&pinky, &map));
+						inky.setStrategy(new Frightened(&inky, &map));
+						clyde.setStrategy(new Frightened(&clyde, &map));
+						if (energizersLeft <= 0)
+							break;
+					}
+				}
+			}
+		}
+		if (blinky.detectCollision())
+		{
+			if (!onFrighten)
+				gameLost = true;
+			else
+			{
+				if (!blinky.isEaten())
+				{
+					blinky.setEaten();
+					actScore += 350;
+				}
+			}
+		}
+		if (pinky.detectCollision())
+		{
+			if (!onFrighten)
+				gameLost = true;
+			else
+			{
+				if (!pinky.isEaten())
+				{
+					pinky.setEaten();
+					actScore += 300;
+				}
+			}
+		}
+		if (inky.detectCollision())
+		{
+			if (!onFrighten)
+				gameLost = true;
+			else
+			{
+				if (!inky.isEaten())
+				{
+					inky.setEaten();
+					actScore += 300;
+				}
+			}
+		}
+		if (clyde.detectCollision())
+		{
+			if (!onFrighten)
+				gameLost = true;
+			else
+			{
+				if (!clyde.isEaten())
+				{
+					clyde.setEaten();
+					actScore += 300;
+				}
+			}
+		}
+
+
+		if (dotsLeft <= 0 && energizersLeft <= 0)
+			gameWon = true;
+		actualScore.setString("score: " + std::to_string(actScore));
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
 		{
@@ -256,11 +423,34 @@ void Game::update(sf::Time deltaTime)
 			getController()->standBy();
 		}
 	}
-	else if (gameWon)
+	if (gameWon)
 	{
 		processScores();
-		std::this_thread::sleep_for(std::chrono::seconds(4));
+		std::this_thread::sleep_for(std::chrono::seconds(3));
 		resetGame();
 		getController()->standBy();
+	}
+	if (gameLost)
+	{
+		if (lifes > 0)
+		{
+			lifes--;
+			blinky.setPosition(180.f, 270.f);
+			pinky.setPosition(200.f, 270.f);
+			inky.setPosition(230.f, 270.f);
+			clyde.setPosition(250.f, 270.f);
+			pacman.setPosition(50.f, 65.f);
+			restart = true;
+			gameLost = false;
+			onFrighten = false;
+			std::this_thread::sleep_for(std::chrono::milliseconds(75));
+		}
+		else
+		{
+			processScores();
+			std::this_thread::sleep_for(std::chrono::seconds(3));
+			resetGame();
+			getController()->standBy();
+		}
 	}
 }

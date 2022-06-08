@@ -17,9 +17,9 @@ int main()
 	std::cout << "Window Creation succeded\n";
 	std::cout << "Creating GameController\n";
 
-	GameController* controller = GameController::createGameController(mapTileSize, entityTileSize);
+	//GameController* controller = GameController::createGameController(mapTileSize, entityTileSize);
 	Publisher* publisher = Publisher::createPublisher();
-	Menu* menu = Menu::createMenu(controller, publisher, &mWindow);
+	Menu* menu = Menu::createMenu(nullptr, publisher, &mWindow);
 	
 	int i = 3;
 	while (i > 0)

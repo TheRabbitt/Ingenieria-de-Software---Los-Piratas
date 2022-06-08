@@ -2,7 +2,7 @@
 #define INCLUDE_STRATEGY_
 
 #include "SFML/Graphics.hpp"
-
+#include <thread>
 class Ghost;
 
 class Strategy

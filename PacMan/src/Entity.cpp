@@ -1,3 +1,4 @@
+#include <iostream>
 #include "Entity.hpp"
 
 Entity::Entity()
@@ -114,7 +115,7 @@ void Entity::draw(sf::RenderTarget& target, sf::RenderStates states) const
 }
 
 //debug
-/*
+
 void Entity::printPosition()
 {
 	std::cout << "0.x = " << quad[0].position.x << std::endl;
@@ -126,4 +127,3 @@ void Entity::printPosition()
 	std::cout << "3.x = " << quad[3].position.x << std::endl;
 	std::cout << "3.y = " << quad[3].position.y << std::endl;
 }
-*/
