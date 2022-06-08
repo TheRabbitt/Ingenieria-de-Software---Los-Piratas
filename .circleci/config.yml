@@ -117,7 +117,7 @@ jobs:
       - checkout
       - run:
           name: run ghost test
-          comand: |
+          command: |
             cd "C:\Users\circleci\project\PacMan\out\build\x64-debug\"
             .\GhostTest.exe    
 # Invoke jobs via workflows
