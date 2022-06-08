@@ -107,7 +107,21 @@ jobs:
           name: run menu image test
           command: |
             cd "C:\Users\circleci\project\PacMan\out\build\x64-debug\"
-            .\menuImageTest.exe           
+            .\menuImageTest.exe   
+pacman move test : # name of your job
+    executor:
+      name: win/default # executor type
+      #size: "medium" # resource class, can be "medium", "large", "xlarge", "2xlarge", defaults to "medium" if not specified
+    steps:
+      - attach_workspace:
+          at: .
+      # Commands are run in a Windows virtual machine environment
+      - checkout
+      - run:
+          name: run pacman move test
+          command: |
+            cd "C:\Users\circleci\project\PacMan\out\build\x64-debug\"
+            .\PacmanMoveTest.exe                     
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
@@ -129,3 +143,6 @@ workflows:
       - menu image test:
           requires:
             - build
+      - pacman move test:
+          requires:
+            - build      
