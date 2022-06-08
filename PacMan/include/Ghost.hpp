@@ -16,12 +16,16 @@ class Ghost : public Entity
 public:
     Ghost(GhostName, int, const std::string&, float, PacMan*, Map*);;
     //void moveGhost(sf::Time);
+    bool detectCollision();
     void update(int, sf::Time);
     void updateImageCoord();
     void refreshImage(int);
+    bool isEaten();
     void setDirection(int);
+    void setEaten();
     void setStrategy(Strategy*);
     int getDirection();
+    GhostName Ghost::getName();
     Strategy* getStrategy();
 private:
     GhostName name;
@@ -29,6 +33,7 @@ private:
     sf::Time updateTime;
     int direction;
     int imageCoord;
+    bool eaten;
     Map* map;
     PacMan* pacman;
     Strategy* strategy;

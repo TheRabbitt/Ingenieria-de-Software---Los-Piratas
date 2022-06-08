@@ -47,7 +47,7 @@ bool Map::load(const std::string& filename, sf::Vector2u textureSize, const int*
 			// Posicion vertical de la textura a cargar en el textureSet
 			int tx = tNumber % numTextures;
 
-			if (tNumber != 0 && tNumber != 99)
+			if (tNumber != 0 && tNumber != 99 && tNumber != 98)
 			{
 				// Puntero a un vertex en mVertices. En 4 vertex se define una textura
 				sf::Vertex* quad = &mVertices[(long long)(k * 4)];

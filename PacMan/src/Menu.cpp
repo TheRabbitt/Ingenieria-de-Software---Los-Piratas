@@ -5,11 +5,11 @@
 #include <thread>
 #include "Menu.hpp"
 
-Menu* Menu::menu_{nullptr};
+Menu* Menu::menu_{ nullptr };
 
 Menu::Menu(GameController* controller, Publisher* publisher, sf::RenderWindow* mWindow)
-	: pacmanImage(), imageUpdateTime(sf::seconds(0.07f)), 
-	  selection(0),imageCoord(0), numWindow(0), numScores(3) //, TimePerFrame(sf::seconds(1.f / 60.f))
+	: pacmanImage(), imageUpdateTime(sf::seconds(0.07f)),
+	selection(0), imageCoord(0), numWindow(0), numScores(3) //, TimePerFrame(sf::seconds(1.f / 60.f))
 {
 	// Setea el gameController y la ventana
 	setController(controller);
@@ -184,9 +184,9 @@ void Menu::setOptions()
 {
 	int i;
 	float dy = 0;
-	for (i=0; i<6; i++)
+	for (i = 0; i < 6; i++)
 	{
-	    opts[i].setFont(*getMenuFont());
+		opts[i].setFont(*getMenuFont());
 		opts[i].setCharacterSize(15);
 		opts[i].setPosition(sf::Vector2f(150.f, 220.f + dy));
 		opts[i].setFillColor(sf::Color::Yellow);
@@ -269,7 +269,7 @@ void Menu::update(sf::Time deltaTime)
 			sf::Keyboard::isKeyPressed(sf::Keyboard::Escape) ||
 			sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
 		{
-		    numWindow = 0;
+			numWindow = 0;
 		}
 	}
 
