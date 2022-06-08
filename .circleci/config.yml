@@ -108,7 +108,7 @@ jobs:
           command: |
             cd "C:\Users\circleci\project\PacMan\out\build\x64-debug\"
             .\menuImageTest.exe   
-pacman move test : # name of your job
+  pacman move test : # name of your job
     executor:
       name: win/default # executor type
       #size: "medium" # resource class, can be "medium", "large", "xlarge", "2xlarge", defaults to "medium" if not specified
