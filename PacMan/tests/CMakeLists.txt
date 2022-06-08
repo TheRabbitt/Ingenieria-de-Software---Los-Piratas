@@ -12,6 +12,7 @@ include_directories(${CMAKE_SOURCE_DIR}/../include ${CMAKE_SOURCE_DIR}/../SFML/i
 # Archivos .cpp con los que se construye el binario ejecutable
 add_executable (PacManImageTest "src/Entity.cpp" "src/PacMan.cpp" "src/Map.cpp" "tests/PacManImageTest.cpp" )
 add_executable (mapImageTest "src/Map.cpp" "tests/mapImageTest.cpp" )
+add_executable (PacManMoveTest "src/Entity.cpp" "src/PacMan.cpp" "src/Map.cpp" "tests/PacManMoveTest.cpp" )
 # Directorio de la libreria
 #add_subdirectory (SFML)
 
@@ -24,3 +25,7 @@ target_link_libraries(PacManImageTest sfml-graphics sfml-main
 
 target_link_libraries(mapImageTest sfml-graphics sfml-main
                       sfml-system sfml-window)
+
+target_link_libraries(PacManMoveTest sfml-graphics sfml-main
+                      sfml-system sfml-window)
+
