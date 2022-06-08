@@ -40,7 +40,7 @@ private:
     sf::Time imageUpdateTime;
     sf::RenderWindow logWindow;
     std::array<sf::Text, 2> titles;
-    std::array<sf::Text, 5> opts;
+    std::array<sf::Text, 6> opts;
     std::array<sf::Text, 5> scores;
 
 };

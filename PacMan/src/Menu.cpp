@@ -82,7 +82,7 @@ void Menu::loginWindow()
 		}
 		//renderLoginWindow();
 		logWindow.clear();
-		logWindow.draw(opts[4]);
+		logWindow.draw(opts[5]);
 		logWindow.draw(playerText);
 		logWindow.display();
 	}
@@ -148,6 +148,7 @@ void Menu::render()
 		getWindow()->draw(opts[1]);
 		getWindow()->draw(opts[2]);
 		getWindow()->draw(opts[3]);
+		getWindow()->draw(opts[4]);
 		getWindow()->display();
 	}
 	else if ((numWindow == 1))
@@ -183,7 +184,7 @@ void Menu::setOptions()
 {
 	int i;
 	float dy = 0;
-	for (i=0; i<5; i++)
+	for (i=0; i<6; i++)
 	{
 	    opts[i].setFont(*getMenuFont());
 		opts[i].setCharacterSize(15);
@@ -204,13 +205,16 @@ void Menu::setOptions()
 			opts[i].setString("login");
 			break;
 		case 4:
+			opts[i].setString("exit");
+			break;
+		case 5:
 			opts[i].setString("enter name");
 			break;
 		}
 		dy += 40.f;
 	}
-	opts[4].setCharacterSize(10);
-	opts[4].setPosition(sf::Vector2f(55.f, 3.f));
+	opts[5].setCharacterSize(10);
+	opts[5].setPosition(sf::Vector2f(55.f, 3.f));
 }
 
 void Menu::update(sf::Time deltaTime)
@@ -223,18 +227,18 @@ void Menu::update(sf::Time deltaTime)
 			pacmanImage.move(0.f, -40.f);
 			selection--;
 			if (selection < 0)
-				selection = 3;
+				selection = 4;
 			if (pacmanImage.getPosition()[0].position.y < 220.f)
-				pacmanImage.setPosition(120.f, 340.f);
+				pacmanImage.setPosition(120.f, 380.f);
 			std::cout << "down pressed - selection = " << selection << std::endl;
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::S) || sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
 		{
 			pacmanImage.move(0.f, 40.f);
 			selection++;
-			if (selection > 3)
+			if (selection > 4)
 				selection = 0;
-			if (pacmanImage.getPosition()[0].position.y > 340.f)
+			if (pacmanImage.getPosition()[0].position.y > 380.f)
 				pacmanImage.setPosition(120.f, 220.f);
 			std::cout << "up pressed - selection = " << selection << std::endl;
 		}
@@ -251,6 +255,10 @@ void Menu::update(sf::Time deltaTime)
 			if (selection == 3)
 			{
 				loginWindow();
+			}
+			if (selection == 4)
+			{
+				getWindow()->close();
 			}
 		}
 		updateImageCoord();
