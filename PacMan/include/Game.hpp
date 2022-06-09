@@ -17,9 +17,10 @@ class Game : public State
 public:
 	Game(Game& other) = delete;           // Singleton no es clonable
 	void operator=(const Game&) = delete; // Singleton no es asignable
-	static Game* createGame(GameController*, Publisher*,sf::RenderWindow*, int, int); // Llama al constructor si no hay instancia. Garantiza singleton.
+	static Game* createGame(GameController*, Publisher*,sf::RenderWindow*, int, int, int); // Llama al constructor si no hay instancia. Garantiza singleton.
 private:
-	Game(GameController*, Publisher*, sf::RenderWindow*, int, int);
+	Game(GameController*, Publisher*, sf::RenderWindow*, int, int, int);
+	void setDifficulty(int);
 	void loadHighScore();
 	void processScores();
 	void render() override;
