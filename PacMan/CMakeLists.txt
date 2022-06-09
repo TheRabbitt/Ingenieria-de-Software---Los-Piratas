@@ -41,6 +41,11 @@ add_executable (PacManImageTest "src/Entity.cpp" "src/PacMan.cpp" "src/Map.cpp" 
 target_link_libraries(PacManImageTest sfml-graphics sfml-main
                       sfml-system sfml-window)
 
+add_executable (GhostsTest "src/Entity.cpp" "src/PacMan.cpp" "src/Map.cpp" "tests/GhostsTest.cpp" "src/Ghost.cpp" "src/Strategy.cpp" "src/Chase.cpp")
+
+target_link_libraries(GhostsTest sfml-graphics sfml-main
+                      sfml-system sfml-window)
+
 add_executable (mapImageTest "src/Map.cpp" "tests/mapImageTest.cpp" "src/Dots.cpp")
 
 target_link_libraries(mapImageTest sfml-graphics sfml-main
@@ -55,5 +60,3 @@ target_link_libraries(menuImageTest sfml-graphics sfml-main
 
 #target_link_libraries(test sfml-graphics sfml-main
 #                      sfml-system sfml-window)
-
-

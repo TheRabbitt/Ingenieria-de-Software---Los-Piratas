@@ -11,9 +11,11 @@ include_directories(${CMAKE_SOURCE_DIR}/../include ${CMAKE_SOURCE_DIR}/../SFML/i
 
 # Archivos .cpp con los que se construye el binario ejecutable
 add_executable (PacManImageTest "src/Entity.cpp" "src/PacMan.cpp" "src/Map.cpp" "tests/PacManImageTest.cpp" )
+
 add_executable (mapImageTest "src/Map.cpp" "tests/mapImageTest.cpp" )
 # Directorio de la libreria
 #add_subdirectory (SFML)
+
 
 # No abre una consola al ejecutar la aplicacion
 #set_property(TARGET PacMan PROPERTY WIN32_EXECUTABLE true)
