@@ -107,7 +107,19 @@ jobs:
           name: run menu image test
           command: |
             cd "C:\Users\circleci\project\PacMan\out\build\x64-debug\"
-            .\menuImageTest.exe           
+            .\menuImageTest.exe     
+  ghost image test: # name of yout job
+    executor:
+      name: win/default
+    steps:
+      - attach_workspace:
+          at: .
+      - checkout
+      - run:
+          name: run ghost image test
+          command: |
+            cd "C:\Users\circleci\project\PacMan\out\build\x64-debug\"
+            .\GhostImageTest.exe    
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
@@ -127,5 +139,8 @@ workflows:
           requires:
             - build
       - menu image test:
+          requires:
+            - build
+      - ghost image test:
           requires:
             - build

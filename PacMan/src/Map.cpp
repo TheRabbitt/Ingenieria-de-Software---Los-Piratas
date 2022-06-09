@@ -47,7 +47,7 @@ bool Map::load(const std::string& filename, sf::Vector2u textureSize, const int*
 			// Posicion vertical de la textura a cargar en el textureSet
 			int tx = tNumber % numTextures;
 
-			if (tNumber != 0 && tNumber != 99)
+			if (tNumber != 0 && tNumber != 99 && tNumber != 98)
 			{
 				// Puntero a un vertex en mVertices. En 4 vertex se define una textura
 				sf::Vertex* quad = &mVertices[(long long)(k * 4)];
@@ -76,10 +76,10 @@ bool Map::detectCollision(float px, float py)
 	for (i = 0; i < numWalls; i++)
 	{
 		sf::Vertex* quad = &mVertices[(long long)(i*4)];
-		if (px < quad[0].position.x + 11 &&
-			px + 11 > quad[0].position.x &&
-			py < quad[0].position.y + 11 &&
-			11 + py > quad[0].position.y)
+		if (px < quad[0].position.x + 11.5 &&
+			px + 11.5 > quad[0].position.x &&
+			py < quad[0].position.y + 11.5 &&
+			11.5 + py > quad[0].position.y)
 			return true;
 	}
 	return false;

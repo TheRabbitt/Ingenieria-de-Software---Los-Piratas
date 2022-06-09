@@ -6,23 +6,28 @@ cmake_minimum_required (VERSION 3.8)
 # Nombre del directorio principal
 project ("PacMan")
 
-# Directorios reconocidos por los macro include 
-include_directories(${CMAKE_SOURCE_DIR}/../include ${CMAKE_SOURCE_DIR}/../SFML/include)
+#TESTS
+add_executable (PacManImageTest "../src/Entity.cpp" "../src/PacMan.cpp" "../src/Map.cpp" "PacManImageTest.cpp" )
 
-# Archivos .cpp con los que se construye el binario ejecutable
-add_executable (PacManImageTest "src/Entity.cpp" "src/PacMan.cpp" "src/Map.cpp" "tests/PacManImageTest.cpp" )
-
-add_executable (mapImageTest "src/Map.cpp" "tests/mapImageTest.cpp" )
-# Directorio de la libreria
-#add_subdirectory (SFML)
-
-
-# No abre una consola al ejecutar la aplicacion
-#set_property(TARGET PacMan PROPERTY WIN32_EXECUTABLE true)
-
-# Librerias a incluir
 target_link_libraries(PacManImageTest sfml-graphics sfml-main
                       sfml-system sfml-window)
 
+add_executable (GhostImageTest "../src/Entity.cpp" "../src/PacMan.cpp" "../src/Map.cpp" "GhostImageTest.cpp" "../src/Ghost.cpp" "../src/Strategy.cpp" "../src/Chase.cpp")
+
+target_link_libraries(GhostImageTest sfml-graphics sfml-main
+                      sfml-system sfml-window)
+
+add_executable (mapImageTest "../src/Map.cpp" "mapImageTest.cpp" "../src/Dots.cpp")
+
 target_link_libraries(mapImageTest sfml-graphics sfml-main
                       sfml-system sfml-window)
+
+add_executable (menuImageTest "../src/Map.cpp" "../src/PacMan.cpp" "../src/Game.cpp" "../src/Entity.cpp" "../src/Ghost.cpp" "../src/Menu.cpp" "../src/GameController.cpp" "MenuImageTest.cpp" "../src/State.cpp" "../src/Dots.cpp" "../src/Publisher.cpp" "../src/Strategy.cpp" "../src/Chase.cpp" "../src/Scatter.cpp" "../src/Frightened.cpp")
+
+target_link_libraries(menuImageTest sfml-graphics sfml-main
+                        sfml-system sfml-window)
+
+#add_executable (test "src/State.cpp" "src/Menu.cpp" "tests/test.cpp" )
+
+#target_link_libraries(test sfml-graphics sfml-main
+#                      sfml-system sfml-window)

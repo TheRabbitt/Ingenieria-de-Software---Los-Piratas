@@ -3,6 +3,11 @@
 
 #include "SFML/Graphics.hpp"
 
+constexpr auto DOWN = 0;
+constexpr auto LEFT = 1;
+constexpr auto RIGHT = 2;
+constexpr auto UP = 3;
+
 class Entity : public sf::Drawable, public sf::Transformable
 {
 public:
@@ -23,7 +28,7 @@ public:
     void move(float, float);
     bool loadImage(const std::string&);
     void draw(sf::RenderTarget&, sf::RenderStates) const;
-    //void printPosition(); //debug
+    void printPosition(); //debug
 private:
     int tileSize;
     float speed;
