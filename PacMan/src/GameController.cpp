@@ -6,7 +6,7 @@ GameController* GameController::gameController_{ nullptr };
 GameController::GameController(int entityTileSize, int mapTileSize)
 	: entityTileSize(entityTileSize), mapTileSize(mapTileSize),
 	  mWindow(sf::VideoMode(28 * mapTileSize, 36 * mapTileSize), "PacMan"),
-	  timePerFrame(sf::seconds(1.f / 60.f))
+	  timePerFrame(sf::seconds(1.f / 60.f)), state(nullptr)
 {
 	publisher = Publisher::createPublisher();
 	//state = Menu::createMenu(this, publisher, &mWindow);
