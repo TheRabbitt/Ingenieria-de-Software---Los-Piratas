@@ -6,14 +6,18 @@ cmake_minimum_required (VERSION 3.8)
 # Nombre del directorio principal
 project ("PacMan")
 
+# specify the C++ standard
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
+
 # Directorios reconocidos por los macro include 
 include_directories(include ${CMAKE_SOURCE_DIR}/SFML/include)
 
-# Configura el directorio donde construir en configuracion "debug"
+# Configura el directorio donde construir en configuracion "debug" o "release"
 set(debugName "x64-debug")
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG ${CMAKE_SOURCE_DIR}/out/build/${debugName})
-set(releaseName "x64-debug")
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE ${CMAKE_SOURCE_DIR}/out/build/${releaseName})
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG ${CMAKE_SOURCE_DIR}/out/build/${debugName}/bin)
+set(releaseName "x64-release")
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE ${CMAKE_SOURCE_DIR}/out/build/${releaseName}/bin)
 
 # Archivos .cpp con los que se construye el binario ejecutable
 add_executable (PacMan "src/main.cpp" "src/Entity.cpp" "src/PacMan.cpp" "src/Ghost.cpp" "src/GameController.cpp" "src/State.cpp" "src/Game.cpp" "src/Menu.cpp" "src/Map.cpp" "src/Dots.cpp" "src/Publisher.cpp" "src/Strategy.cpp" "src/Chase.cpp" "src/Scatter.cpp" "src/Frightened.cpp")
@@ -39,3 +43,8 @@ file(COPY "${CMAKE_SOURCE_DIR}/media" DESTINATION "${CMAKE_CURRENT_BINARY_DIR}")
 
 # TESTS
 add_subdirectory (tests)
+
+
+install(TARGETS PacMan DESTINATION bin)
+install(FILES "media/images/Ghost16.png" "media/images/Pacman16.png" "media/images/PacmanDeath16.png" "media/images/Map16.png" DESTINATION media/images)
+install(FILES "media/fonts/namco.ttf" "media/fonts/pac-font.ttf" DESTINATION media/fonts)

@@ -7,18 +7,18 @@
 Game* Game::game_{ nullptr };
 
 Game::Game(GameController* controller, Publisher* publisher, sf::RenderWindow* mWindow, int entityTileSize, int mapTileSize, int difficulty)
-	: map("media/images/Map", sf::Vector2u(mapTileSize, mapTileSize), 28, 36),
+	: map("../media/images/Map", sf::Vector2u(mapTileSize, mapTileSize), 28, 36),
 	dots(level, 28, 36),
-	pacman(entityTileSize, "media/images/Pacman", 100, &map),
-	blinky(GhostName::Blinky, entityTileSize, "media/images/Ghost", 190, &pacman, &map),
-	pinky(GhostName::Pinky, entityTileSize, "media/images/Ghost", 100, &pacman, &map),
-	inky(GhostName::Inky, entityTileSize, "media/images/Ghost", 100, &pacman, &map),
-	clyde(GhostName::Clyde, entityTileSize, "media/images/Ghost", 100, &pacman, &map),
+	pacman(entityTileSize, "../media/images/Pacman", 100, &map),
+	blinky(GhostName::Blinky, entityTileSize, "../media/images/Ghost", 190, &pacman, &map),
+	pinky(GhostName::Pinky, entityTileSize, "../media/images/Ghost", 100, &pacman, &map),
+	inky(GhostName::Inky, entityTileSize, "../media/images/Ghost", 100, &pacman, &map),
+	clyde(GhostName::Clyde, entityTileSize, "../media/images/Ghost", 100, &pacman, &map),
 	actScore(0), dotsLeft(dots.getNumDots()), energizersLeft(dots.getNumEnergizers()),
 	gameWon(false), restart(true), scatterLeft(4), onFrighten(false), onScatter(false),
 	lifes(3)
 {
-	if (!lifeImage.loadFromFile("media/images/Pacman16.png"))
+	if (!lifeImage.loadFromFile("../media/images/Pacman16.png"))
 		throw std::runtime_error("Failed to load lifeImage");
 	lifeSprite.setTexture(lifeImage);
 	lifeSprite.setTextureRect(sf::IntRect(entityTileSize*2, entityTileSize*2, entityTileSize, entityTileSize));
@@ -75,7 +75,7 @@ void Game::loadHighScore()
 	std::fstream file;
 	std::string name;
 	std::string score;
-	file.open("scores.txt", std::fstream::in | std::fstream::out | std::fstream::app);
+	file.open("../scores.txt", std::fstream::in | std::fstream::out | std::fstream::app);
 	file >> name >> score;
 	highScore.setFont(*getMenuFont());
 	highScore.setString("high score " + score);
@@ -100,7 +100,7 @@ void Game::processScores()
 	std::fstream file;
 	std::string name;
 	std::string score;
-	file.open("scores.txt", std::fstream::in | std::fstream::out | std::fstream::app);
+	file.open("../scores.txt", std::fstream::in | std::fstream::out | std::fstream::app);
 	int i,j,s, numScores = 0;
 	bool empty = true;
 	i = 0;
@@ -164,7 +164,7 @@ void Game::processScores()
 			}
 		}
 	}
-	file.open("scores.txt", std::fstream::in | std::fstream::out | std::ofstream::trunc);
+	file.open("../scores.txt", std::fstream::in | std::fstream::out | std::ofstream::trunc);
 	for (i = 0; i < 5; i++)
 	{
 		if (!names[i].empty() && scores[i] != 0)
@@ -303,7 +303,6 @@ void Game::update(sf::Time deltaTime)
 	if (lifes <= 0)
 		{
 		processScores();
-		//std::this_thread::sleep_for(std::chrono::seconds(2));
 		resetGame();
 		getController()->standBy();
 		
@@ -408,7 +407,6 @@ void Game::update(sf::Time deltaTime)
 
 			pacman.refreshImage();
 			pacman.movePacman(deltaTime);
-			//pacman.printPosition(); //debug
 			int i;
 			int numDots = dots.getNumDots();
 			if (dotsLeft > 0)

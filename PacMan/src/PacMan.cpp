@@ -8,7 +8,7 @@ PacMan::PacMan(int tileSize, const std::string& filename, float s, Map* m)
         throw std::runtime_error("Failed to load Image " + filename);
     setPosition(50.f, 65.f);
     setSpeed(s);
-    if (!deadImage.loadFromFile("media/images/PacmanDeath16.png"))
+    if (!deadImage.loadFromFile("../media/images/PacmanDeath16.png"))
         throw std::runtime_error("Failed to load deadImage");
     deadSprite.setTexture(deadImage);
     deadSprite.setTextureRect(sf::IntRect(0, 0, tileSize, tileSize));

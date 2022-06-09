@@ -7,16 +7,16 @@
 
 int main()
 {
-	Map map("media/images/Map", sf::Vector2u(16, 16), 28, 36);
+	Map map("../media/images/Map", sf::Vector2u(16, 16), 28, 36);
 	std::cout << "Creating Window\n";
 	sf::RenderWindow mWindow(sf::VideoMode(448, 608), "Test");
 	std::cout << "Window Creation succeded\n";
 	std::cout << "Creating Ghosts\n";
-	PacMan pacman(16, "media/images/Pacman", 100, &map);
-	Ghost blinky(GhostName::Blinky, 16, "media/images/Ghost", 100, &pacman, &map);
-	Ghost pinky(GhostName::Pinky, 16, "media/images/Ghost", 100, &pacman, &map);
-	Ghost inky(GhostName::Inky, 16, "media/images/Ghost", 100, &pacman, &map);
-	Ghost clyde(GhostName::Clyde, 16, "media/images/Ghost", 100, &pacman, &map);
+	PacMan pacman(16, "../media/images/Pacman", 100, &map);
+	Ghost blinky(GhostName::Blinky, 16, "../media/images/Ghost", 100, &pacman, &map);
+	Ghost pinky(GhostName::Pinky, 16, "../media/images/Ghost", 100, &pacman, &map);
+	Ghost inky(GhostName::Inky, 16, "../media/images/Ghost", 100, &pacman, &map);
+	Ghost clyde(GhostName::Clyde, 16, "../media/images/Ghost", 100, &pacman, &map);
 	blinky.refreshImage(0);
 	pinky.refreshImage(0);
 	inky.refreshImage(0);

@@ -9,7 +9,7 @@ int main()
 	sf::RenderWindow mWindow(sf::VideoMode(448, 608), "Test");
 	std::cout << "Window Creation succeded\n";
 	std::cout << "Creating map\n";
-	Map map("media/images/Map", sf::Vector2u(16, 16), 28, 36);
+	Map map("../media/images/Map", sf::Vector2u(16, 16), 28, 36);
 	std::cout << "map Creation succeded\n";
 	int i = 3;
 	while (i > 0)

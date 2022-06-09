@@ -7,6 +7,7 @@ cmake_minimum_required (VERSION 3.8)
 project ("PacMan")
 
 #TESTS
+if (CMAKE_BUILD_TYPE STREQUAL Debug)
 add_executable (PacManImageTest "../src/Entity.cpp" "../src/PacMan.cpp" "../src/Map.cpp" "PacManImageTest.cpp" )
 
 target_link_libraries(PacManImageTest sfml-graphics sfml-main
@@ -36,3 +37,5 @@ target_link_libraries(ScoreTest sfml-graphics sfml-main
 
 #target_link_libraries(test sfml-graphics sfml-main
 #                      sfml-system sfml-window)
+
+endif()

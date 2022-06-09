@@ -3,9 +3,9 @@
 State::State()
 {
 	// Carga las fuentes
-	if (!loadTitleFont("media/font/pac-font.ttf"))
+	if (!loadTitleFont("../media/fonts/pac-font.ttf"))
 		throw std::runtime_error("Failed to load font pac-font.ttf");
-	if (!loadMenuFont("media/font/namco.ttf"))
+	if (!loadMenuFont("../media/fonts/namco.ttf"))
 		throw std::runtime_error("Failed to load font namco.ttf");
 }
 
