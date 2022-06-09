@@ -12,15 +12,17 @@ include_directories(include ${CMAKE_SOURCE_DIR}/SFML/include)
 # Configura el directorio donde construir en configuracion "debug"
 set(debugName "x64-debug")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG ${CMAKE_SOURCE_DIR}/out/build/${debugName})
+set(releaseName "x64-debug")
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE ${CMAKE_SOURCE_DIR}/out/build/${releaseName})
 
 # Archivos .cpp con los que se construye el binario ejecutable
-add_executable (PacMan "src/main.cpp" "src/Entity.cpp" "src/PacMan.cpp" "src/Ghost.cpp" "src/GameController.cpp" "src/State.cpp" "src/Game.cpp" "src/Menu.cpp" "src/Map.cpp" "src/Dots.cpp" "src/Publisher.cpp" "src/Strategy.cpp" "src/Chase.cpp")
+add_executable (PacMan "src/main.cpp" "src/Entity.cpp" "src/PacMan.cpp" "src/Ghost.cpp" "src/GameController.cpp" "src/State.cpp" "src/Game.cpp" "src/Menu.cpp" "src/Map.cpp" "src/Dots.cpp" "src/Publisher.cpp" "src/Strategy.cpp" "src/Chase.cpp" "src/Scatter.cpp" "src/Frightened.cpp")
 
 # Directorio de la libreria
 add_subdirectory (SFML)
 
 # Ejecuta la aplicacion sin abrir una consola
-#set_property(TARGET PacMan PROPERTY WIN32_EXECUTABLE true)
+set_property(TARGET PacMan PROPERTY WIN32_EXECUTABLE true)
 
 # Librerias a incluir
 target_link_libraries(PacMan sfml-audio sfml-graphics sfml-main
@@ -36,29 +38,4 @@ add_custom_command(TARGET PacMan POST_BUILD
 file(COPY "${CMAKE_SOURCE_DIR}/media" DESTINATION "${CMAKE_CURRENT_BINARY_DIR}")
 
 # TESTS
-add_executable (PacManImageTest "src/Entity.cpp" "src/PacMan.cpp" "src/Map.cpp" "tests/PacManImageTest.cpp" )
-
-target_link_libraries(PacManImageTest sfml-graphics sfml-main
-                      sfml-system sfml-window)
-
-add_executable (mapImageTest "src/Map.cpp" "tests/mapImageTest.cpp" "src/Dots.cpp")
-
-target_link_libraries(mapImageTest sfml-graphics sfml-main
-                      sfml-system sfml-window)
-
-add_executable (menuImageTest "src/Map.cpp" "src/PacMan.cpp" "src/Game.cpp" "src/Entity.cpp" "src/Ghost.cpp" "src/Menu.cpp" "src/GameController.cpp" "tests/MenuImageTest.cpp" "src/State.cpp" "src/Dots.cpp" "src/Publisher.cpp" "src/Publisher.cpp" "src/Strategy.cpp" "src/Chase.cpp")
-
-target_link_libraries(menuImageTest sfml-graphics sfml-main
-                        sfml-system sfml-window)
-
-add_executable (PacManMoveTest "src/Entity.cpp" "src/PacMan.cpp" "src/Map.cpp" "tests/PacManMoveTest.cpp" )
-
-target_link_libraries(PacManMoveTest sfml-graphics sfml-main
-                      sfml-system sfml-window)
-
-#add_executable (test "src/State.cpp" "src/Menu.cpp" "tests/test.cpp" )
-
-#target_link_libraries(test sfml-graphics sfml-main
-#                      sfml-system sfml-window)
-
-
+add_subdirectory (tests)

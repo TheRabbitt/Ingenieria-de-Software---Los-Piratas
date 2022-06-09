@@ -41,8 +41,6 @@ void Publisher::addSubscriber(std::string sname)
 	if (!inList && !sname.empty())
 		file << sname << "\n";
 	file.close();
-	std::cout << "inList : " << inList << std::endl;
-	std::cout << "to subscribe: " << sname << std::endl;
 }
 
 void Publisher::loadScores(sf::Text* scores)

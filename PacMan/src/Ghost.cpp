@@ -1,9 +1,9 @@
 #include "Ghost.hpp"
 
 Ghost::Ghost(GhostName name, int tileSize, const std::string& filename, float s, PacMan* p, Map* m)
-    : name(name), direction(0), imageCoord(0), updateTime(sf::seconds(0.15f)), map(m), strategy(new Chase(this, p, m))
+    : name(name), direction(0), imageCoord(0), updateTime(sf::seconds(0.15f)), map(m), eaten(false),
+    pacman(p), strategy(new Chase(this, p, m))
 {
-    //strategy = new Chase(this, p, m);
     setTileSize(tileSize);
     if (!loadImage(filename + std::to_string(tileSize) + ".png"))
         throw std::runtime_error("Failed to load Image " + filename);
@@ -32,8 +32,17 @@ void Ghost::setDirection(int d)
     direction = d;
 }
 
+void Ghost::setEaten()
+{
+    if (!eaten)
+        eaten = true;
+    else
+        eaten = false;
+}
+
 void Ghost::setStrategy(Strategy* s)
 {
+    delete(strategy);
     strategy = s;
 }
 
@@ -42,34 +51,68 @@ int Ghost::getDirection()
     return direction;
 }
 
+GhostName Ghost::getName()
+{
+    return name;
+}
+
 Strategy* Ghost::getStrategy()
 {
     return strategy;
 }
 
-void Ghost::refreshImage(int status)
+bool Ghost::detectCollision()
 {
-    switch (name)
-    {
-    case GhostName::Blinky:
-        setQuadTextureCoords((float)imageCoord, (float)getTileSize() * 0);
-        break;
-    case GhostName::Pinky:
-        setQuadTextureCoords((float)imageCoord, (float)getTileSize() * 3);
-        break;
-    case GhostName::Inky:
-        setQuadTextureCoords((float)imageCoord, (float)getTileSize() * 1);
-        break;
-    case GhostName::Clyde:
-        setQuadTextureCoords((float)imageCoord, (float)getTileSize() * 2);
-        break;
-    default:
-        break;
-    }
-   
+    if ((*pacman).getPosition()[0].position.x < getPosition()[0].position.x + 10 &&
+        (*pacman).getPosition()[0].position.x + 10 > getPosition()[0].position.x &&
+        (*pacman).getPosition()[0].position.y < getPosition()[0].position.y + 10 &&
+        (*pacman).getPosition()[0].position.y + 10 > getPosition()[0].position.y)
+        return true;
+    else
+        return false;
 }
 
-void Ghost::update(int mode, sf::Time deltaTime)
+bool Ghost::isEaten()
+{
+    if (eaten)
+        return true;
+    else
+        return false;
+}
+
+void Ghost::refreshImage(int mode)
+{
+    if (mode == 0)
+    {
+        switch (name)
+        {
+        case GhostName::Blinky:
+            setQuadTextureCoords((float)imageCoord, (float)getTileSize() * 0);
+            break;
+        case GhostName::Pinky:
+            setQuadTextureCoords((float)imageCoord, (float)getTileSize() * 3);
+            break;
+        case GhostName::Inky:
+            setQuadTextureCoords((float)imageCoord, (float)getTileSize() * 1);
+            break;
+        case GhostName::Clyde:
+            setQuadTextureCoords((float)imageCoord, (float)getTileSize() * 2);
+            break;
+        default:
+            break;
+        }
+    }
+    else
+    {
+        if (!isEaten())
+            setQuadTextureCoords((float)imageCoord, (float)getTileSize() * 4);
+        else
+            setQuadTextureCoords((float)imageCoord, (float)getTileSize() * 5);
+    }
+        
+}
+
+void Ghost::update(int mode,sf::Time deltaTime)
 {
     refreshImage(mode);
     updateImageCoord();

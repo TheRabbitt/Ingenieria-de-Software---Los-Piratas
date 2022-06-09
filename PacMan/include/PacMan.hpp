@@ -5,10 +5,7 @@
 #include "Entity.hpp"
 #include "Map.hpp"
 
-constexpr auto DOWN = 0;
-constexpr auto LEFT = 1;
-constexpr auto RIGHT = 2;
-constexpr auto UP = 3;
+
 
 class PacMan : public Entity
 {
@@ -16,12 +13,17 @@ public:
     PacMan(int, const std::string&, float, Map*);;
     void movePacman(sf::Time);
     void updateImageCoord();
+    void updateSprite(int);
     void refreshImage();
     void setDirection(int);
+    void setSpritePosition(float, float);
     int getDirection();
+    sf::Sprite getSprite();
 private:
     sf::Clock clock;
     sf::Time updateTime;
+    sf::Texture deadImage;
+    sf::Sprite deadSprite;
     int direction;
     int imageCoord;
     Map* map;

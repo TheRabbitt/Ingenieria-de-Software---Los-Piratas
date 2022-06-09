@@ -1,4 +1,5 @@
 #include "Strategy.hpp"
+#include <thread>
 
 void Strategy::act(sf::Time deltaTime)
 {

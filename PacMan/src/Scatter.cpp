@@ -1,19 +1,16 @@
-//#include <cstdlib> 
-//#include <ctime> 
 #include <random>
 #include "SFML/Graphics.hpp"
-#include "Chase.hpp"
+#include "Scatter.hpp"
 
-Chase::Chase(Ghost* g, PacMan* p, Map* m)
+Scatter::Scatter(Ghost* g, Map* m)
 	: blinkyDirection(0), pinkyDirection(0), inkyDirection(0), clydeDirection(0)
 {
 	setGhost(g);
-	pacman = p;
 	map = m;
 	blinkyClock.restart();
 }
 
-void Chase::act(sf::Time deltaTime)
+void Scatter::act(sf::Time deltaTime)
 {
 	getGhost()->update(0, deltaTime);
 	switch (getGhost()->getName())
@@ -35,15 +32,14 @@ void Chase::act(sf::Time deltaTime)
 	}
 }
 
-void Chase::actBlinky(sf::Time deltaTime)
+void Scatter::actBlinky(sf::Time deltaTime)
 {
 	if (blinkyDirection == 0)
 	{
 		blinkyDirection = 1;
-		sf::VertexArray pacmanPosition = pacman->getPosition();
 		sf::VertexArray blinkyPosition = getGhost()->getPosition();
-		float dx = pacmanPosition[0].position.x - blinkyPosition[0].position.x;
-		float dy = pacmanPosition[0].position.y - blinkyPosition[0].position.y;
+		float dx = 418.f - blinkyPosition[0].position.x;
+		float dy = 65.f - blinkyPosition[0].position.y;
 
 		std::random_device dev;
 		std::mt19937 rng(dev());
@@ -52,21 +48,21 @@ void Chase::actBlinky(sf::Time deltaTime)
 
 		if (random > 5)
 		{
-		if (dx < 0)
-		{
-			getGhost()->setVelocity(-getGhost()->getSpeed(), 0);
+			if (dx < 0)
+			{
+				getGhost()->setVelocity(-getGhost()->getSpeed(), 0);
+			}
+			else
+				getGhost()->setVelocity(getGhost()->getSpeed(), 0);
 		}
 		else
-			getGhost()->setVelocity(getGhost()->getSpeed(), 0);
-		}
-		else
 		{
-		if (dy < 0)
-		{
-			getGhost()->setVelocity(0, -getGhost()->getSpeed());
-		}
-		else
-			getGhost()->setVelocity(0, getGhost()->getSpeed());
+			if (dy < 0)
+			{
+				getGhost()->setVelocity(0, -getGhost()->getSpeed());
+			}
+			else
+				getGhost()->setVelocity(0, getGhost()->getSpeed());
 		}
 	}
 	sf::Vector2f d = getGhost()->getVelocity();
@@ -85,15 +81,14 @@ void Chase::actBlinky(sf::Time deltaTime)
 	}
 }
 
-void Chase::actPinky(sf::Time deltaTime)
+void Scatter::actPinky(sf::Time deltaTime)
 {
 	if (pinkyDirection == 0)
 	{
 		pinkyDirection = 1;
-		sf::VertexArray pacmanPosition = pacman->getPosition();
 		sf::VertexArray blinkyPosition = getGhost()->getPosition();
-		float dx = pacmanPosition[0].position.x - blinkyPosition[0].position.x;
-		float dy = pacmanPosition[0].position.y - blinkyPosition[0].position.y;
+		float dx = 18.f - blinkyPosition[0].position.x;
+		float dy = 65.f - blinkyPosition[0].position.y;
 
 		std::random_device dev;
 		std::mt19937 rng(dev());
@@ -122,22 +117,27 @@ void Chase::actPinky(sf::Time deltaTime)
 	sf::Vector2f d = getGhost()->getVelocity();
 	getGhost()->move(getGhost()->getVelocity() * deltaTime.asSeconds());
 	// Detecta colision con paredes
+	sf::Time elapsed = pinkyClock.getElapsedTime();
 	if (map->detectCollision(getGhost()->getPosition()[0].position.x, getGhost()->getPosition()[0].position.y))
 	{
 		getGhost()->move(-getGhost()->getVelocity() * deltaTime.asSeconds());
 		pinkyDirection = 0;
 	}
+	if (elapsed.asMilliseconds() > 400)
+	{
+		pinkyDirection = 0;
+		return;
+	}
 }
 
-void Chase::actInky(sf::Time deltaTime)
+void Scatter::actInky(sf::Time deltaTime)
 {
 	if (inkyDirection == 0)
 	{
 		inkyDirection = 1;
-		sf::VertexArray pacmanPosition = pacman->getPosition();
 		sf::VertexArray blinkyPosition = getGhost()->getPosition();
-		float dx = pacmanPosition[0].position.x - blinkyPosition[0].position.x;
-		float dy = pacmanPosition[0].position.y - blinkyPosition[0].position.y;
+		float dx = 418.f - blinkyPosition[0].position.x;
+		float dy = 528.f - blinkyPosition[0].position.y;
 
 		std::random_device dev;
 		std::mt19937 rng(dev());
@@ -166,38 +166,64 @@ void Chase::actInky(sf::Time deltaTime)
 	sf::Vector2f d = getGhost()->getVelocity();
 	getGhost()->move(getGhost()->getVelocity() * deltaTime.asSeconds());
 	// Detecta colision con paredes
+	sf::Time elapsed = inkyClock.getElapsedTime();
 	if (map->detectCollision(getGhost()->getPosition()[0].position.x, getGhost()->getPosition()[0].position.y))
 	{
 		getGhost()->move(-getGhost()->getVelocity() * deltaTime.asSeconds());
 		inkyDirection = 0;
 	}
+	if (elapsed.asMilliseconds() > 400)
+	{
+		inkyDirection = 0;
+		return;
+	}
 }
 
-void Chase::actClyde(sf::Time deltaTime)
+void Scatter::actClyde(sf::Time deltaTime)
 {
 	if (clydeDirection == 0)
 	{
 		clydeDirection = 1;
+		sf::VertexArray blinkyPosition = getGhost()->getPosition();
+		float dx = 18.f - blinkyPosition[0].position.x;
+		float dy = 528.f - blinkyPosition[0].position.y;
+
 		std::random_device dev;
 		std::mt19937 rng(dev());
-		std::uniform_int_distribution<std::mt19937::result_type> dist4(0, 3);
-		int random = dist4(rng);
+		std::uniform_int_distribution<std::mt19937::result_type> dist10(0, 10);
+		int random = dist10(rng);
 
-		if (random == 3)
-			getGhost()->setVelocity(0, -getGhost()->getSpeed());
-		if (random == 0)
-			getGhost()->setVelocity(0, getGhost()->getSpeed());
-		if (random == 1)
-			getGhost()->setVelocity(-getGhost()->getSpeed(), 0);
-		if (random == 2)
-			getGhost()->setVelocity(getGhost()->getSpeed(), 0);
+		if (random > 5)
+		{
+			if (dx < 0)
+			{
+				getGhost()->setVelocity(-getGhost()->getSpeed(), 0);
+			}
+			else
+				getGhost()->setVelocity(getGhost()->getSpeed(), 0);
+		}
+		else
+		{
+			if (dy < 0)
+			{
+				getGhost()->setVelocity(0, -getGhost()->getSpeed());
+			}
+			else
+				getGhost()->setVelocity(0, getGhost()->getSpeed());
+		}
 	}
 	sf::Vector2f d = getGhost()->getVelocity();
 	getGhost()->move(getGhost()->getVelocity() * deltaTime.asSeconds());
 	// Detecta colision con paredes
+	sf::Time elapsed = clydeClock.getElapsedTime();
 	if (map->detectCollision(getGhost()->getPosition()[0].position.x, getGhost()->getPosition()[0].position.y))
 	{
 		getGhost()->move(-getGhost()->getVelocity() * deltaTime.asSeconds());
 		clydeDirection = 0;
+	}
+	if (elapsed.asMilliseconds() > 400)
+	{
+		clydeDirection = 0;
+		return;
 	}
 }

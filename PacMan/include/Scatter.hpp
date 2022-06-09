@@ -1,5 +1,6 @@
-#ifndef INCLUDE_CHASE_ // guarda
-#define INCLUDE_CHASE_
+#ifndef INCLUDE_SCATTER_ // guarda
+#define INCLUDE_SCATTER_
+
 
 #include "SFML/Graphics.hpp"
 #include "Ghost.hpp"
@@ -7,11 +8,10 @@
 #include "PacMan.hpp"
 #include "Strategy.hpp"
 
-class Chase : public Strategy
+class Scatter : public Strategy
 {
 public:
-	Chase(Ghost*, PacMan*, Map*);
-	//Chase(PacMan*, Map*);
+	Scatter(Ghost*, Map*);
 	void act(sf::Time) override;
 	void actBlinky(sf::Time);
 	void actPinky(sf::Time);
@@ -19,12 +19,14 @@ public:
 	void actClyde(sf::Time);
 private:
 	Map* map;
-	PacMan* pacman;
 	int blinkyDirection;
 	int pinkyDirection;
 	int inkyDirection;
 	int clydeDirection;
 	sf::Clock blinkyClock;
+	sf::Clock pinkyClock;
+	sf::Clock inkyClock;
+	sf::Clock clydeClock;
 };
 
-#endif /* INCLUDE_CHASE_ */
+#endif /* INCLUDE_SCATTER_ */

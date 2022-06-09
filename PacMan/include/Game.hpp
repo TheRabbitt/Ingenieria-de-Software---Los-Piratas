@@ -3,11 +3,13 @@
 
 #include "SFML/Graphics.hpp"
 #include "Dots.hpp"
+#include "Frightened.hpp"
 #include "GameController.hpp"
 #include "Ghost.hpp"
 #include "Map.hpp"
 #include "PacMan.hpp"
 #include "Publisher.hpp"
+#include "Scatter.hpp"
 #include "State.hpp"
 
 class Game : public State
@@ -15,9 +17,10 @@ class Game : public State
 public:
 	Game(Game& other) = delete;           // Singleton no es clonable
 	void operator=(const Game&) = delete; // Singleton no es asignable
-	static Game* createGame(GameController*, Publisher*,sf::RenderWindow*, int, int); // Llama al constructor si no hay instancia. Garantiza singleton.
+	static Game* createGame(GameController*, Publisher*,sf::RenderWindow*, int, int, int); // Llama al constructor si no hay instancia. Garantiza singleton.
 private:
-	Game(GameController*, Publisher*, sf::RenderWindow*, int, int);
+	Game(GameController*, Publisher*, sf::RenderWindow*, int, int, int);
+	void setDifficulty(int);
 	void loadHighScore();
 	void processScores();
 	void render() override;
@@ -35,12 +38,21 @@ private:
 	int actScore;
 	int hScore;
 	int dotsLeft;
+	int energizersLeft;
+	int scatterLeft;
+	int lifes;
 	bool gameWon;
 	bool restart;
+	bool onFrighten;
+	bool onScatter;
 	sf::Clock clock;
+	sf::Clock frightenClock;
+	sf::Clock scatterClock;
 	sf::Text highScore;
 	sf::Text winText;
 	sf::Text actualScore;
+	sf::Texture lifeImage;
+	sf::Sprite lifeSprite;
 };
 
 
