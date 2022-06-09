@@ -6,7 +6,7 @@
 
 Game* Game::game_{ nullptr };
 
-Game::Game(GameController* controller, Publisher* publisher, sf::RenderWindow* mWindow, int entityTileSize, int mapTileSize)
+Game::Game(GameController* controller, Publisher* publisher, sf::RenderWindow* mWindow, int entityTileSize, int mapTileSize, int difficulty)
 	: map("media/images/Map", sf::Vector2u(mapTileSize, mapTileSize), 28, 36),
 	dots(level, 28, 36),
 	pacman(entityTileSize, "media/images/Pacman", 100, &map),
@@ -31,16 +31,43 @@ Game::Game(GameController* controller, Publisher* publisher, sf::RenderWindow* m
 	actualScore.setCharacterSize(8);
 	actualScore.setPosition(sf::Vector2f(250.f, 30.f));
 	actualScore.setFillColor(sf::Color::Yellow);
-	 
+	setDifficulty(difficulty);
 }
 
-Game* Game::createGame(GameController* controller, Publisher* publisher, sf::RenderWindow* mWindow, int entityTileSize, int mapTileSize)
+Game* Game::createGame(GameController* controller, Publisher* publisher, sf::RenderWindow* mWindow, int entityTileSize, int mapTileSize, int difficulty)
 {
 	if (game_ == nullptr)
 	{
-		game_ = new Game(controller, publisher, mWindow, entityTileSize, mapTileSize);
+		game_ = new Game(controller, publisher, mWindow, entityTileSize, mapTileSize, difficulty);
 	}
 	return game_;
+}
+
+void Game::setDifficulty(int d)
+{
+	switch (d)
+	{
+	case 0:
+		blinky.setSpeed(185);
+		pinky.setSpeed(80);
+		inky.setSpeed(80);
+		clyde.setSpeed(80);
+		break;
+	case 1:
+		blinky.setSpeed(190);
+		pinky.setSpeed(100);
+		inky.setSpeed(100);
+		clyde.setSpeed(100);
+		break;
+	case 2:
+		blinky.setSpeed(230);
+		pinky.setSpeed(170);
+		inky.setSpeed(170);
+		clyde.setSpeed(170);
+		break;
+	default:
+		break;
+	}
 }
 
 void Game::loadHighScore()

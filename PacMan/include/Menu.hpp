@@ -31,6 +31,7 @@ private:
     void updateImageCoord();
 private:
     static Menu* menu_;
+    int difficulty;
     int selection;
     int numWindow;
     int numScores;
@@ -40,7 +41,7 @@ private:
     sf::Time imageUpdateTime;
     sf::RenderWindow logWindow;
     std::array<sf::Text, 2> titles;
-    std::array<sf::Text, 6> opts;
+    std::array<sf::Text, 8> opts;
     std::array<sf::Text, 5> scores;
 
 };

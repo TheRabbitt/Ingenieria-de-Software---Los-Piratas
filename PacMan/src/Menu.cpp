@@ -8,7 +8,7 @@ Menu* Menu::menu_{ nullptr };
 
 Menu::Menu(GameController* controller, Publisher* publisher, sf::RenderWindow* mWindow)
 	: pacmanImage(), imageUpdateTime(sf::seconds(0.07f)),
-	selection(0), imageCoord(0), numWindow(0), numScores(3) //, TimePerFrame(sf::seconds(1.f / 60.f))
+	selection(0), imageCoord(0), numWindow(0), numScores(3), difficulty(1)
 {
 	// Setea el gameController y la ventana
 	setController(controller);
@@ -159,6 +159,13 @@ void Menu::render()
 		}
 		getWindow()->display();
 	}
+	else
+	{
+		getWindow()->clear();
+		getWindow()->draw(opts[6]);
+		getWindow()->draw(opts[7]);
+		getWindow()->display();
+	}
 }
 
 void Menu::setTitles()
@@ -182,7 +189,7 @@ void Menu::setOptions()
 {
 	int i;
 	float dy = 0;
-	for (i = 0; i < 6; i++)
+	for (i = 0; i < 8; i++)
 	{
 		opts[i].setFont(*getMenuFont());
 		opts[i].setCharacterSize(15);
@@ -208,11 +215,21 @@ void Menu::setOptions()
 		case 5:
 			opts[i].setString("enter name");
 			break;
+		case 6:
+			opts[i].setString("difficulty");
+			break;
+		case 7:
+			opts[i].setString("normal");
+			break;
 		}
 		dy += 40.f;
 	}
 	opts[5].setCharacterSize(10);
 	opts[5].setPosition(sf::Vector2f(55.f, 3.f));
+	opts[6].setCharacterSize(14);
+	opts[6].setPosition(sf::Vector2f(80.f, 220.f));
+	opts[7].setCharacterSize(12);
+	opts[7].setPosition(sf::Vector2f(250.f, 220.f));
 }
 
 void Menu::update(sf::Time deltaTime)
@@ -247,6 +264,10 @@ void Menu::update(sf::Time deltaTime)
 				numWindow = 1;
 				loadScores();
 			}
+			if (selection == 2)
+			{
+				numWindow = 2;
+			}
 			if (selection == 3)
 			{
 				loginWindow();
@@ -265,6 +286,38 @@ void Menu::update(sf::Time deltaTime)
 			sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
 		{
 			numWindow = 0;
+		}
+	}
+	else
+	{
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
+		{
+			getController()->setDifficulty(difficulty);
+			numWindow = 0;
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+		{
+			numWindow = 0;
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+		{
+			difficulty++;
+			if (difficulty > 2)
+				difficulty = 0;
+			switch (difficulty)
+			{
+			case 0:
+				opts[7].setString("easy");
+				break;
+			case 1:
+				opts[7].setString("normal");
+				break;
+			case 2:
+				opts[7].setString("hard");
+				break;
+			default:
+				break;
+			}
 		}
 	}
 
