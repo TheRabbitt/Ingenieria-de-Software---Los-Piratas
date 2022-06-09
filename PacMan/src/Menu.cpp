@@ -1,4 +1,3 @@
-#include <iostream>
 #include <fstream>
 #include <string>
 #include <chrono>
@@ -30,7 +29,6 @@ Menu* Menu::createMenu(GameController* controller, Publisher* publisher, sf::Ren
 {
 	if (menu_ == nullptr)
 	{
-		std::cout << "creating menu" << std::endl;
 		menu_ = new Menu(controller, publisher, mWindow);
 	}
 	return menu_;
@@ -230,7 +228,6 @@ void Menu::update(sf::Time deltaTime)
 				selection = 4;
 			if (pacmanImage.getPosition()[0].position.y < 220.f)
 				pacmanImage.setPosition(120.f, 380.f);
-			std::cout << "down pressed - selection = " << selection << std::endl;
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::S) || sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
 		{
@@ -240,11 +237,9 @@ void Menu::update(sf::Time deltaTime)
 				selection = 0;
 			if (pacmanImage.getPosition()[0].position.y > 380.f)
 				pacmanImage.setPosition(120.f, 220.f);
-			std::cout << "up pressed - selection = " << selection << std::endl;
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
 		{
-			std::cout << "enter pressed - selection = " << selection << std::endl;
 			if (selection == 0)
 				getController()->standBy();
 			if (selection == 1)

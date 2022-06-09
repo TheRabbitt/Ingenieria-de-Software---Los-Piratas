@@ -41,7 +41,6 @@ private:
 	int scatterLeft;
 	int lifes;
 	bool gameWon;
-	bool gameLost;
 	bool restart;
 	bool onFrighten;
 	bool onScatter;
@@ -51,6 +50,8 @@ private:
 	sf::Text highScore;
 	sf::Text winText;
 	sf::Text actualScore;
+	sf::Texture lifeImage;
+	sf::Sprite lifeSprite;
 };
 
 

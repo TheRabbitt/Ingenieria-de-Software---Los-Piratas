@@ -8,6 +8,10 @@ PacMan::PacMan(int tileSize, const std::string& filename, float s, Map* m)
         throw std::runtime_error("Failed to load Image " + filename);
     setPosition(50.f, 65.f);
     setSpeed(s);
+    if (!deadImage.loadFromFile("media/images/PacmanDeath16.png"))
+        throw std::runtime_error("Failed to load deadImage");
+    deadSprite.setTexture(deadImage);
+    deadSprite.setTextureRect(sf::IntRect(0, 0, tileSize, tileSize));
 }
 
 void PacMan::movePacman(sf::Time deltaTime)
@@ -49,9 +53,19 @@ void PacMan::setDirection(int d)
     direction = d;
 }
 
+void PacMan::setSpritePosition(float x, float y)
+{
+    deadSprite.setPosition(x, y);
+}
+
 int PacMan::getDirection()
 {
     return direction;
+}
+
+sf::Sprite PacMan::getSprite()
+{
+    return deadSprite;
 }
 
 void PacMan::refreshImage()
@@ -77,5 +91,10 @@ void PacMan::updateImageCoord()
             imageCoord = 0;
         clock.restart();
     }
+}
+
+void PacMan::updateSprite(int x)
+{
+    deadSprite.setTextureRect(sf::IntRect(x, 0, getTileSize(), getTileSize()));
 }
     
