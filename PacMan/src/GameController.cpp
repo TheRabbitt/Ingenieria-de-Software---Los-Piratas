@@ -1,5 +1,4 @@
 #include "GameController.hpp"
-#include <iostream>
 
 GameController* GameController::gameController_{ nullptr };
 
@@ -9,7 +8,6 @@ GameController::GameController(int entityTileSize, int mapTileSize)
 	  timePerFrame(sf::seconds(1.f / 60.f)), state(nullptr), difficulty(1)
 {
 	publisher = Publisher::createPublisher();
-	//state = Menu::createMenu(this, publisher, &mWindow);
 }
 
 GameController* GameController::createGameController(int entityTileSize, int mapTileSize)
@@ -53,7 +51,6 @@ void GameController::init()
 
 void GameController::standBy()
 {
-	std::cout << "in standby()" << std::endl;
 	if (typeid(Menu).hash_code() == typeid(*state).hash_code())
 	{
 		setTimePerFrame(1.f);

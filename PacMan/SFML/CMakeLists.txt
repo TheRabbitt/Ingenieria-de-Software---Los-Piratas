@@ -10,7 +10,7 @@ endmacro()
 # these options have to be set before CMake detects/configures the toolchain
 
 # determine whether to create a debug or release build
-sfml_set_option(CMAKE_BUILD_TYPE Debug STRING "Choose the type of build (Debug or Release)")
+sfml_set_option(CMAKE_BUILD_TYPE Release STRING "Choose the type of build (Debug or Release)")
 
 # Suppress Cygwin legacy warning
 set(CMAKE_LEGACY_CYGWIN_WIN32 0)
@@ -178,151 +178,151 @@ if(SFML_INSTALL_PKGCONFIG_FILES)
 endif()
 
 # setup the install rules
-if(NOT SFML_BUILD_FRAMEWORKS)
-    install(DIRECTORY include
-            DESTINATION .
-            COMPONENT devel
-            FILES_MATCHING PATTERN "*.hpp" PATTERN "*.inl")
-
-    if(SFML_GENERATE_PDB)
-        install(DIRECTORY ${PROJECT_BINARY_DIR}/lib
-                DESTINATION .
-                COMPONENT devel
-                FILES_MATCHING PATTERN "*.pdb")
-    endif()
-else()
-    # find only "root" headers
-    file(GLOB SFML_HEADERS RELATIVE ${PROJECT_SOURCE_DIR} "include/SFML/*")
-
-    # in fact we have to fool cmake to copy all the headers in subdirectories
-    # to do that we have to add the "root" headers to the PUBLIC_HEADER
-    # then we can run a post script to copy the remaining headers
-
-    # we need a dummy file in order to compile the framework
-    add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/dummy.cpp
-                       COMMAND touch ${CMAKE_CURRENT_BINARY_DIR}/dummy.cpp)
-
-    set(SFML_SOURCES ${SFML_HEADERS})
-    list(APPEND SFML_SOURCES ${CMAKE_CURRENT_BINARY_DIR}/dummy.cpp)
-
-    # create SFML.framework
-    add_library(SFML ${SFML_SOURCES})
-
-    # set the target flags to use the appropriate C++ standard library
-    sfml_set_stdlib(SFML)
-
-    # edit target properties
-    set_target_properties(SFML PROPERTIES
-                          FRAMEWORK TRUE
-                          FRAMEWORK_VERSION ${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}
-                          MACOSX_FRAMEWORK_IDENTIFIER org.sfml-dev.SFML
-                          MACOSX_FRAMEWORK_SHORT_VERSION_STRING ${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}
-                          MACOSX_FRAMEWORK_BUNDLE_VERSION ${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}
-                          PUBLIC_HEADER "${SFML_HEADERS}")
-
-    # add the non-optional SFML headers
-    add_custom_command(TARGET SFML POST_BUILD COMMAND cp -r
-                       ${PROJECT_SOURCE_DIR}/include/SFML/Config.hpp
-                       ${PROJECT_SOURCE_DIR}/include/SFML/OpenGL.hpp
-                       ${PROJECT_SOURCE_DIR}/include/SFML/GpuPreference.hpp
-                       ${PROJECT_SOURCE_DIR}/include/SFML/System.hpp
-                       ${PROJECT_SOURCE_DIR}/include/SFML/Main.hpp
-                       ${PROJECT_SOURCE_DIR}/include/SFML/System
-                       $<TARGET_FILE_DIR:SFML>/Headers)
-
-    # add window module headers if enabled
-    if(SFML_BUILD_WINDOW)
-        add_custom_command(TARGET SFML POST_BUILD COMMAND cp -r
-                           ${PROJECT_SOURCE_DIR}/include/SFML/Window.hpp
-                           ${PROJECT_SOURCE_DIR}/include/SFML/Window
-                           $<TARGET_FILE_DIR:SFML>/Headers)
-    endif()
-
-    # add network module headers if enabled
-    if(SFML_BUILD_NETWORK)
-        add_custom_command(TARGET SFML POST_BUILD COMMAND cp -r
-                           ${PROJECT_SOURCE_DIR}/include/SFML/Network.hpp
-                           ${PROJECT_SOURCE_DIR}/include/SFML/Network
-                           $<TARGET_FILE_DIR:SFML>/Headers)
-    endif()
-
-     # add graphics module headers if enabled
-    if(SFML_BUILD_GRAPHICS)
-        add_custom_command(TARGET SFML POST_BUILD COMMAND cp -r
-                           ${PROJECT_SOURCE_DIR}/include/SFML/Graphics.hpp
-                           ${PROJECT_SOURCE_DIR}/include/SFML/Graphics
-                           $<TARGET_FILE_DIR:SFML>/Headers)
-    endif()
-
-     # add audio module headers if enabled
-    if(SFML_BUILD_AUDIO)
-        add_custom_command(TARGET SFML POST_BUILD COMMAND cp -r
-                           ${PROJECT_SOURCE_DIR}/include/SFML/Audio.hpp
-                           ${PROJECT_SOURCE_DIR}/include/SFML/Audio
-                           $<TARGET_FILE_DIR:SFML>/Headers)
-    endif()
-
-    # adapt install directory to allow distributing dylibs/frameworks in user's frameworks/application bundle
-    # NOTE: it's not required to link against SFML.framework
-    set_target_properties(SFML PROPERTIES INSTALL_NAME_DIR "@rpath")
-    if(NOT CMAKE_SKIP_BUILD_RPATH)
-        if (CMAKE_VERSION VERSION_LESS 3.9)
-            set_target_properties(${target} PROPERTIES BUILD_WITH_INSTALL_RPATH TRUE)
-        else()
-            set_target_properties(${target} PROPERTIES BUILD_WITH_INSTALL_NAME_DIR TRUE)
-        endif()
-    endif()
-
-    # install rule
-    install(TARGETS SFML
-            FRAMEWORK DESTINATION "."
-            COMPONENT devel)
-endif()
-
-install(FILES license.md DESTINATION ${SFML_MISC_INSTALL_PREFIX})
-install(FILES readme.md DESTINATION ${SFML_MISC_INSTALL_PREFIX})
+#if(NOT SFML_BUILD_FRAMEWORKS)
+#    install(DIRECTORY include
+#            DESTINATION .
+#            COMPONENT devel
+#            FILES_MATCHING PATTERN "*.hpp" PATTERN "*.inl")
+#
+#    if(SFML_GENERATE_PDB)
+#        install(DIRECTORY ${PROJECT_BINARY_DIR}/lib
+#                DESTINATION .
+#                COMPONENT devel
+#                FILES_MATCHING PATTERN "*.pdb")
+#    endif()
+#else()
+#    # find only "root" headers
+#    file(GLOB SFML_HEADERS RELATIVE ${PROJECT_SOURCE_DIR} "include/SFML/*")
+#
+#    # in fact we have to fool cmake to copy all the headers in subdirectories
+#    # to do that we have to add the "root" headers to the PUBLIC_HEADER
+#    # then we can run a post script to copy the remaining headers
+#
+#    # we need a dummy file in order to compile the framework
+#    add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/dummy.cpp
+#                       COMMAND touch ${CMAKE_CURRENT_BINARY_DIR}/dummy.cpp)
+#
+#    set(SFML_SOURCES ${SFML_HEADERS})
+#    list(APPEND SFML_SOURCES ${CMAKE_CURRENT_BINARY_DIR}/dummy.cpp)
+#
+#    # create SFML.framework
+#    add_library(SFML ${SFML_SOURCES})
+#
+#    # set the target flags to use the appropriate C++ standard library
+#    sfml_set_stdlib(SFML)
+#
+#    # edit target properties
+#    set_target_properties(SFML PROPERTIES
+#                          FRAMEWORK TRUE
+#                          FRAMEWORK_VERSION ${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}
+#                          MACOSX_FRAMEWORK_IDENTIFIER org.sfml-dev.SFML
+#                          MACOSX_FRAMEWORK_SHORT_VERSION_STRING ${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}
+#                          MACOSX_FRAMEWORK_BUNDLE_VERSION ${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}
+#                          PUBLIC_HEADER "${SFML_HEADERS}")
+#
+#    # add the non-optional SFML headers
+#    add_custom_command(TARGET SFML POST_BUILD COMMAND cp -r
+#                       ${PROJECT_SOURCE_DIR}/include/SFML/Config.hpp
+#                       ${PROJECT_SOURCE_DIR}/include/SFML/OpenGL.hpp
+#                       ${PROJECT_SOURCE_DIR}/include/SFML/GpuPreference.hpp
+#                       ${PROJECT_SOURCE_DIR}/include/SFML/System.hpp
+#                       ${PROJECT_SOURCE_DIR}/include/SFML/Main.hpp
+#                       ${PROJECT_SOURCE_DIR}/include/SFML/System
+#                       $<TARGET_FILE_DIR:SFML>/Headers)
+#
+#    # add window module headers if enabled
+#    if(SFML_BUILD_WINDOW)
+#        add_custom_command(TARGET SFML POST_BUILD COMMAND cp -r
+#                           ${PROJECT_SOURCE_DIR}/include/SFML/Window.hpp
+#                           ${PROJECT_SOURCE_DIR}/include/SFML/Window
+#                           $<TARGET_FILE_DIR:SFML>/Headers)
+#    endif()
+#
+#    # add network module headers if enabled
+#    if(SFML_BUILD_NETWORK)
+#        add_custom_command(TARGET SFML POST_BUILD COMMAND cp -r
+#                           ${PROJECT_SOURCE_DIR}/include/SFML/Network.hpp
+#                           ${PROJECT_SOURCE_DIR}/include/SFML/Network
+#                           $<TARGET_FILE_DIR:SFML>/Headers)
+#    endif()
+#
+#     # add graphics module headers if enabled
+#    if(SFML_BUILD_GRAPHICS)
+#        add_custom_command(TARGET SFML POST_BUILD COMMAND cp -r
+#                           ${PROJECT_SOURCE_DIR}/include/SFML/Graphics.hpp
+#                           ${PROJECT_SOURCE_DIR}/include/SFML/Graphics
+#                           $<TARGET_FILE_DIR:SFML>/Headers)
+#    endif()
+#
+#     # add audio module headers if enabled
+#    if(SFML_BUILD_AUDIO)
+#        add_custom_command(TARGET SFML POST_BUILD COMMAND cp -r
+#                           ${PROJECT_SOURCE_DIR}/include/SFML/Audio.hpp
+#                           ${PROJECT_SOURCE_DIR}/include/SFML/Audio
+#                           $<TARGET_FILE_DIR:SFML>/Headers)
+#    endif()
+#
+#    # adapt install directory to allow distributing dylibs/frameworks in user's frameworks/application bundle
+#    # NOTE: it's not required to link against SFML.framework
+#    set_target_properties(SFML PROPERTIES INSTALL_NAME_DIR "@rpath")
+#    if(NOT CMAKE_SKIP_BUILD_RPATH)
+#        if (CMAKE_VERSION VERSION_LESS 3.9)
+#            set_target_properties(${target} PROPERTIES BUILD_WITH_INSTALL_RPATH TRUE)
+#        else()
+#            set_target_properties(${target} PROPERTIES BUILD_WITH_INSTALL_NAME_DIR TRUE)
+#        endif()
+#    endif()
+#
+#    # install rule
+#    install(TARGETS SFML
+#            FRAMEWORK DESTINATION "."
+#            COMPONENT devel)
+#endif()
+#
+#nstall(FILES license.md DESTINATION ${SFML_MISC_INSTALL_PREFIX})
+#nstall(FILES readme.md DESTINATION ${SFML_MISC_INSTALL_PREFIX})
 
 # install 3rd-party libraries and tools
-if(SFML_OS_WINDOWS)
-
-    if(NOT SFML_USE_SYSTEM_DEPS)
-        # install the binaries of SFML dependencies
-        if(ARCH_32BITS)
-            install(DIRECTORY extlibs/bin/x86/ DESTINATION ${SFML_DEPENDENCIES_INSTALL_PREFIX}/bin)
-            if(SFML_COMPILER_MSVC AND SFML_MSVC_VERSION LESS 14)
-                install(DIRECTORY extlibs/libs-msvc/x86/ DESTINATION ${SFML_DEPENDENCIES_INSTALL_PREFIX}/lib)
-            elseif(SFML_COMPILER_MSVC)
-                install(DIRECTORY extlibs/libs-msvc-universal/x86/ DESTINATION ${SFML_DEPENDENCIES_INSTALL_PREFIX}/lib)
-            else()
-                install(DIRECTORY extlibs/libs-mingw/x86/ DESTINATION ${SFML_DEPENDENCIES_INSTALL_PREFIX}/lib)
-            endif()
-        elseif(ARCH_64BITS)
-            install(DIRECTORY extlibs/bin/x64/ DESTINATION ${SFML_DEPENDENCIES_INSTALL_PREFIX}/bin)
-            if(SFML_COMPILER_MSVC AND SFML_MSVC_VERSION LESS 14)
-                install(DIRECTORY extlibs/libs-msvc/x64/ DESTINATION ${SFML_DEPENDENCIES_INSTALL_PREFIX}/lib)
-            elseif(SFML_COMPILER_MSVC)
-                install(DIRECTORY extlibs/libs-msvc-universal/x64/ DESTINATION ${SFML_DEPENDENCIES_INSTALL_PREFIX}/lib)
-            else()
-                install(DIRECTORY extlibs/libs-mingw/x64/ DESTINATION ${SFML_DEPENDENCIES_INSTALL_PREFIX}/lib)
-            endif()
-        endif()
-    endif()
-
-    # install the Xcode templates if requested
-    if(SFML_INSTALL_XCODE_TEMPLATES)
-        # configure the templates plist files
-        foreach(TEMPLATE "SFML Compiler" "SFML App")
-            configure_file(
-                        "tools/xcode/templates/SFML/${TEMPLATE}.xctemplate/TemplateInfo.plist.in"
-                        "${CMAKE_CURRENT_BINARY_DIR}/tools/xcode/templates/SFML/${TEMPLATE}.xctemplate/TemplateInfo.plist"
-                        @ONLY)
-        endforeach()
-        install(DIRECTORY "tools/xcode/templates/SFML" "${CMAKE_CURRENT_BINARY_DIR}/tools/xcode/templates/SFML"
-                DESTINATION /Library/Developer/Xcode/Templates
-                PATTERN "*.in" EXCLUDE
-                PATTERN ".DS_Store" EXCLUDE)
-    endif()
-
-endif()
+#if(SFML_OS_WINDOWS)
+#
+#    if(NOT SFML_USE_SYSTEM_DEPS)
+#        # install the binaries of SFML dependencies
+#        if(ARCH_32BITS)
+#            install(DIRECTORY extlibs/bin/x86/ DESTINATION ${SFML_DEPENDENCIES_INSTALL_PREFIX}/bin)
+#            if(SFML_COMPILER_MSVC AND SFML_MSVC_VERSION LESS 14)
+#                install(DIRECTORY extlibs/libs-msvc/x86/ DESTINATION ${SFML_DEPENDENCIES_INSTALL_PREFIX}/lib)
+#            elseif(SFML_COMPILER_MSVC)
+#                install(DIRECTORY extlibs/libs-msvc-universal/x86/ DESTINATION ${SFML_DEPENDENCIES_INSTALL_PREFIX}/lib)
+#            else()
+#                install(DIRECTORY extlibs/libs-mingw/x86/ DESTINATION ${SFML_DEPENDENCIES_INSTALL_PREFIX}/lib)
+#            endif()
+#        elseif(ARCH_64BITS)
+#            install(DIRECTORY extlibs/bin/x64/ DESTINATION ${SFML_DEPENDENCIES_INSTALL_PREFIX}/bin)
+#            if(SFML_COMPILER_MSVC AND SFML_MSVC_VERSION LESS 14)
+#                install(DIRECTORY extlibs/libs-msvc/x64/ DESTINATION ${SFML_DEPENDENCIES_INSTALL_PREFIX}/lib)
+#            elseif(SFML_COMPILER_MSVC)
+#                install(DIRECTORY extlibs/libs-msvc-universal/x64/ DESTINATION ${SFML_DEPENDENCIES_INSTALL_PREFIX}/lib)
+#            else()
+#                install(DIRECTORY extlibs/libs-mingw/x64/ DESTINATION ${SFML_DEPENDENCIES_INSTALL_PREFIX}/lib)
+#            endif()
+#        endif()
+#    endif()
+#
+#    # install the Xcode templates if requested
+#    if(SFML_INSTALL_XCODE_TEMPLATES)
+#        # configure the templates plist files
+#        foreach(TEMPLATE "SFML Compiler" "SFML App")
+#            configure_file(
+#                        "tools/xcode/templates/SFML/${TEMPLATE}.xctemplate/TemplateInfo.plist.in"
+#                        "${CMAKE_CURRENT_BINARY_DIR}/tools/xcode/templates/SFML/${TEMPLATE}.xctemplate/TemplateInfo.plist"
+#                        @ONLY)
+#        endforeach()
+#        install(DIRECTORY "tools/xcode/templates/SFML" "${CMAKE_CURRENT_BINARY_DIR}/tools/xcode/templates/SFML"
+#                DESTINATION /Library/Developer/Xcode/Templates
+#                PATTERN "*.in" EXCLUDE
+#                PATTERN ".DS_Store" EXCLUDE)
+#    endif()
+#
+#endif()
 
 sfml_export_targets()

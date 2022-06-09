@@ -20,7 +20,7 @@ Menu::Menu(GameController* controller, Publisher* publisher, sf::RenderWindow* m
 
 	// Carga la imagen pacman de seleccion y la posiciona
 	pacmanImage.setTileSize(16);
-	if (!pacmanImage.loadImage("media/images/Pacman16.png"))
+	if (!pacmanImage.loadImage("../media/images/Pacman16.png"))
 		throw std::runtime_error("Failed to load Image ");
 	pacmanImage.setPosition(120.f, 220.f);
 }
@@ -40,7 +40,7 @@ void Menu::loadScores()
 	std::fstream file;
 	std::string name;
 	std::string score;
-	file.open("scores.txt", std::fstream::in | std::fstream::out | std::fstream::app);
+	file.open("../scores.txt", std::fstream::in | std::fstream::out | std::fstream::app);
 	int i = 0;
 	while (file >> name >> score)
 	{

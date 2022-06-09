@@ -1,7 +1,6 @@
 #include <array>
 #include <fstream>
 #include <vector>
-#include <iostream>
 #include "SFML/Graphics.hpp"
 #include "Publisher.hpp"
 
@@ -9,7 +8,7 @@ Publisher* Publisher::publisher_{ nullptr };
 
 Publisher::Publisher()
 {
-	if (!menuFont.loadFromFile("media/font/namco.ttf"))
+	if (!menuFont.loadFromFile("../media/fonts/namco.ttf"))
 		throw std::runtime_error("Failed to load menu font");
 }
 
@@ -27,7 +26,7 @@ void Publisher::addSubscriber(std::string sname)
 	std::fstream file;
 	std::string name;
 	bool inList = false;
-	file.open("subscribers.txt", std::fstream::in | std::fstream::out | std::fstream::app);
+	file.open("../subscribers.txt", std::fstream::in | std::fstream::out | std::fstream::app);
 	while (file >> name)
 	{
 		if (!name.compare(sname))
@@ -37,7 +36,7 @@ void Publisher::addSubscriber(std::string sname)
 		}
 	}
 	file.close();
-	file.open("subscribers.txt", std::fstream::in | std::fstream::out | std::fstream::app);
+	file.open("../subscribers.txt", std::fstream::in | std::fstream::out | std::fstream::app);
 	if (!inList && !sname.empty())
 		file << sname << "\n";
 	file.close();
@@ -49,14 +48,12 @@ void Publisher::loadScores(sf::Text* scores)
 	std::string name;
 	std::string score;
 	std::array<std::string, 5> s;
-	file.open("scores.txt", std::fstream::in | std::fstream::out | std::fstream::app);
+	file.open("../scores.txt", std::fstream::in | std::fstream::out | std::fstream::app);
 	int i = 0;
 	float dy = 0.f;
 	while (file >> name >> score)
 	{
-		std::cout << "score to copy: " << name << " " << score << std::endl;
 		s[i] = name + " " + score;
-		std::cout << "score to copy: " << s[i] << std::endl;
 		(*(scores + i)).setFont(menuFont);
 		(*(scores + i)).setCharacterSize(8);
 		(*(scores + i)).setPosition(sf::Vector2f(70.f, 140.f + dy));
@@ -73,7 +70,7 @@ void Publisher::notify(std::string sname)
 	std::fstream file;
 	std::string name;
 	bool inList = false;
-	file.open("subscribers.txt", std::fstream::in | std::fstream::out | std::fstream::app);
+	file.open("../subscribers.txt", std::fstream::in | std::fstream::out | std::fstream::app);
 	while (file >> name)
 	{
 		if (!name.compare(sname))
@@ -162,7 +159,7 @@ void Publisher::removeSubscriber(std::string sname)
 	std::vector<std::string> names;
 	std::fstream file;
 	std::string name;
-	file.open("subscribers.txt", std::fstream::in | std::fstream::out | std::fstream::app);
+	file.open("../subscribers.txt", std::fstream::in | std::fstream::out | std::fstream::app);
 	while (file >> name)
 	{
 	    names.push_back(name);
@@ -170,7 +167,7 @@ void Publisher::removeSubscriber(std::string sname)
 	file.close();
 	
 	long long size = names.size();
-	file.open("subscribers.txt", std::fstream::in | std::fstream::out | std::ofstream::trunc);
+	file.open("../subscribers.txt", std::fstream::in | std::fstream::out | std::ofstream::trunc);
 	for (std::string name : names)
 	{
 		if (name.compare(sname))

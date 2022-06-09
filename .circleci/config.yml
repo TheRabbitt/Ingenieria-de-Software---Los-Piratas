@@ -78,7 +78,7 @@ jobs:
       - run:
           name: run pacman image test
           command: |
-            cd "C:\Users\circleci\project\PacMan\out\build\x64-debug\"
+            cd "C:\Users\circleci\project\PacMan\out\build\x64-debug\bin"
             .\PacManImageTest.exe
   map image test : # name of your job
     executor:
@@ -92,7 +92,7 @@ jobs:
       - run:
           name: run map image test
           command: |
-            cd "C:\Users\circleci\project\PacMan\out\build\x64-debug\"
+            cd "C:\Users\circleci\project\PacMan\out\build\x64-debug\bin"
             .\mapImageTest.exe
   menu image test : # name of your job
     executor:
@@ -106,7 +106,7 @@ jobs:
       - run:
           name: run menu image test
           command: |
-            cd "C:\Users\circleci\project\PacMan\out\build\x64-debug\"
+            cd "C:\Users\circleci\project\PacMan\out\build\x64-debug\bin"
             .\menuImageTest.exe     
   ghost image test: # name of yout job
     executor:
@@ -118,7 +118,7 @@ jobs:
       - run:
           name: run ghost image test
           command: |
-            cd "C:\Users\circleci\project\PacMan\out\build\x64-debug\"
+            cd "C:\Users\circleci\project\PacMan\out\build\x64-debug\bin"
             .\GhostImageTest.exe    
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
