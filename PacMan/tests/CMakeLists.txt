@@ -43,6 +43,11 @@ add_executable (GhostEatenTest "../src/Ghost.cpp" "../src/Chase.cpp" "../src/Ent
 target_link_libraries(GhostEatenTest sfml-graphics sfml-main
                       sfml-system sfml-window)
 
+add_executable (GhostDirectionTest "../src/Ghost.cpp" "../src/Chase.cpp" "../src/Entity.cpp" "../src/Map.cpp" "../src/PacMan.cpp" "../src/Strategy.cpp" "GhostDirectionTest.cpp" "../src/State.cpp" "../src/Scatter.cpp" )
+
+target_link_libraries(GhostDirectionTest sfml-graphics sfml-main
+                      sfml-system sfml-window)
+
 #add_executable (test "src/State.cpp" "src/Menu.cpp" "tests/test.cpp" )
 
 #target_link_libraries(test sfml-graphics sfml-main
