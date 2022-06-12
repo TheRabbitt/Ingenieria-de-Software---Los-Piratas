@@ -305,11 +305,10 @@ void Game::update(sf::Time deltaTime)
 		processScores();
 		resetGame();
 		getController()->standBy();
-		
+		return;
 		}
 	else
 	{
-
 		if (restart)
 		{
 			restart = false;
@@ -345,7 +344,6 @@ void Game::update(sf::Time deltaTime)
 				clyde.update(0, deltaTime);
 				clyde.move(sf::Vector2f(0.f, -100.f) * deltaTime.asSeconds());
 			}
-
 			else
 			{
 				blinky.getStrategy()->act(deltaTime);
