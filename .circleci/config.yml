@@ -168,7 +168,7 @@ jobs:
       # Commands are run in a Windows virtual machine environment
       - checkout
       - run:
-          name: run pacman image test
+          name: run pacman move test
           command: |
             cd "C:\Users\circleci\project\PacMan\out\build\x64-debug\bin"
             .\pacmanMoveTest.exe 
@@ -185,19 +185,7 @@ jobs:
           name: run pacman sprite test
           command: |
             cd "C:\Users\circleci\project\PacMan\out\build\x64-debug\bin"
-            .\pacmanSpriteTest.exe 
-  set difficulty test: # name of yout job
-    executor:
-      name: win/default
-    steps:
-      - attach_workspace:
-          at: .
-      - checkout
-      - run:
-          name: run set difficulty test
-          command: |
-            cd "C:\Users\circleci\project\PacMan\out\build\x64-debug\bin"
-            .\SetDifficultyTest.exe  
+            .\PacManSpriteTest.exe 
   score test: # name of yout job
     executor:
       name: win/default
@@ -233,7 +221,19 @@ jobs:
           name: run pacman wall test
           command: |
             cd "C:\Users\circleci\project\PacMan\out\build\x64-debug\bin"
-            .\PacManWallTest.exe    
+            .\PacManWallTest.exe  
+  ghost move test: # name of yout job
+    executor:
+      name: win/default
+    steps:
+      - attach_workspace:
+          at: .
+      - checkout
+      - run:
+          name: run ghost move test
+          command: |
+            cd "C:\Users\circleci\project\PacMan\out\build\x64-debug\bin"
+            .\GhostMoveTest.exe                             
   ghost wall test: # name of yout job
     executor:
       name: win/default
@@ -242,10 +242,10 @@ jobs:
           at: .
       - checkout
       - run:
-          name: run ghost wall test
+          name: run wall move test
           command: |
             cd "C:\Users\circleci\project\PacMan\out\build\x64-debug\bin"
-            .\GhostWallTest.exe    
+            .\GhostWallTest.exe                             
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
@@ -267,6 +267,9 @@ workflows:
       - ghost image test:
           requires:
             - build
+      - ghost wall test:
+          requires:
+            - build
       - map image test:
           requires:
             - build
@@ -285,18 +288,15 @@ workflows:
       - pacman sprite test:
           requires:
             - build
-      - set difficulty test:
-          requires:
-            - build
       - score test:
           requires:
             - build
       - strategy test:
           requires:
             - build
-      - wall test:
+      - pacman wall test:
           requires:
-            - build            
-      
-      
-      
+            - build
+      - ghost move test:
+          requires:
+            - build    

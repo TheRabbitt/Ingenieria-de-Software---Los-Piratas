@@ -8,6 +8,7 @@ project ("PacMan")
 
 #TESTS
 if (CMAKE_BUILD_TYPE STREQUAL Debug)
+
 #---PacManImageTest---
 add_executable (PacManImageTest "../src/Entity.cpp" "../src/PacMan.cpp" "../src/Map.cpp" "PacManImageTest.cpp" )
 
@@ -86,10 +87,18 @@ add_executable (SetDifficulty "PacManMoveTest.cpp" "../src/Map.cpp" "../src/PacM
 target_link_libraries(SetDifficulty sfml-graphics sfml-main
                         sfml-system sfml-window)
 
+
 #---GhosthWallTest---
 add_executable (GhostWallTest "GhostWallTest.cpp" "../src/Map.cpp" "../src/PacMan.cpp" "../src/Game.cpp" "../src/Entity.cpp" "../src/Ghost.cpp" "../src/Menu.cpp" "../src/GameController.cpp" "../src/State.cpp" "../src/Dots.cpp" "../src/Strategy.cpp" "../src/Scatter.cpp" "../src/Chase.cpp" "../src/Frightened.cpp" "../src/Publisher.cpp")
 
 target_link_libraries(GhostWallTest sfml-graphics sfml-main
+                        sfml-system sfml-window)
+
+
+#---GhostMoveTest---
+add_executable (GhostMoveTest "GhostMoveTest.cpp" "../src/Map.cpp" "../src/PacMan.cpp" "../src/Game.cpp" "../src/Entity.cpp" "../src/Ghost.cpp" "../src/Menu.cpp" "../src/GameController.cpp" "../src/State.cpp" "../src/Dots.cpp" "../src/Strategy.cpp" "../src/Scatter.cpp" "../src/Chase.cpp" "../src/Frightened.cpp" "../src/Publisher.cpp")
+
+target_link_libraries(GhostMoveTest sfml-graphics sfml-main
                         sfml-system sfml-window)
 
 
