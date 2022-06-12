@@ -131,7 +131,43 @@ jobs:
           name: run strategy test
           command: |
             cd "C:\Users\circleci\project\PacMan\out\build\x64-debug\bin"
-            .\StrategyTest.exe   
+            .\StrategyTest.exe  
+  ghost eaten test: # name of yout job
+    executor:
+      name: win/default
+    steps:
+      - attach_workspace:
+          at: .
+      - checkout
+      - run:
+          name: run ghost eaten test
+          command: |
+            cd "C:\Users\circleci\project\PacMan\out\build\x64-debug\bin"
+            .\GhostEatenTest.exe  
+  ghost direction test: # name of yout job
+    executor:
+      name: win/default
+    steps:
+      - attach_workspace:
+          at: .
+      - checkout
+      - run:
+          name: run ghost direction test
+          command: |
+            cd "C:\Users\circleci\project\PacMan\out\build\x64-debug\bin"
+            .\GhostDirectionTest.exe
+  wall test: # name of yout job
+    executor:
+      name: win/default
+    steps:
+      - attach_workspace:
+          at: .
+      - checkout
+      - run:
+          name: run wall test
+          command: |
+            cd "C:\Users\circleci\project\PacMan\out\build\x64-debug\bin"
+            .\wallTest.exe    
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
@@ -156,6 +192,15 @@ workflows:
       - ghost image test:
           requires:
             - build
+      - wall test:
+          requires:
+            - build            
       - strategy test:
+          requires:
+            - build
+      - ghost eaten test:
+          requires:
+            - build
+      - ghost direction test:
           requires:
             - build
