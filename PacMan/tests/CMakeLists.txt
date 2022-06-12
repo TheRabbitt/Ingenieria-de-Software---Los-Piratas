@@ -74,6 +74,12 @@ add_executable (PacManDirectionTest "../src/Ghost.cpp" "../src/Chase.cpp" "../sr
 target_link_libraries(PacManDirectionTest sfml-graphics sfml-main
                       sfml-system sfml-window)
 
+#---PacManDSpriteTest---
+add_executable (PacManSpriteTest "../src/Ghost.cpp" "../src/Chase.cpp" "../src/Entity.cpp" "../src/Map.cpp" "../src/PacMan.cpp" "../src/Strategy.cpp" "PacManSpriteTest.cpp" "../src/State.cpp" "../src/Scatter.cpp" )
+
+target_link_libraries(PacManSpriteTest sfml-graphics sfml-main
+                      sfml-system sfml-window)
+
 #---PacManMoveTest---
 add_executable (pacmanMoveTest "PacManMoveTest.cpp" "../src/Map.cpp" "../src/PacMan.cpp" "../src/Game.cpp" "../src/Entity.cpp" "../src/Ghost.cpp" "../src/Menu.cpp" "../src/GameController.cpp" "../src/State.cpp" "../src/Dots.cpp" "../src/Strategy.cpp" "../src/Scatter.cpp" "../src/Chase.cpp" "../src/Frightened.cpp" "../src/Publisher.cpp")
 
