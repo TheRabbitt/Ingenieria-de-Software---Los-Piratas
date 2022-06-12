@@ -33,6 +33,11 @@ add_executable (ScoreTest "../src/Map.cpp" "../src/PacMan.cpp" "../src/Game.cpp"
 target_link_libraries(ScoreTest sfml-graphics sfml-main
                       sfml-system sfml-window)
 
+add_executable (wallTest  "../src/Map.cpp" "../src/PacMan.cpp" "../src/Game.cpp" "../src/Entity.cpp" "../src/Ghost.cpp" "../src/Menu.cpp" "../src/GameController.cpp" "wallTest.cpp" "../src/State.cpp" "../src/Dots.cpp" "../src/Publisher.cpp" "../src/Strategy.cpp" "../src/Chase.cpp" "../src/Scatter.cpp" "../src/Frightened.cpp" )
+
+target_link_libraries(wallTest sfml-graphics sfml-main
+                      sfml-system sfml-window)
+
 add_executable (StrategyTest "../src/Ghost.cpp" "../src/Chase.cpp" "../src/Entity.cpp" "../src/Map.cpp" "../src/PacMan.cpp" "../src/Strategy.cpp" "StrategyTest.cpp" "../src/State.cpp" "../src/Scatter.cpp" )
 
 target_link_libraries(StrategyTest sfml-graphics sfml-main
