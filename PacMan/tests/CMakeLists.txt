@@ -8,6 +8,7 @@ project ("PacMan")
 
 #TESTS
 if (CMAKE_BUILD_TYPE STREQUAL Debug)
+
 #---PacManImageTest---
 add_executable (PacManImageTest "../src/Entity.cpp" "../src/PacMan.cpp" "../src/Map.cpp" "PacManImageTest.cpp" )
 
@@ -32,11 +33,13 @@ add_executable (menuImageTest "../src/Map.cpp" "../src/PacMan.cpp" "../src/Game.
 target_link_libraries(menuImageTest sfml-graphics sfml-main
                         sfml-system sfml-window)
 
+
 #---ScoreTest---
 add_executable (ScoreTest "../src/Map.cpp" "../src/PacMan.cpp" "../src/Game.cpp" "../src/Entity.cpp" "../src/Ghost.cpp" "../src/Menu.cpp" "../src/GameController.cpp" "MenuImageTest.cpp" "../src/State.cpp" "../src/Dots.cpp" "../src/Publisher.cpp" "../src/Strategy.cpp" "../src/Chase.cpp" "../src/Scatter.cpp" "../src/Frightened.cpp" )
 
 target_link_libraries(ScoreTest sfml-graphics sfml-main
                       sfml-system sfml-window)
+
 
 #---WallTest---
 add_executable (wallTest  "../src/Map.cpp" "../src/PacMan.cpp" "../src/Game.cpp" "../src/Entity.cpp" "../src/Ghost.cpp" "../src/Menu.cpp" "../src/GameController.cpp" "wallTest.cpp" "../src/State.cpp" "../src/Dots.cpp" "../src/Publisher.cpp" "../src/Strategy.cpp" "../src/Chase.cpp" "../src/Scatter.cpp" "../src/Frightened.cpp" )
@@ -44,17 +47,20 @@ add_executable (wallTest  "../src/Map.cpp" "../src/PacMan.cpp" "../src/Game.cpp"
 target_link_libraries(wallTest sfml-graphics sfml-main
                       sfml-system sfml-window)
 
+
 #---StrategyTest---
 add_executable (StrategyTest "../src/Ghost.cpp" "../src/Chase.cpp" "../src/Entity.cpp" "../src/Map.cpp" "../src/PacMan.cpp" "../src/Strategy.cpp" "StrategyTest.cpp" "../src/State.cpp" "../src/Scatter.cpp" )
 
 target_link_libraries(StrategyTest sfml-graphics sfml-main
                       sfml-system sfml-window)
 
+
 #---GhostEatenTest---
 add_executable (GhostEatenTest "../src/Ghost.cpp" "../src/Chase.cpp" "../src/Entity.cpp" "../src/Map.cpp" "../src/PacMan.cpp" "../src/Strategy.cpp" "GhostEatenTest.cpp" "../src/State.cpp" "../src/Scatter.cpp" )
 
 target_link_libraries(GhostEatenTest sfml-graphics sfml-main
                       sfml-system sfml-window)
+
 
 #---GhostDirectionTest---
 add_executable (GhostDirectionTest "../src/Ghost.cpp" "../src/Chase.cpp" "../src/Entity.cpp" "../src/Map.cpp" "../src/PacMan.cpp" "../src/Strategy.cpp" "GhostDirectionTest.cpp" "../src/State.cpp" "../src/Scatter.cpp" )
@@ -72,6 +78,11 @@ target_link_libraries(PacManDirectionTest sfml-graphics sfml-main
 add_executable (pacmanMoveTest "PacManMoveTest.cpp" "../src/Map.cpp" "../src/PacMan.cpp" "../src/Game.cpp" "../src/Entity.cpp" "../src/Ghost.cpp" "../src/Menu.cpp" "../src/GameController.cpp" "../src/State.cpp" "../src/Dots.cpp" "../src/Strategy.cpp" "../src/Scatter.cpp" "../src/Chase.cpp" "../src/Frightened.cpp" "../src/Publisher.cpp")
 
 target_link_libraries(pacmanMoveTest sfml-graphics sfml-main
+                        sfml-system sfml-window)
+
+add_executable (ghostMoveTest "GhostMoveTest.cpp" "../src/Map.cpp" "../src/PacMan.cpp" "../src/Game.cpp" "../src/Entity.cpp" "../src/Ghost.cpp" "../src/Menu.cpp" "../src/GameController.cpp" "../src/State.cpp" "../src/Dots.cpp" "../src/Strategy.cpp" "../src/Scatter.cpp" "../src/Chase.cpp" "../src/Frightened.cpp" "../src/Publisher.cpp")
+
+target_link_libraries(ghostMoveTest sfml-graphics sfml-main
                         sfml-system sfml-window)
 
 #add_executable (test "src/State.cpp" "src/Menu.cpp" "tests/test.cpp" )
