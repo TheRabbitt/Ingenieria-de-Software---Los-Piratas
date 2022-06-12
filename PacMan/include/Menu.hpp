@@ -18,6 +18,7 @@ public:
     sf::Text getTitle(int);
     sf::Text getOpt(int);
     Entity getPacmanImage();
+    void loadScoresTest();
 private:
     Menu(GameController*, Publisher*, sf::RenderWindow*);
     void loadScores();

@@ -186,6 +186,18 @@ jobs:
           command: |
             cd "C:\Users\circleci\project\PacMan\out\build\x64-debug\bin"
             .\pacmanSpriteTest.exe 
+  set difficulty test: # name of yout job
+    executor:
+      name: win/default
+    steps:
+      - attach_workspace:
+          at: .
+      - checkout
+      - run:
+          name: run set difficulty test
+          command: |
+            cd "C:\Users\circleci\project\PacMan\out\build\x64-debug\bin"
+            .\SetDifficultyTest.exe  
   score test: # name of yout job
     executor:
       name: win/default
@@ -259,6 +271,9 @@ workflows:
           requires:
             - build
       - pacman sprite test:
+          requires:
+            - build
+      - set difficulty test:
           requires:
             - build
       - score test:
