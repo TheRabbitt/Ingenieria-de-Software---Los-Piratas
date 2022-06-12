@@ -130,6 +130,20 @@ jobs:
           command: |
             cd "C:\Users\circleci\project\PacMan\out\build\x64-debug\bin"
             .\menuImageTest.exe  
+  pacman direction test : # name of your job
+    executor:
+      name: win/default # executor type
+      #size: "medium" # resource class, can be "medium", "large", "xlarge", "2xlarge", defaults to "medium" if not specified
+    steps:
+      - attach_workspace:
+          at: .
+      # Commands are run in a Windows virtual machine environment
+      - checkout
+      - run:
+          name: run pacman direction test
+          command: |
+            cd "C:\Users\circleci\project\PacMan\out\build\x64-debug\bin"
+            .\PacManDirectionTest.exe
   pacman image test : # name of your job
     executor:
       name: win/default # executor type
@@ -231,6 +245,9 @@ workflows:
           requires:
             - build
       - menu image test:
+          requires:
+            - build
+      - pacman direction test:
           requires:
             - build
       - pacman image test:
