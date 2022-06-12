@@ -79,10 +79,16 @@ add_executable (pacmanMoveTest "PacManMoveTest.cpp" "../src/Map.cpp" "../src/Pac
 
 target_link_libraries(pacmanMoveTest sfml-graphics sfml-main
                         sfml-system sfml-window)
-
+#---GhostMoveTest---
 add_executable (ghostMoveTest "GhostMoveTest.cpp" "../src/Map.cpp" "../src/PacMan.cpp" "../src/Game.cpp" "../src/Entity.cpp" "../src/Ghost.cpp" "../src/Menu.cpp" "../src/GameController.cpp" "../src/State.cpp" "../src/Dots.cpp" "../src/Strategy.cpp" "../src/Scatter.cpp" "../src/Chase.cpp" "../src/Frightened.cpp" "../src/Publisher.cpp")
 
 target_link_libraries(ghostMoveTest sfml-graphics sfml-main
+                        sfml-system sfml-window)
+
+#---pacmanGhostCollisionTest---
+add_executable (pcamanGhostCollisionTest "PacManGhostCollisionTest.cpp" "../src/Map.cpp" "../src/PacMan.cpp" "../src/Game.cpp" "../src/Entity.cpp" "../src/Ghost.cpp" "../src/Menu.cpp" "../src/GameController.cpp" "../src/State.cpp" "../src/Dots.cpp" "../src/Strategy.cpp" "../src/Scatter.cpp" "../src/Chase.cpp" "../src/Frightened.cpp" "../src/Publisher.cpp")
+
+target_link_libraries(pcamanGhostCollisionTest sfml-graphics sfml-main
                         sfml-system sfml-window)
 
 #add_executable (test "src/State.cpp" "src/Menu.cpp" "tests/test.cpp" )

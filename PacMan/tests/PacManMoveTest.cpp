@@ -18,6 +18,7 @@ int main()
 	pacman.setVelocity(pacman.getSpeed(), 0);
 	sf::VertexArray array = pacman.getPosition();
 	pacman.movePacman(sf::seconds(0.07f));
+	//pacman.printPosition();
 	if (array[0].position.x == pacman.getPosition()[0].position.x) {
 		throw std::runtime_error("Failed to move Pacman ");
 	}
