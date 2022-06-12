@@ -166,13 +166,12 @@ void Publisher::removeSubscriber(std::string sname)
 	}
 	file.close();
 	
-	long long size = names.size();
 	file.open("../subscribers.txt", std::fstream::in | std::fstream::out | std::ofstream::trunc);
-	for (std::string name : names)
+	for (std::string n : names)
 	{
-		if (name.compare(sname))
+		if (n.compare(sname))
 		{
-			file << name << '\n';
+			file << n << '\n';
 		}
 	}
 	file.close();

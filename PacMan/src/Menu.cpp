@@ -34,10 +34,6 @@ Menu* Menu::createMenu(GameController* controller, Publisher* publisher, sf::Ren
 	return menu_;
 }
 
-void Menu::loadScoresTest() {
-	loadScores();
-}
-
 void Menu::loadScores()
 {
 	// Carga los 3 Top Scores

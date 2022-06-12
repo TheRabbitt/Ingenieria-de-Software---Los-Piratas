@@ -61,17 +61,6 @@ Strategy* Ghost::getStrategy()
     return strategy;
 }
 
-bool Ghost::detectCollision()
-{
-    if ((*pacman).getPosition()[0].position.x < getPosition()[0].position.x + 10 &&
-        (*pacman).getPosition()[0].position.x + 10 > getPosition()[0].position.x &&
-        (*pacman).getPosition()[0].position.y < getPosition()[0].position.y + 10 &&
-        (*pacman).getPosition()[0].position.y + 10 > getPosition()[0].position.y)
-        return true;
-    else
-        return false;
-}
-
 bool Ghost::isEaten()
 {
     if (eaten)

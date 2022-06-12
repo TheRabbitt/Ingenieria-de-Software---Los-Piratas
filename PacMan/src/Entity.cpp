@@ -73,6 +73,17 @@ sf::Vector2f Entity::getVelocity()
 	return mVelocity;
 }
 
+bool Entity::detectCollision(float x, float y)
+{
+	if (getPosition()[0].position.x < x + 13 &&
+		getPosition()[0].position.x + 13 > x &&
+		getPosition()[0].position.y < y + 13 &&
+		getPosition()[0].position.y + 13 > y)
+		return true;
+	else
+		return false;
+}
+
 bool Entity::loadImage(const std::string& filename)
 {
 	if (!mTexture.loadFromFile(filename))
