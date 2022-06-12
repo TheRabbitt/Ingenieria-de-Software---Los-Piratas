@@ -120,6 +120,18 @@ jobs:
           command: |
             cd "C:\Users\circleci\project\PacMan\out\build\x64-debug\bin"
             .\GhostImageTest.exe    
+    wall test: # name of yout job
+        executor:
+          name: win/default
+        steps:
+          - attach_workspace:
+              at: .
+          - checkout
+          - run:
+              name: run wall test
+              command: |
+                cd "C:\Users\circleci\project\PacMan\out\build\x64-debug\bin"
+                .\wallTest.exe    
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
@@ -142,5 +154,8 @@ workflows:
           requires:
             - build
       - ghost image test:
+          requires:
+            - build
+      - wall test:
           requires:
             - build
