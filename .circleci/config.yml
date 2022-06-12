@@ -233,7 +233,19 @@ jobs:
           name: run ghost move test
           command: |
             cd "C:\Users\circleci\project\PacMan\out\build\x64-debug\bin"
-            .\GhostMoveTest.exe                             
+            .\GhostMoveTest.exe
+  pacman ghost collision test: # name of yout job
+    executor:
+      name: win/default
+    steps:
+      - attach_workspace:
+          at: .
+      - checkout
+      - run:
+          name: run pacman ghost collision test
+          command: |
+            cd "C:\Users\circleci\project\PacMan\out\build\x64-debug\bin"
+            .\PacManGhostCollisionTest.exe
   ghost wall test: # name of yout job
     executor:
       name: win/default
@@ -242,10 +254,10 @@ jobs:
           at: .
       - checkout
       - run:
-          name: run wall move test
+          name: run ghost wall test
           command: |
             cd "C:\Users\circleci\project\PacMan\out\build\x64-debug\bin"
-            .\GhostWallTest.exe                             
+            .\GhostWallTest.exe                         
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
@@ -299,4 +311,10 @@ workflows:
             - build
       - ghost move test:
           requires:
-            - build    
+            - build
+      - pacman ghost collision test:
+          requires:
+            - build              
+      
+      
+      
