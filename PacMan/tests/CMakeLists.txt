@@ -38,10 +38,12 @@ add_executable (StrategyTest "../src/Ghost.cpp" "../src/Chase.cpp" "../src/Entit
 target_link_libraries(StrategyTest sfml-graphics sfml-main
                       sfml-system sfml-window)
 
-add_executable (PacManMoveTest   "../src/Entity.cpp" "../src/GameController.cpp" "../src/Game.cpp" "../src/Map.cpp" "../src/PacMan.cpp"  "PacManMoveTest.cpp")
+
+add_executable (PacManMoveTest "../src/Entity.cpp" "../src/PacMan.cpp" "../src/Map.cpp" "PacManMoveTest.cpp")
 
 target_link_libraries(PacManMoveTest sfml-graphics sfml-main
                       sfml-system sfml-window)
+
 
 #add_executable (test "src/State.cpp" "src/Menu.cpp" "tests/test.cpp" )
 
