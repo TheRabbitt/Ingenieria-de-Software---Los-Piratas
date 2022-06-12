@@ -18,6 +18,7 @@ public:
     void setTileSize(int);
     void setVelocity(sf::Vector2f);
     void setVelocity(float, float);
+    bool detectCollision(float x, float y);
     sf::Image getImage();
     sf::VertexArray getPosition();
     float getSpeed();

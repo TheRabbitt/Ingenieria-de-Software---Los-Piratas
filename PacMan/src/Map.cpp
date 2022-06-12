@@ -16,7 +16,7 @@ bool Map::load(const std::string& filename, sf::Vector2u textureSize, const int*
 		throw std::runtime_error("Map failed to load Image " + filename);
 
 	unsigned int i = 0;
-	unsigned int j = 0;
+	unsigned int j;// = 0;
 	unsigned int k = 0;
 	unsigned int validTiles = 0;
 

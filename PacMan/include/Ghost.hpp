@@ -15,8 +15,6 @@ class Ghost : public Entity
 {
 public:
     Ghost(GhostName, int, const std::string&, float, PacMan*, Map*);;
-    //void moveGhost(sf::Time);
-    bool detectCollision();
     void update(int, sf::Time);
     void updateImageCoord();
     void refreshImage(int);
@@ -37,7 +35,6 @@ private:
     Map* map;
     PacMan* pacman;
     Strategy* strategy;
-    
 };
 
 #endif /* INCLUDE_GHOSTS_ */

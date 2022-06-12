@@ -207,7 +207,6 @@ void Game::render()
 			
 			dyingTime = deadclock.getElapsedTime();
 		}
-		//
 	}
 	else
 	{
@@ -354,8 +353,8 @@ void Game::update(sf::Time deltaTime)
 
 			if (scatterLeft > 0 && !onFrighten)
 			{
-				sf::Time elapsed = scatterClock.getElapsedTime();
-				if (elapsed.asSeconds() > 20)
+				sf::Time scatterTime = scatterClock.getElapsedTime();
+				if (scatterTime.asSeconds() > 20)
 				{
 					if (!onScatter)
 					{
@@ -367,7 +366,7 @@ void Game::update(sf::Time deltaTime)
 					}
 					else
 					{
-						if (elapsed.asSeconds() > 24)
+						if (scatterTime.asSeconds() > 24)
 						{
 							blinky.setStrategy(new Chase(&blinky, &pacman, &map));
 							pinky.setStrategy(new Chase(&pinky, &pacman, &map));
@@ -413,10 +412,7 @@ void Game::update(sf::Time deltaTime)
 				{
 					if (dots.getDotsPtr()[i] != nullptr)
 					{
-						if (pacman.getPosition()[0].position.x < dots.getDotsPtr()[i]->getPosition().x + 13 &&
-							pacman.getPosition()[0].position.x + 13 > dots.getDotsPtr()[i]->getPosition().x &&
-							pacman.getPosition()[0].position.y < dots.getDotsPtr()[i]->getPosition().y + 13 &&
-							pacman.getPosition()[0].position.y + 13 > dots.getDotsPtr()[i]->getPosition().y)
+						if (pacman.detectCollision(dots.getDotsPtr()[i]->getPosition().x, dots.getDotsPtr()[i]->getPosition().y))
 						{
 							dots.nullDotPtr(i);
 							actScore += 10;
@@ -434,10 +430,7 @@ void Game::update(sf::Time deltaTime)
 				{
 					if (dots.getEnergizersPtr()[i] != nullptr)
 					{
-						if (pacman.getPosition()[0].position.x < dots.getEnergizersPtr()[i]->getPosition().x + 13 &&
-							pacman.getPosition()[0].position.x + 13 > dots.getEnergizersPtr()[i]->getPosition().x &&
-							pacman.getPosition()[0].position.y < dots.getEnergizersPtr()[i]->getPosition().y + 13 &&
-							pacman.getPosition()[0].position.y + 13 > dots.getEnergizersPtr()[i]->getPosition().y)
+						if (pacman.detectCollision(dots.getEnergizersPtr()[i]->getPosition().x, dots.getEnergizersPtr()[i]->getPosition().y))
 						{
 							dots.nullEnergizerPtr(i);
 							actScore += 50;
@@ -454,7 +447,7 @@ void Game::update(sf::Time deltaTime)
 					}
 				}
 			}
-			if (blinky.detectCollision())
+			if (blinky.detectCollision(pacman.getPosition()[0].position.x, pacman.getPosition()[0].position.y))
 			{
 				if (!onFrighten)
 				{
@@ -462,6 +455,7 @@ void Game::update(sf::Time deltaTime)
 					restart = true;
 					onFrighten = false;
 					std::this_thread::sleep_for(std::chrono::milliseconds(75));
+					return;
 				}
 				else
 				{
@@ -472,7 +466,7 @@ void Game::update(sf::Time deltaTime)
 					}
 				}
 			}
-			if (pinky.detectCollision())
+			if (pinky.detectCollision(pacman.getPosition()[0].position.x, pacman.getPosition()[0].position.y))
 			{
 				if (!onFrighten)
 				{
@@ -480,6 +474,7 @@ void Game::update(sf::Time deltaTime)
 					restart = true;
 					onFrighten = false;
 					std::this_thread::sleep_for(std::chrono::milliseconds(75));
+					return;
 				}
 				else
 				{
@@ -490,7 +485,7 @@ void Game::update(sf::Time deltaTime)
 					}
 				}
 			}
-			if (inky.detectCollision())
+			if (inky.detectCollision(pacman.getPosition()[0].position.x, pacman.getPosition()[0].position.y))
 			{
 				if (!onFrighten)
 				{
@@ -498,6 +493,7 @@ void Game::update(sf::Time deltaTime)
 					restart = true;
 					onFrighten = false;
 					std::this_thread::sleep_for(std::chrono::milliseconds(75));
+					return;
 				}
 				else
 				{
@@ -508,7 +504,7 @@ void Game::update(sf::Time deltaTime)
 					}
 				}
 			}
-			if (clyde.detectCollision())
+			if (clyde.detectCollision(pacman.getPosition()[0].position.x, pacman.getPosition()[0].position.y))
 			{
 				if (!onFrighten)
 				{
@@ -516,6 +512,7 @@ void Game::update(sf::Time deltaTime)
 					restart = true;
 					onFrighten = false;
 					std::this_thread::sleep_for(std::chrono::milliseconds(75));
+					return;
 				}
 				else
 				{
