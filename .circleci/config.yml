@@ -245,7 +245,7 @@ jobs:
           name: run pacman ghost collision test
           command: |
             cd "C:\Users\circleci\project\PacMan\out\build\x64-debug\bin"
-            .\PacManGhostCollisionTest.exe
+            .\pacmanGhostCollisionTest.exe
   ghost wall test: # name of yout job
     executor:
       name: win/default
