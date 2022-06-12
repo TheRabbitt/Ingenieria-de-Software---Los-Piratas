@@ -325,4 +325,4 @@ endif()
 #
 #endif()
 
-sfml_export_targets()
+#sfml_export_targets()

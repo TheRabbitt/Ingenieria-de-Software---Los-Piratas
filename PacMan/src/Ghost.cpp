@@ -129,3 +129,5 @@ void Ghost::updateImageCoord()
         clock.restart();
     }
 }
+
+
