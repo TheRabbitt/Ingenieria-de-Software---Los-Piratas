@@ -38,10 +38,10 @@ add_executable (ScoreTest "../src/Map.cpp" "../src/PacMan.cpp" "../src/Game.cpp"
 target_link_libraries(ScoreTest sfml-graphics sfml-main
                       sfml-system sfml-window)
 
-#---WallTest---
-add_executable (wallTest  "../src/Map.cpp" "../src/PacMan.cpp" "../src/Game.cpp" "../src/Entity.cpp" "../src/Ghost.cpp" "../src/Menu.cpp" "../src/GameController.cpp" "wallTest.cpp" "../src/State.cpp" "../src/Dots.cpp" "../src/Publisher.cpp" "../src/Strategy.cpp" "../src/Chase.cpp" "../src/Scatter.cpp" "../src/Frightened.cpp" )
+#---PacManWallTest---
+add_executable (PacManWallTest  "../src/Map.cpp" "../src/PacMan.cpp" "../src/Game.cpp" "../src/Entity.cpp" "../src/Ghost.cpp" "../src/Menu.cpp" "../src/GameController.cpp" "PacManWallTest.cpp" "../src/State.cpp" "../src/Dots.cpp" "../src/Publisher.cpp" "../src/Strategy.cpp" "../src/Chase.cpp" "../src/Scatter.cpp" "../src/Frightened.cpp" )
 
-target_link_libraries(wallTest sfml-graphics sfml-main
+target_link_libraries(PacManWallTest sfml-graphics sfml-main
                       sfml-system sfml-window)
 
 #---StrategyTest---
@@ -68,7 +68,7 @@ add_executable (PacManDirectionTest "../src/Ghost.cpp" "../src/Chase.cpp" "../sr
 target_link_libraries(PacManDirectionTest sfml-graphics sfml-main
                       sfml-system sfml-window)
 
-#---PacManDSpriteTest---
+#---PacManSpriteTest---
 add_executable (PacManSpriteTest "../src/Ghost.cpp" "../src/Chase.cpp" "../src/Entity.cpp" "../src/Map.cpp" "../src/PacMan.cpp" "../src/Strategy.cpp" "PacManSpriteTest.cpp" "../src/State.cpp" "../src/Scatter.cpp" )
 
 target_link_libraries(PacManSpriteTest sfml-graphics sfml-main
@@ -84,6 +84,12 @@ target_link_libraries(pacmanMoveTest sfml-graphics sfml-main
 add_executable (SetDifficulty "PacManMoveTest.cpp" "../src/Map.cpp" "../src/PacMan.cpp" "../src/Game.cpp" "../src/Entity.cpp" "../src/Ghost.cpp" "../src/Menu.cpp" "../src/GameController.cpp" "../src/State.cpp" "../src/Dots.cpp" "../src/Strategy.cpp" "../src/Scatter.cpp" "../src/Chase.cpp" "../src/Frightened.cpp" "../src/Publisher.cpp")
 
 target_link_libraries(SetDifficulty sfml-graphics sfml-main
+                        sfml-system sfml-window)
+
+#---GhosthWallTest---
+add_executable (GhostWallTest "GhostWallTest.cpp" "../src/Map.cpp" "../src/PacMan.cpp" "../src/Game.cpp" "../src/Entity.cpp" "../src/Ghost.cpp" "../src/Menu.cpp" "../src/GameController.cpp" "../src/State.cpp" "../src/Dots.cpp" "../src/Strategy.cpp" "../src/Scatter.cpp" "../src/Chase.cpp" "../src/Frightened.cpp" "../src/Publisher.cpp")
+
+target_link_libraries(GhostWallTest sfml-graphics sfml-main
                         sfml-system sfml-window)
 
 
