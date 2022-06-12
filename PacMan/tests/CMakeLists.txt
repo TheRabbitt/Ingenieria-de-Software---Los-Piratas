@@ -91,7 +91,7 @@ target_link_libraries(SetDifficulty sfml-graphics sfml-main
 #---pacmanGhostCollisionTest---
 add_executable (pcamanGhostCollisionTest "PacManGhostCollisionTest.cpp" "../src/Map.cpp" "../src/PacMan.cpp" "../src/Game.cpp" "../src/Entity.cpp" "../src/Ghost.cpp" "../src/Menu.cpp" "../src/GameController.cpp" "../src/State.cpp" "../src/Dots.cpp" "../src/Strategy.cpp" "../src/Scatter.cpp" "../src/Chase.cpp" "../src/Frightened.cpp" "../src/Publisher.cpp")
 
-target_link_libraries(pcamanGhostCollisionTest sfml-graphics sfml-main
+target_link_libraries(pacmanGhostCollisionTest sfml-graphics sfml-main
                         sfml-system sfml-window)
 
 
