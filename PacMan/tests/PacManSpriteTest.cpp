@@ -11,19 +11,18 @@ int main()
 	std::cout << "Creating Window\n";
 	PacMan pacman(16, "../media/images/Pacman", 100, &map);
 	std::cout << "Creating PacMan\n";
-	int right = RIGHT;
-	pacman.setDirection(right);
+	pacman.setSpritePosition(2, 2);
 	std::this_thread::sleep_for(std::chrono::seconds(2));
 
-	if (pacman.getDirection() == right)
+	if (pacman.getSprite().getPosition().x == 2 && pacman.getSprite().getPosition().y == 2)
 	{
-		std::cout << "Correct direction\n";
+		std::cout << "Correct sprite\n";
 		std::this_thread::sleep_for(std::chrono::seconds(1));
 		return 0;
 	}
 	else
 	{
-		std::cout << "Incorrect direction\n";
+		std::cout << "Incorrect sprite\n";
 		std::this_thread::sleep_for(std::chrono::seconds(1));
 		return -1;
 	}
