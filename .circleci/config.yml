@@ -1,0 +1,320 @@
+version: 2.1 # Use version 2.1 to enable orb usage.
+
+orbs:
+  win: circleci/windows@4.1 # The Windows orb give you everything you need to start using the Windows executor.
+
+jobs:
+  CMake install: # name of your job
+    executor:
+      name: win/default # executor type
+      #size: "medium" # resource class, can be "medium", "large", "xlarge", "2xlarge", defaults to "medium" if not specified
+    steps:
+      # Commands are run in a Windows virtual machine environment
+      - checkout
+      - run:
+          name: Download CMake
+          command: |
+            choco install cmake -y
+      - run:
+          name: Copy CMake
+          command: |
+            New-Item -Path ".\" -Name "CMake" -ItemType "directory"
+            Copy-Item -Path "C:\Program Files\CMake\*" -Destination ".\CMake" -Recurse      
+      - run:
+          name: Check for CMake
+          command: 
+            ls '.\CMake\bin'
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
+  build: # name of your job
+    executor:
+      name: win/default # executor type
+      #size: "medium" # resource class, can be "medium", "large", "xlarge", "2xlarge", defaults to "medium" if not specified
+    steps:
+      # Commands are run in a Windows virtual machine environment
+      - attach_workspace:
+          at: .
+      - checkout
+      - run:
+          name: run cmake
+          command: |
+            ls '.\CMake\bin'
+            $env:PATH += ";.\CMake\bin"
+            cmake -D CMAKE_BUILD_TYPE=Debug -S .\PacMan\ -B .\PacMAn\out\build\x64-debug
+            cmake --build .\PacMan\out\build\x64-debug\
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
+  check build: # name of your job
+    executor:
+      name: win/default # executor type
+      #size: "medium" # resource class, can be "medium", "large", "xlarge", "2xlarge", defaults to "medium" if not specified
+    steps:
+      - attach_workspace:
+          at: .
+      # Commands are run in a Windows virtual machine environment
+      - checkout
+      - run:
+          name: check directories
+          command: |
+            ls "C:\Users\circleci\project\PacMan\out\build\x64-debug\"
+            ls "C:\Users\circleci\project\PacMan\out\build\x64-debug\media\images"
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
+  ghost direction test: # name of yout job
+    executor:
+      name: win/default
+    steps:
+      - attach_workspace:
+          at: .
+      - checkout
+      - run:
+          name: run ghost direction test
+          command: |
+            cd "C:\Users\circleci\project\PacMan\out\build\x64-debug\bin"
+            .\GhostDirectionTest.exe
+  ghost eaten test: # name of yout job
+    executor:
+      name: win/default
+    steps:
+      - attach_workspace:
+          at: .
+      - checkout
+      - run:
+          name: run ghost eaten test
+          command: |
+            cd "C:\Users\circleci\project\PacMan\out\build\x64-debug\bin"
+            .\GhostEatenTest.exe 
+  ghost image test: # name of yout job
+    executor:
+      name: win/default
+    steps:
+      - attach_workspace:
+          at: .
+      - checkout
+      - run:
+          name: run ghost image test
+          command: |
+            cd "C:\Users\circleci\project\PacMan\out\build\x64-debug\bin"
+  map image test : # name of your job
+    executor:
+      name: win/default # executor type
+      #size: "medium" # resource class, can be "medium", "large", "xlarge", "2xlarge", defaults to "medium" if not specified
+    steps:
+      - attach_workspace:
+          at: .
+      # Commands are run in a Windows virtual machine environment
+      - checkout
+      - run:
+          name: run map image test
+          command: |
+            cd "C:\Users\circleci\project\PacMan\out\build\x64-debug\bin"
+            .\mapImageTest.exe
+            .\GhostImageTest.exe 
+  menu image test : # name of your job
+    executor:
+      name: win/default # executor type
+      #size: "medium" # resource class, can be "medium", "large", "xlarge", "2xlarge", defaults to "medium" if not specified
+    steps:
+      - attach_workspace:
+          at: .
+      # Commands are run in a Windows virtual machine environment
+      - checkout
+      - run:
+          name: run menu image test
+          command: |
+            cd "C:\Users\circleci\project\PacMan\out\build\x64-debug\bin"
+            .\menuImageTest.exe  
+  pacman direction test : # name of your job
+    executor:
+      name: win/default # executor type
+      #size: "medium" # resource class, can be "medium", "large", "xlarge", "2xlarge", defaults to "medium" if not specified
+    steps:
+      - attach_workspace:
+          at: .
+      # Commands are run in a Windows virtual machine environment
+      - checkout
+      - run:
+          name: run pacman direction test
+          command: |
+            cd "C:\Users\circleci\project\PacMan\out\build\x64-debug\bin"
+            .\PacManDirectionTest.exe
+  pacman image test : # name of your job
+    executor:
+      name: win/default # executor type
+      #size: "medium" # resource class, can be "medium", "large", "xlarge", "2xlarge", defaults to "medium" if not specified
+    steps:
+      - attach_workspace:
+          at: .
+      # Commands are run in a Windows virtual machine environment
+      - checkout
+      - run:
+          name: run pacman image test
+          command: |
+            cd "C:\Users\circleci\project\PacMan\out\build\x64-debug\bin"
+            .\PacManImageTest.exe
+  pacman move test : # name of your job
+    executor:
+      name: win/default # executor type
+      #size: "medium" # resource class, can be "medium", "large", "xlarge", "2xlarge", defaults to "medium" if not specified
+    steps:
+      - attach_workspace:
+          at: .
+      # Commands are run in a Windows virtual machine environment
+      - checkout
+      - run:
+          name: run pacman move test
+          command: |
+            cd "C:\Users\circleci\project\PacMan\out\build\x64-debug\bin"
+            .\pacmanMoveTest.exe 
+  pacman sprite test : # name of your job
+    executor:
+      name: win/default # executor type
+      #size: "medium" # resource class, can be "medium", "large", "xlarge", "2xlarge", defaults to "medium" if not specified
+    steps:
+      - attach_workspace:
+          at: .
+      # Commands are run in a Windows virtual machine environment
+      - checkout
+      - run:
+          name: run pacman sprite test
+          command: |
+            cd "C:\Users\circleci\project\PacMan\out\build\x64-debug\bin"
+            .\PacManSpriteTest.exe 
+  score test: # name of yout job
+    executor:
+      name: win/default
+    steps:
+      - attach_workspace:
+          at: .
+      - checkout
+      - run:
+          name: run score test
+          command: |
+            cd "C:\Users\circleci\project\PacMan\out\build\x64-debug\bin"
+            .\ScoreTest.exe  
+  strategy test: # name of yout job
+    executor:
+      name: win/default
+    steps:
+      - attach_workspace:
+          at: .
+      - checkout
+      - run:
+          name: run strategy test
+          command: |
+            cd "C:\Users\circleci\project\PacMan\out\build\x64-debug\bin"
+            .\StrategyTest.exe  
+  pacman wall test: # name of yout job
+    executor:
+      name: win/default
+    steps:
+      - attach_workspace:
+          at: .
+      - checkout
+      - run:
+          name: run pacman wall test
+          command: |
+            cd "C:\Users\circleci\project\PacMan\out\build\x64-debug\bin"
+            .\PacManWallTest.exe  
+  ghost move test: # name of yout job
+    executor:
+      name: win/default
+    steps:
+      - attach_workspace:
+          at: .
+      - checkout
+      - run:
+          name: run ghost move test
+          command: |
+            cd "C:\Users\circleci\project\PacMan\out\build\x64-debug\bin"
+            .\GhostMoveTest.exe
+  pacman ghost collision test: # name of yout job
+    executor:
+      name: win/default
+    steps:
+      - attach_workspace:
+          at: .
+      - checkout
+      - run:
+          name: run pacman ghost collision test
+          command: |
+            cd "C:\Users\circleci\project\PacMan\out\build\x64-debug\bin"
+            .\pacmanGhostCollisionTest.exe
+  ghost wall test: # name of yout job
+    executor:
+      name: win/default
+    steps:
+      - attach_workspace:
+          at: .
+      - checkout
+      - run:
+          name: run ghost wall test
+          command: |
+            cd "C:\Users\circleci\project\PacMan\out\build\x64-debug\bin"
+            .\GhostWallTest.exe                         
+# Invoke jobs via workflows
+# See: https://circleci.com/docs/2.0/configuration-reference/#workflows
+workflows:
+  test-workflow:
+    jobs:
+      - CMake install
+      - build:
+          requires:
+            - CMake install
+      - check build:
+          requires:
+            - build
+      - ghost direction test:
+          requires:
+            - build
+      - ghost eaten test:
+          requires:
+            - build
+      - ghost image test:
+          requires:
+            - build
+      - ghost wall test:
+          requires:
+            - build
+      - map image test:
+          requires:
+            - build
+      - menu image test:
+          requires:
+            - build
+      - pacman direction test:
+          requires:
+            - build
+      - pacman image test:
+          requires:
+            - build
+      - pacman move test:
+          requires:
+            - build
+      - pacman sprite test:
+          requires:
+            - build
+      - score test:
+          requires:
+            - build
+      - strategy test:
+          requires:
+            - build
+      - pacman wall test:
+          requires:
+            - build
+      - ghost move test:
+          requires:
+            - build
+      - pacman ghost collision test:
+          requires:
+            - build              
+      
+      
+      
