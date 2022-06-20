@@ -173,6 +173,7 @@ void Game::processScores()
 	file.close();
 }
 
+
 void Game::render()
 {
 	if (lifes <= 0)
