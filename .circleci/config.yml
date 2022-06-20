@@ -269,6 +269,7 @@ workflows:
             - CMake install
       - check build:
           requires:
+            - CMake install
             - build
       - ghost direction test:
           requires:
